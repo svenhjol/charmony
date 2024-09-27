@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "charmony-nano",
+  "version": "${mod_version}",
+
+  "name": "Charmony (nano)",
+  "description": "Scaffolding for Charmony client mods.",
+  "authors": [
+    "svenhjol"
+  ],
+
+  "license": "MIT",
+  "environment": "*",
+  "mixins": [
+  ],
+
+  "entrypoints": {
+    "client": [
+      "svenhjol.charmony.scaffold.nano.fabric.ClientInitializer"
+    ]
+  },
+
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "minecraft": "*",
+    "java": ">=21"
+  },
+
+  "contact": {
+    "homepage": "https://charmony.work",
+    "sources": "https://github.com/svenhjol/${mod_id}"
+  }
+}
