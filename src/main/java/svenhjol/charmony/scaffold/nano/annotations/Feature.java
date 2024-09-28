@@ -16,5 +16,7 @@ public @interface Feature {
 
     Side side();
 
+    boolean canBeDisabled() default true;
+
     boolean enabledByDefault() default true;
 }

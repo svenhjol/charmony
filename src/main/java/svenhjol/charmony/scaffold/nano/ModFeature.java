@@ -22,12 +22,20 @@ public abstract class ModFeature {
         return this.getClass().getSimpleName();
     }
 
+    public String description() {
+        return annotation().description();
+    }
+
     public Log log() {
         return log;
     }
 
     public boolean enabled() {
         return enabled;
+    }
+
+    public boolean canBeDisabled() {
+        return annotation().canBeDisabled();
     }
 
     public void run() {

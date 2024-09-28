@@ -7,12 +7,14 @@ import java.util.*;
 
 public abstract class Mod {
     private final Log log;
+    private final Config config;
     private final Map<String, Map<Side, List<ModFeature>>> features = new HashMap<>();
     private final Map<Class<? extends ModFeature>, ModFeature> classFeatures = new HashMap<>();
     private final Map<Side, List<Runnable>> setups = new HashMap<>();
 
     public Mod() {
         this.log = new Log(id(), name());
+        this.config = new Config(this);
     }
 
     public void run(Side side) {
