@@ -12,6 +12,7 @@
   "license": "MIT",
   "environment": "*",
   "mixins": [
+    "charmony-nano.mixins.json"
   ],
 
   "entrypoints": {
@@ -28,6 +29,6 @@
 
   "contact": {
     "homepage": "https://charmony.work",
-    "sources": "https://github.com/svenhjol/${mod_id}"
+    "sources": "https://github.com/svenhjol/charmony-nano"
   }
 }
