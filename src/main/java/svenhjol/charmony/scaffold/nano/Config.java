@@ -20,7 +20,7 @@ public class Config {
 
     public Config(Mod mod) {
         this.mod = mod;
-        this.log = new Log("config");
+        this.log = new Log(mod.id(), "Config");
     }
 
     public void populateFromDisk(List<? extends ModFeature> featureSet) {
