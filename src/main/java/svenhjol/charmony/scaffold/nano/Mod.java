@@ -39,10 +39,10 @@ public abstract class Mod {
         sidedFeatures.forEach(feature -> {
             var featureName = feature.name();
             if (feature.enabled()) {
-                feature.log().info("++ Running feature " + featureName);
+                feature.log().info("✔ Running feature " + featureName);
                 feature.run();
             } else {
-                feature.log().info("-- Not running feature " + featureName);
+                feature.log().info("✖ Not running feature " + featureName);
             }
         });
     }
