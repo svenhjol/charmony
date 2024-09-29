@@ -7,10 +7,10 @@ import svenhjol.charmony.scaffold.nano.enums.Side;
 
 @Feature(side = Side.Client)
 public class RepairCostVisible extends ModFeature {
-    public RepairCostHandlers handlers;
+    public Handlers handlers;
 
     public RepairCostVisible(Mod mod) {
         super(mod);
-        handlers = new RepairCostHandlers(this);
+        handlers = new Handlers(this);
     }
 }

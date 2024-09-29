@@ -4,12 +4,12 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
-import svenhjol.charmony.scaffold.nano.FeatureHolder;
+import svenhjol.charmony.scaffold.nano.Setup;
 
 import java.util.List;
 
-public class RepairCostHandlers extends FeatureHolder<RepairCostVisible> {
-    public RepairCostHandlers(RepairCostVisible feature) {
+public class Handlers extends Setup<RepairCostVisible> {
+    public Handlers(RepairCostVisible feature) {
         super(feature);
     }
 
