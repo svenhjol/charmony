@@ -26,20 +26,20 @@ public abstract class Mod {
         // Collect all setup callbacks for this side.
         var sidedSetups = setups.getOrDefault(side, List.of());
 
-        log.info("Configuring...");
+        log.info("Configuring " + name());
         config.populateFromDisk(sidedFeatures);
         config.writeToDisk(sidedFeatures);
 
-        log.info("Setting up...");
+        log.info("Setting up " + name());
         sidedSetups.forEach(Runnable::run);
 
-        log.info("Running...");
+        log.info("Running features for " + name());
         sidedFeatures.forEach(feature -> {
             if (feature.enabled()) {
-                feature.log().info("Running");
+                feature.log().info("> Running feature " + feature.name());
                 feature.run();
             } else {
-                feature.log().info("Not running");
+                feature.log().info("> Not running feature " + feature.name());
             }
         });
     }
