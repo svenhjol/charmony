@@ -18,16 +18,22 @@ public abstract class Mod {
     }
 
     public void run(Side side) {
-        log.info("Setup stage");
-        var sidedSetups = setups
-            .getOrDefault(side, List.of());
-        sidedSetups.forEach(Runnable::run);
-
-        log.info("Run stage");
+        // Collect all features for this side.
         var sidedFeatures = features
             .getOrDefault(id(), new HashMap<>())
             .getOrDefault(side, List.of());
 
+        // Collect all setup callbacks for this side.
+        var sidedSetups = setups.getOrDefault(side, List.of());
+
+        log.info("Configure stage");
+        config.populateFromDisk(sidedFeatures);
+        config.writeToDisk(sidedFeatures);
+
+        log.info("Setup stage");
+        sidedSetups.forEach(Runnable::run);
+
+        log.info("Run stage");
         sidedFeatures.forEach(feature -> {
             feature.log().info("Running feature " + feature.name());
             feature.run();

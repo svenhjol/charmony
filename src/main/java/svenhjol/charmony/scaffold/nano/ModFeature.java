@@ -12,6 +12,7 @@ public abstract class ModFeature {
     public ModFeature(Mod mod) {
         this.mod = mod;
         this.log = new Log(mod.id(), name());
+        this.enabled = enabledByDefault();
     }
 
     public Mod mod() {
@@ -32,6 +33,14 @@ public abstract class ModFeature {
 
     public boolean enabled() {
         return enabled;
+    }
+
+    public void enabled(boolean flag) {
+        this.enabled = flag;
+    }
+
+    public boolean enabledByDefault() {
+        return annotation().enabledByDefault();
     }
 
     public boolean canBeDisabled() {
