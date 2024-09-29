@@ -81,9 +81,9 @@ public abstract class BaseMixinConfig implements IMixinConfigPlugin {
 
         var valid = enabledInConfig(featureName);
         if (valid) {
-            LOGGER.info("Enabled mixin {}", mixinClassName);
+            LOGGER.info("++ Enabled mixin {}", mixinClassName);
         } else {
-            LOGGER.warn("Disabled mixin {}", mixinClassName);
+            LOGGER.warn("-- Disabled mixin {}", mixinClassName);
         }
         return valid;
     }

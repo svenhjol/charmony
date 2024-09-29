@@ -18,6 +18,8 @@ public abstract class Mod {
     }
 
     public void run(Side side) {
+        var sideName = side.displayName();
+
         // Collect all features for this side.
         var sidedFeatures = features
             .getOrDefault(id(), new HashMap<>())
@@ -26,20 +28,21 @@ public abstract class Mod {
         // Collect all setup callbacks for this side.
         var sidedSetups = setups.getOrDefault(side, List.of());
 
-        log.info("Configuring " + name());
+        log.info("Configuring " + name() + " " + sideName);
         config.populateFromDisk(sidedFeatures);
         config.writeToDisk(sidedFeatures);
 
-        log.info("Setting up " + name());
+        log.info("Setting up " + name() + " " + sideName);
         sidedSetups.forEach(Runnable::run);
 
-        log.info("Running features for " + name());
+        log.info("Running " + sideName + " features for " + name());
         sidedFeatures.forEach(feature -> {
+            var featureName = feature.name();
             if (feature.enabled()) {
-                feature.log().info("> Running feature " + feature.name());
+                feature.log().info("++ Running feature " + featureName);
                 feature.run();
             } else {
-                feature.log().info("> Not running feature " + feature.name());
+                feature.log().info("-- Not running feature " + featureName);
             }
         });
     }
