@@ -26,17 +26,21 @@ public abstract class Mod {
         // Collect all setup callbacks for this side.
         var sidedSetups = setups.getOrDefault(side, List.of());
 
-        log.info("Configure stage");
+        log.info("Configuring...");
         config.populateFromDisk(sidedFeatures);
         config.writeToDisk(sidedFeatures);
 
-        log.info("Setup stage");
+        log.info("Setting up...");
         sidedSetups.forEach(Runnable::run);
 
-        log.info("Run stage");
+        log.info("Running...");
         sidedFeatures.forEach(feature -> {
-            feature.log().info("Running feature " + feature.name());
-            feature.run();
+            if (feature.enabled()) {
+                feature.log().info("Running");
+                feature.run();
+            } else {
+                feature.log().info("Not running");
+            }
         });
     }
 
