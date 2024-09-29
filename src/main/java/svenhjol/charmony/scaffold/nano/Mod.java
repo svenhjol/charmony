@@ -10,7 +10,8 @@ public abstract class Mod {
     private final Config config;
     private final Map<String, Map<Side, List<ModFeature>>> features = new HashMap<>();
     private final Map<Class<? extends ModFeature>, ModFeature> classFeatures = new HashMap<>();
-    private final Map<Side, List<Runnable>> setups = new HashMap<>();
+    private final Map<Side, List<Runnable>> registers = new HashMap<>();
+    private final Map<Side, Map<ModFeature, List<Runnable>>> boots = new HashMap<>();
 
     public Mod() {
         this.log = new Log(id(), name());
@@ -19,30 +20,34 @@ public abstract class Mod {
 
     public void run(Side side) {
         var sideName = side.displayName();
-
-        // Collect all features for this side.
-        var sidedFeatures = features
+        var registers = this.registers.getOrDefault(side, List.of());
+        var boots = this.boots.getOrDefault(side, new HashMap<>());
+        var features = this.features
             .getOrDefault(id(), new HashMap<>())
             .getOrDefault(side, List.of());
 
-        // Collect all setup callbacks for this side.
-        var sidedSetups = setups.getOrDefault(side, List.of());
+        log().info("Configuring " + name() + " " + sideName);
+        config.populateFromDisk(features);
+        config.writeToDisk(features);
 
-        log.info("Configuring " + name() + " " + sideName);
-        config.populateFromDisk(sidedFeatures);
-        config.writeToDisk(sidedFeatures);
+        log().info("Registering " + name() + " " + sideName);
+        registers.forEach(Runnable::run);
 
-        log.info("Setting up " + name() + " " + sideName);
-        sidedSetups.forEach(Runnable::run);
+        log().info("Booting up " + name() + " " + sideName);
+        boots.forEach((feature, boot) -> {
+            if (feature.enabled()) {
+                boot.forEach(Runnable::run);
+            }
+        });
 
-        log.info("Running " + sideName + " features for " + name());
-        sidedFeatures.forEach(feature -> {
+        log().info("Running " + sideName + " features for " + name());
+        features.forEach(feature -> {
             var featureName = feature.name();
             if (feature.enabled()) {
-                feature.log().info("✔ Running feature " + featureName);
+                log().info("✔ Running feature " + featureName);
                 feature.run();
             } else {
-                feature.log().info("✖ Not running feature " + featureName);
+                log().info("✖ Not running feature " + featureName);
             }
         });
     }
@@ -85,8 +90,12 @@ public abstract class Mod {
         classFeatures.put(clazz, feature);
     }
 
-    public void addSetup(Side side, Runnable setup) {
-        setups.computeIfAbsent(side, a -> new ArrayList<>()).add(setup);
+    public void addBootStep(ModFeature feature, Runnable step) {
+        boots.computeIfAbsent(feature.side(), m -> new HashMap<>()).computeIfAbsent(feature, a -> new ArrayList<>()).add(step);
+    }
+
+    public void addRegisterStep(ModFeature feature, Runnable step) {
+        registers.computeIfAbsent(feature.side(), a -> new ArrayList<>()).add(step);
     }
 
     public Map<String, Map<Side, List<ModFeature>>> features() {
