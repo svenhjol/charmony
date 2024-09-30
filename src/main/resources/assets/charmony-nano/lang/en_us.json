@@ -1,7 +1,0 @@
-{
-  "gui.charmony.compass.biome": "%s biome",
-  "gui.charmony.compass.coords": "X: %s   Y: %s   Z: %s",
-  "gui.charmony.compass.coords_only_xz": "X: %s   Z: %s",
-  "gui.charmony.compass.facing": "Facing %s",
-  "gui.charmony.repair_cost": "Repair Cost: %s"
-}

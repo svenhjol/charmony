@@ -7,7 +7,5 @@
   "injectors": {
     "defaultRequire": 1
   },
-  "client": [
-    "features.repair_cost_visible.AnvilScreenMixin"
-  ]
+  "client": []
 }
