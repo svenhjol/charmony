@@ -74,10 +74,15 @@ public abstract class Mod {
         return Optional.ofNullable(resolved);
     }
 
-    public void addFeature(ModFeature feature) {
-        var side = feature.side();
-        var clazz = feature.getClass();
+    public void addFeature(Class<? extends ModFeature> clazz) {
+        ModFeature feature;
+        try {
+            feature = clazz.getDeclaredConstructor(Mod.class).newInstance(this);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to instantiate feature " + clazz + " for mod " + name() + ": " + e.getMessage());
+        }
 
+        var side = feature.side();
         features.computeIfAbsent(side, a -> new ArrayList<>()).add(feature);
         classFeatures.put(clazz, feature);
     }
