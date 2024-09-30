@@ -1,4 +1,7 @@
-package svenhjol.charmony.scaffold.nano;
+package svenhjol.charmony.scaffold;
+
+import svenhjol.charmony.scaffold.nano.Charmony;
+import svenhjol.charmony.scaffold.nano.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;

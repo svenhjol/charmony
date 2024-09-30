@@ -2,7 +2,7 @@ package svenhjol.charmony.scaffold.nano.client.compasses_show_position;
 
 import svenhjol.charmony.api.CompassOverlayItem;
 import svenhjol.charmony.api.CompassOverlayProvider;
-import svenhjol.charmony.scaffold.nano.Api;
+import svenhjol.charmony.scaffold.Api;
 import svenhjol.charmony.scaffold.nano.Setup;
 
 import java.util.ArrayList;
