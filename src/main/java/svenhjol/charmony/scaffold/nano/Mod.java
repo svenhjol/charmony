@@ -8,7 +8,7 @@ import java.util.*;
 public abstract class Mod {
     private final Log log;
     private final Config config;
-    private final Map<String, Map<Side, List<ModFeature>>> features = new HashMap<>();
+    private final Map<Side, List<ModFeature>> features = new HashMap<>();
     private final Map<Class<? extends ModFeature>, ModFeature> classFeatures = new HashMap<>();
     private final Map<Side, List<Runnable>> registers = new HashMap<>();
     private final Map<Side, Map<ModFeature, List<Runnable>>> boots = new HashMap<>();
@@ -22,9 +22,7 @@ public abstract class Mod {
         var sideName = side.displayName();
         var registers = this.registers.getOrDefault(side, List.of());
         var boots = this.boots.getOrDefault(side, new HashMap<>());
-        var features = this.features
-            .getOrDefault(id(), new HashMap<>())
-            .getOrDefault(side, List.of());
+        var features = this.features.getOrDefault(side, List.of());
 
         log().info("Configuring " + name() + " " + sideName);
         config.populateFromDisk(features);
@@ -77,16 +75,10 @@ public abstract class Mod {
     }
 
     public void addFeature(ModFeature feature) {
-        var modId = feature.mod().id();
         var side = feature.side();
         var clazz = feature.getClass();
 
-        if (!features.containsKey(modId)) {
-            features.put(modId, new HashMap<>());
-        }
-        var map = features.get(modId);
-        map.computeIfAbsent(side, a -> new ArrayList<>()).add(feature);
-
+        features.computeIfAbsent(side, a -> new ArrayList<>()).add(feature);
         classFeatures.put(clazz, feature);
     }
 
@@ -98,7 +90,7 @@ public abstract class Mod {
         registers.computeIfAbsent(feature.side(), a -> new ArrayList<>()).add(step);
     }
 
-    public Map<String, Map<Side, List<ModFeature>>> features() {
+    public Map<Side, List<ModFeature>> features() {
         return features;
     }
 }
