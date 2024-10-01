@@ -19,7 +19,7 @@ public abstract class Mod {
     }
 
     public void run(Side side) {
-        var sideName = side.displayName();
+        var sideName = side.getSerializedName();
         var registers = this.registers.getOrDefault(side, List.of());
         var boots = this.boots.getOrDefault(side, new HashMap<>());
         var features = this.features.getOrDefault(side, List.of());
