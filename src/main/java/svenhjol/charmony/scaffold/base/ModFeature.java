@@ -56,7 +56,7 @@ public abstract class ModFeature {
     }
 
     private Feature annotation() {
-        var annotation = getClass().getAnnotation(svenhjol.charmony.scaffold.annotations.Feature.class);
+        var annotation = getClass().getAnnotation(Feature.class);
         if (annotation == null) {
             throw new RuntimeException("Feature " + getClass() + " is missing annotation");
         }
