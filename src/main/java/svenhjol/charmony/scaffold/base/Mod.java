@@ -1,10 +1,11 @@
-package svenhjol.charmony.scaffold.nano;
+package svenhjol.charmony.scaffold.base;
 
 import net.minecraft.resources.ResourceLocation;
-import svenhjol.charmony.scaffold.nano.enums.Side;
+import svenhjol.charmony.scaffold.enums.Side;
 
 import java.util.*;
 
+@SuppressWarnings("unused")
 public abstract class Mod {
     private final Log log;
     private final Config config;

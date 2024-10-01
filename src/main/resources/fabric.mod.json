@@ -17,7 +17,7 @@
 
   "entrypoints": {
     "client": [
-      "svenhjol.charmony.scaffold.nano.fabric.ClientInitializer"
+      "svenhjol.charmony.scaffold.fabric.ClientInitializer"
     ]
   },
 

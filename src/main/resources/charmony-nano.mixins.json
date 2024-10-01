@@ -1,9 +1,9 @@
 {
   "required": true,
-  "package": "svenhjol.charmony.scaffold.nano.mixins",
+  "package": "svenhjol.charmony.scaffold.mixins",
   "compatibilityLevel": "JAVA_21",
   "refmap": "${refmap_file}",
-  "plugin": "svenhjol.charmony.scaffold.nano.mixins.MixinConfig",
+  "plugin": "svenhjol.charmony.scaffold.mixins.MixinConfig",
   "injectors": {
     "defaultRequire": 1
   },

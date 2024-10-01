@@ -1,4 +1,4 @@
-package svenhjol.charmony.scaffold.nano;
+package svenhjol.charmony.scaffold.base;
 
 import com.google.common.base.CaseFormat;
 import net.fabricmc.loader.api.FabricLoader;

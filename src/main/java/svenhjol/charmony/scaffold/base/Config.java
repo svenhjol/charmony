@@ -1,10 +1,10 @@
-package svenhjol.charmony.scaffold.nano;
+package svenhjol.charmony.scaffold.base;
 
 import com.electronwill.nightconfig.toml.TomlFormat;
 import com.electronwill.nightconfig.toml.TomlWriter;
 import com.moandjiezana.toml.Toml;
 import net.fabricmc.loader.api.FabricLoader;
-import svenhjol.charmony.scaffold.nano.annotations.Configurable;
+import svenhjol.charmony.scaffold.annotations.Configurable;
 
 import java.lang.reflect.Field;
 import java.nio.file.Files;
@@ -12,7 +12,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
-public class Config {
+public final class Config {
     private final Mod mod;
     private final Log log;
     private final Map<Field, Object> defaultFieldValues = new HashMap<>();

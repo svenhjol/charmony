@@ -1,4 +1,4 @@
-package svenhjol.charmony.scaffold.nano.enums;
+package svenhjol.charmony.scaffold.enums;
 
 import net.minecraft.util.StringRepresentable;
 

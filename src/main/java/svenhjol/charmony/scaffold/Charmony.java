@@ -1,6 +1,9 @@
-package svenhjol.charmony.scaffold.nano;
+package svenhjol.charmony.scaffold;
 
-public class Charmony extends Mod {
+import svenhjol.charmony.scaffold.base.Mod;
+
+@SuppressWarnings("unused")
+public final class Charmony extends Mod {
     public static final String ID = "charmony-nano";
     private static Charmony instance;
 

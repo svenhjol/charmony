@@ -1,7 +1,7 @@
-package svenhjol.charmony.scaffold.nano;
+package svenhjol.charmony.scaffold.base;
 
-import svenhjol.charmony.scaffold.nano.annotations.Feature;
-import svenhjol.charmony.scaffold.nano.enums.Side;
+import svenhjol.charmony.scaffold.annotations.Feature;
+import svenhjol.charmony.scaffold.enums.Side;
 
 public abstract class ModFeature {
     private final Mod mod;
@@ -56,7 +56,7 @@ public abstract class ModFeature {
     }
 
     private Feature annotation() {
-        var annotation = getClass().getAnnotation(svenhjol.charmony.scaffold.nano.annotations.Feature.class);
+        var annotation = getClass().getAnnotation(svenhjol.charmony.scaffold.annotations.Feature.class);
         if (annotation == null) {
             throw new RuntimeException("Feature " + getClass() + " is missing annotation");
         }

@@ -1,7 +1,7 @@
-package svenhjol.charmony.scaffold.nano.fabric;
+package svenhjol.charmony.scaffold.fabric;
 
 import net.fabricmc.api.ClientModInitializer;
-import svenhjol.charmony.scaffold.nano.client.ClientEvents;
+import svenhjol.charmony.scaffold.client.ClientEvents;
 
 public class ClientInitializer implements ClientModInitializer {
     @Override

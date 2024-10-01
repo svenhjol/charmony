@@ -1,6 +1,6 @@
-package svenhjol.charmony.scaffold.nano.mixins;
+package svenhjol.charmony.scaffold.mixins;
 
-import svenhjol.charmony.scaffold.nano.Charmony;
+import svenhjol.charmony.scaffold.Charmony;
 
 public class MixinConfig extends BaseMixinConfig {
     @Override
@@ -10,6 +10,6 @@ public class MixinConfig extends BaseMixinConfig {
 
     @Override
     protected String rootClassPath() {
-        return "svenhjol.charmony.scaffold.nano";
+        return "svenhjol.charmony.scaffold";
     }
 }

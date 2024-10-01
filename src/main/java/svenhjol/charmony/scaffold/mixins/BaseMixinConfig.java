@@ -1,4 +1,4 @@
-package svenhjol.charmony.scaffold.nano.mixins;
+package svenhjol.charmony.scaffold.mixins;
 
 import com.google.common.base.CaseFormat;
 import com.moandjiezana.toml.Toml;
@@ -8,8 +8,8 @@ import org.apache.logging.log4j.Logger;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
-import svenhjol.charmony.scaffold.nano.annotations.Feature;
-import svenhjol.charmony.scaffold.nano.enums.Side;
+import svenhjol.charmony.scaffold.annotations.Feature;
+import svenhjol.charmony.scaffold.enums.Side;
 
 import java.io.File;
 import java.nio.file.Paths;
@@ -19,6 +19,7 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.function.Predicate;
 
+@SuppressWarnings("unused")
 public abstract class BaseMixinConfig implements IMixinConfigPlugin {
     protected static final String FEATURES = "features";
     protected static final Logger LOGGER = LogManager.getLogger("MixinConfig");

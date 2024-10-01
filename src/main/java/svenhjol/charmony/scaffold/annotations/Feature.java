@@ -1,12 +1,13 @@
-package svenhjol.charmony.scaffold.nano.annotations;
+package svenhjol.charmony.scaffold.annotations;
 
-import svenhjol.charmony.scaffold.nano.enums.Side;
+import svenhjol.charmony.scaffold.enums.Side;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+@SuppressWarnings("unused")
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Feature {

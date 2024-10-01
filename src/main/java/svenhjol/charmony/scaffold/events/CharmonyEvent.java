@@ -1,4 +1,4 @@
-package svenhjol.charmony.scaffold.nano.events;
+package svenhjol.charmony.scaffold.events;
 
 import java.util.*;
 

@@ -1,4 +1,4 @@
-package svenhjol.charmony.scaffold.nano;
+package svenhjol.charmony.scaffold.base;
 
 
 public abstract class Setup<F extends ModFeature> {
