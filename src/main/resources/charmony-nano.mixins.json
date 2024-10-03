@@ -8,6 +8,8 @@
     "defaultRequire": 1
   },
   "client": [
-    "events.play_sound_callback.SoundEngineMixin"
+    "events.play_sound_callback.SoundEngineMixin",
+    "events.render_tooltip_callback.GuiGraphicsMixin",
+    "events.render_tooltip_callback.ScreenMixin"
   ]
 }
