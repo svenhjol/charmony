@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.4
+
+- Add icon.
+
 ## 1.1.3
 
 - Add ItemContainerTooltip for other mods to use as a base.
