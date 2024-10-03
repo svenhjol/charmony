@@ -8,7 +8,9 @@ import org.apache.logging.log4j.Logger;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
+import svenhjol.charmony.scaffold.Charmony;
 import svenhjol.charmony.scaffold.annotations.Feature;
+import svenhjol.charmony.scaffold.base.Environment;
 import svenhjol.charmony.scaffold.enums.Side;
 
 import java.io.File;
@@ -22,10 +24,15 @@ import java.util.function.Predicate;
 @SuppressWarnings("unused")
 public abstract class BaseMixinConfig implements IMixinConfigPlugin {
     protected static final String FEATURES = "features";
+    protected static final String ACCESSORS = "accesors";
     protected static final Logger LOGGER = LogManager.getLogger("MixinConfig");
 
     protected String mixinPackage;
     protected final List<String> blacklist = new ArrayList<>();
+    protected boolean hasCheckedDebugConfig = false;
+    protected boolean hasCheckedMixinDisableConfig = false;
+    protected boolean cachedDebugValue = false;
+    protected boolean cachedMixinDisableValue = false;
 
     @Override
     public void onLoad(String mixinPackage) {
@@ -34,18 +41,14 @@ public abstract class BaseMixinConfig implements IMixinConfigPlugin {
     }
 
     @Override
-    public String getRefMapperConfig() {
-        return null;
-    }
-
-    @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
         var mixinSimpleName = mixinClassName.substring(mixinPackage.length() + 1);
         var split = mixinSimpleName.split("\\.");
         var mixinBaseName = split[0];
         var featureName = "";
+        var mixinIsFeature = mixinBaseName.equals(FEATURES);
 
-        if (mixinBaseName.equals(FEATURES)) {
+        if (mixinIsFeature) {
             var builder = new StringBuilder();
             for (int i = 1; i < split.length; i++) {
                 if (!split[i].contains("Mixin")) {
@@ -65,28 +68,41 @@ public abstract class BaseMixinConfig implements IMixinConfigPlugin {
             }
         }
 
+        // Allow the subclass to check if this mixin base is permitted.
         if (!allowBaseName(mixinBaseName, mixinClassName)) {
+            LOGGER.warn("✖ Mixin {} is not allowed", mixinClassName);
+            return false;
+        }
+
+        // All mixins other than accessors are disabled when mixin disable mode is active.
+        if (isMixinDisableMode() && !mixinBaseName.equals(ACCESSORS)) {
+            LOGGER.warn("✖ Mixin disable mode is active, not loading {}", mixinClassName);
             return false;
         }
 
         for (var predicate : runtimeBlacklist()) {
-            if (!featureName.isEmpty() && predicate.test(featureName)) {
+            if (mixinIsFeature && predicate.test(featureName)) {
                 blacklist.add(mixinSimpleName);
             }
         }
 
         if (blacklist.contains(mixinSimpleName)) {
-            LOGGER.warn("Blacklisted mixin {}", mixinSimpleName);
+            LOGGER.warn("✖ Mixin {} is blacklisted", mixinSimpleName);
             return false;
         }
 
-        var valid = enabledInConfig(featureName);
+        var valid = !mixinIsFeature || enabledInConfig(featureName);
         if (valid) {
             LOGGER.info("✔ Enabled mixin {}", mixinClassName);
         } else {
             LOGGER.warn("✖ Disabled mixin {}", mixinClassName);
         }
         return valid;
+    }
+
+    @Override
+    public String getRefMapperConfig() {
+        return null;
     }
 
     @Override
@@ -132,11 +148,55 @@ public abstract class BaseMixinConfig implements IMixinConfigPlugin {
      */
     protected abstract String rootClassPath();
 
+    /**
+     * Hook to allow the subclass to specify mixins that should not be included.
+     * @return List of predicates to test the currently loading mixin against.
+     */
     protected List<Predicate<String>> runtimeBlacklist() {
         return List.of();
     }
 
-    private boolean enabledInConfig(String featureName) {
+    /**
+     * Read the "mixin disable mode" value from the charmony config file as early as possible.
+     * @return The value of mixin disable mode.
+     */
+    protected boolean isMixinDisableMode() {
+        if (!hasCheckedMixinDisableConfig) {
+            var configFile = Paths.get(FabricLoader.getInstance().getConfigDir() + File.separator + Charmony.ID + ".toml").toFile();
+            if (!configFile.exists()) return false;
+            var handle = new Toml();
+            var toml = handle.read(configFile);
+            var key = "Diagnostics.\"" + Environment.MIXIN_DISABLE_MODE + "\"";
+            if (toml.contains(key)) {
+                cachedMixinDisableValue = toml.getBoolean(key);
+            }
+            hasCheckedMixinDisableConfig = true;
+        }
+
+        return cachedMixinDisableValue;
+    }
+
+    /**
+     * Read the "debug mode" value from the charmony config file as early as possible.
+     * @return The value of debig mode.
+     */
+    protected boolean isDebugMode() {
+        if (!hasCheckedDebugConfig) {
+            var configFile = Paths.get(FabricLoader.getInstance().getConfigDir() + File.separator + Charmony.ID + ".toml").toFile();
+            if (!configFile.exists()) return false;
+            var handle = new Toml();
+            var toml = handle.read(configFile);
+            var key = "Diagnostics.\"" + Environment.DEBUG_MODE + "\"";
+            if (toml.contains(key)) {
+                cachedDebugValue = toml.getBoolean(key);
+            }
+            hasCheckedDebugConfig = true;
+        }
+
+        return cachedDebugValue;
+    }
+
+    protected boolean enabledInConfig(String featureName) {
         Feature feature = null;
         var configFile = Paths.get(FabricLoader.getInstance().getConfigDir() + File.separator + modId() + ".toml").toFile();
 

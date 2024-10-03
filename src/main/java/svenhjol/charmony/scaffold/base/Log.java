@@ -36,25 +36,25 @@ public final class Log {
     }
 
     public void debug(String message, Object... args) {
-        if (isDebugEnabled()) {
+        if (Environment.isDebugMode()) {
             info("[Debug] " + message, args);
         }
     }
 
     public void warnIfDebug(String message, Object... args) {
-        if (isDebugEnabled()) {
+        if (Environment.isDebugMode()) {
             warn("[Debug] " + message, args);
         }
     }
 
     public void dev(String message, Object... args) {
-        if (isDevEnvironment()) {
+        if (Environment.isDevEnvironment()) {
             info("[Dev] " + message, args);
         }
     }
 
     public void warnIfDev(String message, Object... args) {
-        if (isDevEnvironment()) {
+        if (Environment.isDevEnvironment()) {
             warn("[Dev] " + message, args);
         }
     }
@@ -78,14 +78,5 @@ public final class Log {
 
     private String snakeToUpperCamel(String string) {
         return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, string);
-    }
-
-    private boolean isDevEnvironment() {
-        return FabricLoader.getInstance().isDevelopmentEnvironment();
-    }
-
-    private boolean isDebugEnabled() {
-        // TODO: check config for debug.
-        return isDevEnvironment();
     }
 }
