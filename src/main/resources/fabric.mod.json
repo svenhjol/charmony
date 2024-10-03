@@ -12,7 +12,7 @@
   "license": "MIT",
   "environment": "*",
   "mixins": [
-    "charmony-nano.mixins.json"
+    "charmony.mixins.json"
   ],
 
   "entrypoints": {

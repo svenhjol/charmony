@@ -4,7 +4,8 @@ import svenhjol.charmony.scaffold.base.Mod;
 
 @SuppressWarnings("unused")
 public final class Charmony extends Mod {
-    public static final String ID = "charmony-nano";
+    public static final String ID = "charmony";
+
     private static Charmony instance;
 
     private Charmony() {}
