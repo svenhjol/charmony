@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.1.3
+
+- Add ItemContainerTooltip for other mods to use as a base.
+- Add graphical assets for default containers.
+- Add HoverOverItemTooltip and RenderTooltipComponent custom events.
+
+## 1.1.2
+
+- Update to snapshot 24w40a.
+
 ## 1.1.1
 
 - Add PlaySoundCallback custom event and mixin.
