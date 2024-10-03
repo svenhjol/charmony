@@ -8,8 +8,11 @@
     "defaultRequire": 1
   },
   "client": [
+    "events.hover_over_item_tooltip.ItemStackMixin",
     "events.play_sound_callback.SoundEngineMixin",
     "events.render_tooltip_callback.GuiGraphicsMixin",
-    "events.render_tooltip_callback.ScreenMixin"
+    "events.render_tooltip_callback.ScreenMixin",
+    "events.render_tooltip_component_callback.ItemMixin",
+    "registry.client_tooltip_component.ClientTooltipComponentMixin"
   ]
 }
