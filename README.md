@@ -1,3 +1,3 @@
-# Charmony nano
+# Charmony
 
-A really small client-only library for Charmony mods.
+A really small embedded library for Charmony mods.

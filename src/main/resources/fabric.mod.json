@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "id": "charmony-nano",
+  "id": "charmony",
   "version": "${mod_version}",
 
-  "name": "Charmony (nano)",
-  "description": "Scaffolding for Charmony client mods.",
+  "name": "Charmony",
+  "description": "Scaffolding for Charmony mods.",
   "authors": [
     "svenhjol"
   ],
@@ -13,7 +13,7 @@
   "license": "MIT",
   "environment": "client",
   "mixins": [
-    "charmony-nano.mixins.json"
+    "charmony.mixins.json"
   ],
 
   "entrypoints": {
@@ -31,6 +31,6 @@
 
   "contact": {
     "homepage": "https://charmony.work",
-    "sources": "https://github.com/svenhjol/charmony-nano"
+    "sources": "https://github.com/svenhjol/charmony"
   }
 }
