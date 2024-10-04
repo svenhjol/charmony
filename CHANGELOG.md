@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.7
+
+- Simple feature resolver.
+- 
 ## 1.1.6
 
 - Add WorldHelper.
