@@ -4,10 +4,10 @@ import svenhjol.charmony.scaffold.annotations.Feature;
 import svenhjol.charmony.scaffold.enums.Side;
 
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
+@SuppressWarnings("unused")
 public abstract class ModFeature {
     private static final Map<Class<? extends ModFeature>, ModFeature> ALL = new HashMap<>();
     private final Mod mod;
@@ -23,12 +23,14 @@ public abstract class ModFeature {
     }
 
     @SuppressWarnings("unchecked")
-    public static <F extends ModFeature> F resolve(Class<F> clazz) {
-        F resolved = (F)ALL.get(clazz);
-        if (resolved == null) {
-            throw new RuntimeException("Could not resolve feature for " + clazz);
-        }
-        return resolved;
+    public static <F extends ModFeature> Supplier<F> resolve(Class<F> clazz) {
+        return () -> {
+            F resolved = (F) ALL.get(clazz);
+            if (resolved == null) {
+                throw new RuntimeException("Could not resolve feature for " + clazz);
+            }
+            return resolved;
+        };
     }
 
     public Mod mod() {
