@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.6
+
+- Add WorldHelper.
+
 ## 1.1.5
 
 - Bump pack version for latest snapshot.
