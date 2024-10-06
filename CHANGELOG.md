@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.0
+
+- Update mod setup to include priority and simplify registration in setup classes.
+
 ## 1.1.7
 
 - Simple feature resolver
