@@ -10,9 +10,9 @@ import java.util.*;
 public abstract class Mod {
     private final Log log;
     private final Config config;
+    private final Map<Class<? extends ModFeature>, ModFeature> featureForClass = new HashMap<>();
     private final Map<Side, LinkedList<Class<? extends ModFeature>>> sidedClasses = new LinkedHashMap<>();
     private final Map<Side, LinkedList<ModFeature>> sidedFeatures = new LinkedHashMap<>();
-    private final Map<Class<? extends ModFeature>, ModFeature> classFeature = new HashMap<>();
     private final Map<Side, Map<ModFeature, List<Runnable>>> boots = new HashMap<>();
 
     public Mod() {
@@ -23,7 +23,8 @@ public abstract class Mod {
     public void run(Side side) {
         var sideName = side.getSerializedName();
         var boots = this.boots.getOrDefault(side, new HashMap<>());
-        var classes = this.sidedClasses.getOrDefault(side, new LinkedList<>());
+        var classes = this.sidedClasses.computeIfAbsent(side, l -> new LinkedList<>());
+        var features = this.sidedFeatures.computeIfAbsent(side, l -> new LinkedList<>());
         var classCount = classes.size();
 
         if (classCount == 0) {
@@ -38,13 +39,13 @@ public abstract class Mod {
             ModFeature feature;
             try {
                 feature = clazz.getDeclaredConstructor(Mod.class).newInstance(this);
-                classFeature.put(clazz, feature);
+                featureForClass.put(clazz, feature);
+                features.add(feature);
             } catch (Exception e) {
                 throw new RuntimeException("Failed to instantiate feature " + clazz + " for mod " + name() + ": " + e.getMessage());
             }
         }
 
-        var features = sidedFeatures.get(side);
         log().info("Configuring " + name() + " " + sideName);
         config.populateFromDisk(features);
         config.writeToDisk(features);
@@ -88,7 +89,7 @@ public abstract class Mod {
 
     @SuppressWarnings("unchecked")
     public <F extends ModFeature> Optional<F> tryFeature(Class<F> clazz) {
-        F resolved = (F) classFeature.get(clazz);
+        F resolved = (F) featureForClass.get(clazz);
         return Optional.ofNullable(resolved);
     }
 

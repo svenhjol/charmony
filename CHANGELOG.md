@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.1
+
+- Fix null pointer when loading config.
+
 ## 1.2.0
 
 - Update mod setup to include priority and simplify registration in setup classes.
