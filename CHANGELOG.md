@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.2.2
+
+- Fix boot runnables not being loaded properly.
+
+## 1.2.1
+
+- Fix null pointer when loading config.
+
+## 1.2.0
+
+- Update mod setup to include priority and simplify registration in setup classes.
+
 ## 1.1.7
 
 - Simple feature resolver

@@ -6,7 +6,6 @@ public abstract class Setup<F extends ModFeature> {
 
     public Setup(F feature) {
         this.feature = feature;
-        this.feature.mod().addRegisterStep(feature, register());
         this.feature.mod().addBootStep(feature, boot());
     }
 
@@ -16,10 +15,6 @@ public abstract class Setup<F extends ModFeature> {
 
     public Log log() {
         return this.feature.log();
-    }
-
-    public Runnable register() {
-        return () -> {};
     }
 
     public Runnable boot() {
