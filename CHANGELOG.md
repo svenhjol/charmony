@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.2
+
+- Fix boot runnables not being loaded properly.
+
 ## 1.2.1
 
 - Fix null pointer when loading config.

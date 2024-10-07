@@ -22,7 +22,6 @@ public abstract class Mod {
 
     public void run(Side side) {
         var sideName = side.getSerializedName();
-        var boots = this.boots.getOrDefault(side, new HashMap<>());
         var classes = this.sidedClasses.computeIfAbsent(side, l -> new LinkedList<>());
         var features = this.sidedFeatures.computeIfAbsent(side, l -> new LinkedList<>());
         var classCount = classes.size();
@@ -51,6 +50,7 @@ public abstract class Mod {
         config.writeToDisk(features);
 
         log().info("Booting up " + name() + " " + sideName);
+        var boots = this.boots.computeIfAbsent(side, m -> new HashMap<>());
         boots.forEach((feature, boot) -> {
             if (feature.enabled()) {
                 boot.forEach(Runnable::run);
