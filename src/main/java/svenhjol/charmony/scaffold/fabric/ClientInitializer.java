@@ -21,12 +21,11 @@ public class ClientInitializer implements ClientModInitializer {
         if (initialized) return;
         ClientEvents.init();
 
+        // Setup and run the mod.
         var charmony = Charmony.instance();
-
-        // Add core charmony features.
         charmony.addFeature(Diagnostics.class);
-
         charmony.run(Side.Client);
+
         initialized = true;
     }
 }
