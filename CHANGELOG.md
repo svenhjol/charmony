@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.5
+
+- Fix condition where config exists but doesn't yet have the new feature.
+
 ## 1.2.4
 
 - Add buttons to widget folder.
