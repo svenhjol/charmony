@@ -239,6 +239,11 @@ public abstract class BaseMixinConfig implements IMixinConfigPlugin {
         var handle = new Toml();
         var toml = handle.read(configFile);
         var enabledPath = featureName + ".Enabled";
-        return toml.contains(enabledPath) && toml.getBoolean(enabledPath);
+
+        if (toml.contains(enabledPath)) {
+            return toml.getBoolean(enabledPath);
+        }
+
+        return feature.enabledByDefault();
     }
 }
