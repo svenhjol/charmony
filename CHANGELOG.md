@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.2.4
+
+- Add buttons to widget folder.
+
+## 1.2.3
+
+- Add core/common resources and buttons.
+
 ## 1.2.2
 
 - Fix boot runnables not being loaded properly.
