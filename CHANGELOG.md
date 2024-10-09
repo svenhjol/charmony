@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.0
+
+- Build for 1.21.2-pre1
+
 ## 1.2.6
 
 - Add RenderScreenCallback custom event.
