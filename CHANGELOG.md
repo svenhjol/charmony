@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.2.6
+
+- Add RenderScreenCallback custom event.
+- Add SetupScreenCallback custom event.
+
 ## 1.2.5
 
 - Fix condition where config exists but doesn't yet have the new feature.
