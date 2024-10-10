@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.2
+
+- Build for 1.21.2-pre2
+
 ## 1.3.1
 
 - Refactor event mixin folder names to simplify.
