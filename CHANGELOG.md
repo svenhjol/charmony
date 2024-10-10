@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.3
+
+- Variable pack version
+
 ## 1.3.2
 
 - Build for 1.21.2-pre2
