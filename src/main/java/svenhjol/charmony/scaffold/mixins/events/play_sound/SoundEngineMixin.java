@@ -1,4 +1,4 @@
-package svenhjol.charmony.scaffold.mixins.events.play_sound_callback;
+package svenhjol.charmony.scaffold.mixins.events.play_sound;
 
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.client.sounds.SoundEngine;

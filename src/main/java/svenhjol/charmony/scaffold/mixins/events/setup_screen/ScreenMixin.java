@@ -1,4 +1,4 @@
-package svenhjol.charmony.scaffold.mixins.events.setup_screen_callback;
+package svenhjol.charmony.scaffold.mixins.events.setup_screen;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
