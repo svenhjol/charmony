@@ -1,4 +1,4 @@
-package svenhjol.charmony.scaffold.mixins.events.render_tooltip_callback;
+package svenhjol.charmony.scaffold.mixins.events.render_tooltip;
 
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;

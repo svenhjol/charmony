@@ -1,4 +1,4 @@
-package svenhjol.charmony.scaffold.mixins.events.render_tooltip_component_callback;
+package svenhjol.charmony.scaffold.mixins.events.render_tooltip_component;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;

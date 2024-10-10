@@ -1,4 +1,4 @@
-package svenhjol.charmony.scaffold.mixins.events.render_screen_callback;
+package svenhjol.charmony.scaffold.mixins.events.render_screen;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;

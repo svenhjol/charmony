@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.3.1
+
+- Refactor event mixin folder names to simplify.
+- Add custom fabric events for listening to client player login and respawn.
+
 ## 1.3.0
 
 - Build for 1.21.2-pre1
