@@ -17,8 +17,11 @@
   ],
 
   "entrypoints": {
+    "main": [
+      "svenhjol.charmony.scaffold.common.CommonInitializer"
+    ],
     "client": [
-      "svenhjol.charmony.scaffold.fabric.ClientInitializer"
+      "svenhjol.charmony.scaffold.client.ClientInitializer"
     ]
   },
 

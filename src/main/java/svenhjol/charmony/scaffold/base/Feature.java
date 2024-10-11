@@ -1,6 +1,6 @@
 package svenhjol.charmony.scaffold.base;
 
-import svenhjol.charmony.scaffold.annotations.Feature;
+import svenhjol.charmony.scaffold.annotations.FeatureDefinition;
 import svenhjol.charmony.scaffold.enums.Side;
 
 import java.util.HashMap;
@@ -8,14 +8,14 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 @SuppressWarnings("unused")
-public abstract class ModFeature {
-    private static final Map<Class<? extends ModFeature>, ModFeature> ALL = new HashMap<>();
+public abstract class Feature {
+    private static final Map<Class<? extends Feature>, Feature> ALL = new HashMap<>();
     private final Mod mod;
     private final Log log;
 
     private boolean enabled;
 
-    public ModFeature(Mod mod) {
+    public Feature(Mod mod) {
         this.mod = mod;
         this.log = new Log(mod.id(), name());
         this.enabled = enabledByDefault();
@@ -23,7 +23,7 @@ public abstract class ModFeature {
     }
 
     @SuppressWarnings("unchecked")
-    public static <F extends ModFeature> Supplier<F> resolve(Class<F> clazz) {
+    public static <F extends Feature> Supplier<F> resolve(Class<F> clazz) {
         return () -> {
             F resolved = (F) ALL.get(clazz);
             if (resolved == null) {
@@ -73,8 +73,8 @@ public abstract class ModFeature {
         return annotation().side();
     }
 
-    private Feature annotation() {
-        var annotation = getClass().getAnnotation(Feature.class);
+    private FeatureDefinition annotation() {
+        var annotation = getClass().getAnnotation(FeatureDefinition.class);
         if (annotation == null) {
             throw new RuntimeException("Feature " + getClass() + " is missing annotation");
         }

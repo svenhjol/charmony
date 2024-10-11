@@ -1,7 +1,7 @@
 package svenhjol.charmony.scaffold.base;
 
 import net.minecraft.resources.ResourceLocation;
-import svenhjol.charmony.scaffold.annotations.Feature;
+import svenhjol.charmony.scaffold.annotations.FeatureDefinition;
 import svenhjol.charmony.scaffold.enums.Side;
 
 import java.util.*;
@@ -9,15 +9,14 @@ import java.util.*;
 @SuppressWarnings("unused")
 public abstract class Mod {
     private final Log log;
-    private final Config config;
-    private final Map<Class<? extends ModFeature>, ModFeature> featureForClass = new HashMap<>();
-    private final Map<Side, LinkedList<Class<? extends ModFeature>>> sidedClasses = new LinkedHashMap<>();
-    private final Map<Side, LinkedList<ModFeature>> sidedFeatures = new LinkedHashMap<>();
-    private final Map<Side, Map<ModFeature, List<Runnable>>> boots = new HashMap<>();
+    private final Map<Class<? extends Feature>, Feature> featureForClass = new HashMap<>();
+    private final Map<Side, LinkedList<Class<? extends Feature>>> sidedClasses = new LinkedHashMap<>();
+    private final Map<Side, LinkedList<Feature>> sidedFeatures = new LinkedHashMap<>();
+    private final Map<Side, Map<Feature, List<Runnable>>> boots = new HashMap<>();
+    private final Map<Side, Config> configs = new HashMap<>();
 
     public Mod() {
         this.log = new Log(id(), name());
-        this.config = new Config(this);
     }
 
     public void run(Side side) {
@@ -32,10 +31,10 @@ public abstract class Mod {
         }
 
         log.info("Setting up " + classCount + " " + sideName + " feature(s) for " + name());
-        classes.sort(Comparator.comparing(c -> c.getAnnotation(Feature.class).priority()));
+        classes.sort(Comparator.comparing(c -> c.getAnnotation(FeatureDefinition.class).priority()));
 
         for (var clazz : classes) {
-            ModFeature feature;
+            Feature feature;
             try {
                 feature = clazz.getDeclaredConstructor(Mod.class).newInstance(this);
                 featureForClass.put(clazz, feature);
@@ -46,8 +45,9 @@ public abstract class Mod {
         }
 
         log().info("Configuring " + name() + " " + sideName);
-        config.populateFromDisk(features);
-        config.writeToDisk(features);
+        var config = configs.computeIfAbsent(side, o -> new Config(this, side));
+        config.populate();
+        config.write();
 
         log().info("Booting up " + name() + " " + sideName);
         var boots = this.boots.computeIfAbsent(side, m -> new HashMap<>());
@@ -83,26 +83,26 @@ public abstract class Mod {
         return this.log;
     }
 
-    public <F extends ModFeature> F feature(Class<F> clazz) {
+    public <F extends Feature> F feature(Class<F> clazz) {
         return tryFeature(clazz).orElseThrow(() -> new RuntimeException("Could not resolve feature for class " + clazz));
     }
 
     @SuppressWarnings("unchecked")
-    public <F extends ModFeature> Optional<F> tryFeature(Class<F> clazz) {
+    public <F extends Feature> Optional<F> tryFeature(Class<F> clazz) {
         F resolved = (F) featureForClass.get(clazz);
         return Optional.ofNullable(resolved);
     }
 
-    public void addFeature(Class<? extends ModFeature> clazz) {
-        var side = clazz.getAnnotation(Feature.class).side();
+    public void addFeature(Class<? extends Feature> clazz) {
+        var side = clazz.getAnnotation(FeatureDefinition.class).side();
         sidedClasses.computeIfAbsent(side, a -> new LinkedList<>()).add(clazz);
     }
 
-    public void addBootStep(ModFeature feature, Runnable step) {
+    public void addBootStep(Feature feature, Runnable step) {
         boots.computeIfAbsent(feature.side(), m -> new HashMap<>()).computeIfAbsent(feature, a -> new ArrayList<>()).add(step);
     }
 
-    public Map<Side, LinkedList<ModFeature>> features() {
+    public Map<Side, LinkedList<Feature>> features() {
         return sidedFeatures;
     }
 }

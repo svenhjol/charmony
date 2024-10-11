@@ -1,8 +1,7 @@
-package svenhjol.charmony.scaffold.fabric;
+package svenhjol.charmony.scaffold.client;
 
 import net.fabricmc.api.ClientModInitializer;
 import svenhjol.charmony.scaffold.Charmony;
-import svenhjol.charmony.scaffold.client.ClientEvents;
 import svenhjol.charmony.scaffold.client.diagnostics.Diagnostics;
 import svenhjol.charmony.scaffold.enums.Side;
 

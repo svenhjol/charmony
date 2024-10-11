@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
 @SuppressWarnings("unused")
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Feature {
+public @interface FeatureDefinition {
     int priority() default 0;
 
     String description() default "";

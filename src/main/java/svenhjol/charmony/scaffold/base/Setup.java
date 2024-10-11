@@ -1,7 +1,7 @@
 package svenhjol.charmony.scaffold.base;
 
 
-public abstract class Setup<F extends ModFeature> {
+public abstract class Setup<F extends Feature> {
     private final F feature;
 
     public Setup(F feature) {

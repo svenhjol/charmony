@@ -5,6 +5,7 @@ import com.electronwill.nightconfig.toml.TomlWriter;
 import com.moandjiezana.toml.Toml;
 import net.fabricmc.loader.api.FabricLoader;
 import svenhjol.charmony.scaffold.annotations.Configurable;
+import svenhjol.charmony.scaffold.enums.Side;
 
 import java.lang.reflect.Field;
 import java.nio.file.Files;
@@ -15,19 +16,21 @@ import java.util.*;
 public final class Config {
     private final Mod mod;
     private final Log log;
+    private final Side side;
     private final Map<Field, Object> defaultFieldValues = new HashMap<>();
-    private final List<Class<? extends ModFeature>> populatedFeatures = new ArrayList<>();
+    private final List<Class<? extends Feature>> populatedFeatures = new ArrayList<>();
 
-    public Config(Mod mod) {
+    public Config(Mod mod, Side side) {
         this.mod = mod;
+        this.side = side;
         this.log = new Log(mod.id(), "Config");
     }
 
-    public void populateFromDisk(List<? extends ModFeature> featureSet) {
+    public void populate() {
         var toml = new Toml();
         var path = configPath();
         var file = path.toFile();
-        var features = new LinkedList<>(featureSet);
+        var features = this.mod.features().getOrDefault(side, new LinkedList<>());
 
         if (file.exists()) {
             toml = toml.read(file);
@@ -104,13 +107,13 @@ public final class Config {
         }
     }
 
-    public void writeToDisk(List<? extends ModFeature> featureSet) {
+    public void write() {
         // Blank config is appended and then written out. LinkedHashMap supplier sorts contents alphabetically.
         var config = TomlFormat.newConfig(LinkedHashMap::new);
-        var features = new LinkedList<>(featureSet);
+        var features = this.mod.features().getOrDefault(side, new LinkedList<>());
 
         // Sort alphabetically.
-        features.sort(Comparator.comparing(ModFeature::name));
+        features.sort(Comparator.comparing(Feature::name));
 
         for (var feature : features) {
             if (feature.canBeDisabled()) {
@@ -162,7 +165,7 @@ public final class Config {
         }
     }
 
-    public boolean hasDefaultValues(ModFeature feature) {
+    public boolean hasDefaultValues(Feature feature) {
         var fields = new ArrayList<>(Arrays.asList(feature.getClass().getDeclaredFields()));
         for (var field : fields) {
             try {
@@ -188,6 +191,6 @@ public final class Config {
     }
 
     private Path configPath() {
-        return Paths.get(FabricLoader.getInstance().getConfigDir() + "/" + mod.id() + ".toml");
+        return Paths.get(FabricLoader.getInstance().getConfigDir() + "/" + mod.id() + "-" + side.getSerializedName() + ".toml");
     }
 }

@@ -9,7 +9,7 @@ import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 import svenhjol.charmony.scaffold.Charmony;
-import svenhjol.charmony.scaffold.annotations.Feature;
+import svenhjol.charmony.scaffold.annotations.FeatureDefinition;
 import svenhjol.charmony.scaffold.base.Environment;
 import svenhjol.charmony.scaffold.enums.Side;
 
@@ -162,7 +162,7 @@ public abstract class BaseMixinConfig implements IMixinConfigPlugin {
      */
     protected boolean isMixinDisableMode() {
         if (!hasCheckedMixinDisableConfig) {
-            var configFile = Paths.get(FabricLoader.getInstance().getConfigDir() + File.separator + Charmony.ID + ".toml").toFile();
+            var configFile = Paths.get(FabricLoader.getInstance().getConfigDir() + File.separator + Charmony.ID + "-common.toml").toFile();
             if (!configFile.exists()) return false;
             var handle = new Toml();
             var toml = handle.read(configFile);
@@ -182,7 +182,7 @@ public abstract class BaseMixinConfig implements IMixinConfigPlugin {
      */
     protected boolean isDebugMode() {
         if (!hasCheckedDebugConfig) {
-            var configFile = Paths.get(FabricLoader.getInstance().getConfigDir() + File.separator + Charmony.ID + ".toml").toFile();
+            var configFile = Paths.get(FabricLoader.getInstance().getConfigDir() + File.separator + Charmony.ID + "-common.toml").toFile();
             if (!configFile.exists()) return false;
             var handle = new Toml();
             var toml = handle.read(configFile);
@@ -197,8 +197,7 @@ public abstract class BaseMixinConfig implements IMixinConfigPlugin {
     }
 
     protected boolean enabledInConfig(String featureName) {
-        Feature feature = null;
-        var configFile = Paths.get(FabricLoader.getInstance().getConfigDir() + File.separator + modId() + ".toml").toFile();
+        FeatureDefinition feature = null;
 
         if (featureName.contains(".")) {
             var split = featureName.split("\\.");
@@ -215,7 +214,7 @@ public abstract class BaseMixinConfig implements IMixinConfigPlugin {
                     side.name().toLowerCase(Locale.ROOT) + "." +
                     CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, featureName) + "." +
                     featureName);
-                feature = clazz.getAnnotation(Feature.class);
+                feature = clazz.getAnnotation(FeatureDefinition.class);
                 break;
             } catch (ClassNotFoundException e) {
                 continue;
@@ -231,17 +230,22 @@ public abstract class BaseMixinConfig implements IMixinConfigPlugin {
             return false;
         }
 
-        if (!configFile.exists()) {
-            return feature.enabledByDefault();
-        }
+        for (var side : Side.values()) {
+            // @todo Move this to helper.
+            var configFile = Paths.get(FabricLoader.getInstance().getConfigDir() + File.separator + modId() + "-" + side.getSerializedName() + ".toml").toFile();
 
-        // Read the value from the config file.
-        var handle = new Toml();
-        var toml = handle.read(configFile);
-        var enabledPath = featureName + ".Enabled";
+            if (!configFile.exists()) {
+                continue;
+            }
 
-        if (toml.contains(enabledPath)) {
-            return toml.getBoolean(enabledPath);
+            // Read the value from the config file.
+            var handle = new Toml();
+            var toml = handle.read(configFile);
+            var enabledPath = featureName + ".Enabled";
+
+            if (toml.contains(enabledPath)) {
+                return toml.getBoolean(enabledPath);
+            }
         }
 
         return feature.enabledByDefault();

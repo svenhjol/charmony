@@ -2,7 +2,7 @@ package svenhjol.charmony.scaffold.base;
 
 import net.fabricmc.loader.api.FabricLoader;
 import svenhjol.charmony.scaffold.Charmony;
-import svenhjol.charmony.scaffold.client.diagnostics.Diagnostics;
+import svenhjol.charmony.scaffold.common.diagnostics.Diagnostics;
 
 public final class Environment {
     public static final String DEBUG_MODE = "Debug mode";
