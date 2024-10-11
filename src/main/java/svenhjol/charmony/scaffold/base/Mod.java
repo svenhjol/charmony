@@ -1,6 +1,5 @@
 package svenhjol.charmony.scaffold.base;
 
-import net.minecraft.resources.ResourceLocation;
 import svenhjol.charmony.scaffold.annotations.FeatureDefinition;
 import svenhjol.charmony.scaffold.enums.Side;
 
@@ -8,6 +7,7 @@ import java.util.*;
 
 @SuppressWarnings("unused")
 public abstract class Mod {
+    private final String id;
     private final Log log;
     private final Map<Class<? extends Feature>, Feature> featureForClass = new HashMap<>();
     private final Map<Side, LinkedList<Class<? extends Feature>>> sidedClasses = new LinkedHashMap<>();
@@ -15,7 +15,8 @@ public abstract class Mod {
     private final Map<Side, Map<Feature, List<Runnable>>> boots = new HashMap<>();
     private final Map<Side, Config> configs = new HashMap<>();
 
-    public Mod() {
+    public Mod(String id) {
+        this.id = id;
         this.log = new Log(id(), name());
     }
 
@@ -69,10 +70,8 @@ public abstract class Mod {
         });
     }
 
-    public abstract String id();
-
-    public ResourceLocation id(String path) {
-        return ResourceLocation.tryBuild(id(), path);
+    public String id() {
+        return this.id;
     }
 
     public String name() {

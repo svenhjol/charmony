@@ -96,7 +96,7 @@ public final class CoreButtons {
 
     static WidgetSprites makeButton(String name) {
         return new WidgetSprites(
-            Charmony.instance().id("widget/buttons/" + name + "_button"),
-            Charmony.instance().id("widget/buttons/" + name + "_button_highlighted"));
+            Charmony.id("widget/buttons/" + name + "_button"),
+            Charmony.id("widget/buttons/" + name + "_button_highlighted"));
     }
 }

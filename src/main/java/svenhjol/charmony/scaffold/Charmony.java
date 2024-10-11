@@ -1,5 +1,6 @@
 package svenhjol.charmony.scaffold;
 
+import net.minecraft.resources.ResourceLocation;
 import svenhjol.charmony.scaffold.base.Mod;
 
 @SuppressWarnings("unused")
@@ -8,7 +9,9 @@ public final class Charmony extends Mod {
 
     private static Charmony instance;
 
-    private Charmony() {}
+    private Charmony() {
+        super(ID);
+    }
 
     public static Charmony instance() {
         if (instance == null) {
@@ -17,8 +20,7 @@ public final class Charmony extends Mod {
         return instance;
     }
 
-    @Override
-    public String id() {
-        return ID;
+    public static ResourceLocation id(String path) {
+        return ResourceLocation.tryBuild(ID, path);
     }
 }
