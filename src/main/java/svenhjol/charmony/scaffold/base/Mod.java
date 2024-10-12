@@ -82,6 +82,10 @@ public abstract class Mod {
         return this.log;
     }
 
+    public Optional<Config> config(Side side) {
+        return Optional.ofNullable(configs.get(side));
+    }
+
     public <F extends Feature> F feature(Class<F> clazz) {
         return tryFeature(clazz).orElseThrow(() -> new RuntimeException("Could not resolve feature for class " + clazz));
     }
