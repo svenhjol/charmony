@@ -11,6 +11,7 @@ public class FeaturesScreen extends SettingsScreen {
     public static final WidgetSprites CONFIG_BUTTON = makeButton("config");
     public static final WidgetSprites DISABLE_BUTTON = makeButton("disable");
     public static final WidgetSprites ENABLE_BUTTON = makeButton("enable");
+    public static final WidgetSprites SETTINGS_BUTTON = makeButton("settings");
 
     private final Screen parent;
     private final String modId;

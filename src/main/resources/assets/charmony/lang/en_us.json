@@ -23,6 +23,7 @@
   "gui.charmony.settings.restart_later": "Restart later",
   "gui.charmony.settings.restart_now": "Restart now",
   "gui.charmony.settings.save": "Save",
+  "gui.charmony.settings.settings": "Charmony mod settings",
   "gui.charmony.settings.title": "%s Settings",
   "gui.charmony.settings.true": "True",
   "key.charmony.settings.openSettings": "Open Charmony settings"
