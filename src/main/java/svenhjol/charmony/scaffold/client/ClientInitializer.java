@@ -2,15 +2,12 @@ package svenhjol.charmony.scaffold.client;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.components.SpriteIconButton;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.network.chat.Component;
-import org.lwjgl.glfw.GLFW;
 import svenhjol.charmony.scaffold.Charmony;
 import svenhjol.charmony.scaffold.client.diagnostics.Diagnostics;
 import svenhjol.charmony.scaffold.client.settings.FeaturesScreen;
@@ -20,20 +17,12 @@ public class ClientInitializer implements ClientModInitializer {
     private static boolean initialized = false;
 
     private ImageButton settingsButton;
-    private Tooltip settingsButtonTooltip;
-    private KeyMapping openSettingsKey;
 
     @Override
     public void onInitializeClient() {
         init();
-        
-        openSettingsKey = KeyBindingHelper.registerKeyBinding(new KeyMapping(
-            "key.charmony.settings.openSettings",
-            GLFW.GLFW_KEY_M,
-            "key.categories.misc"));
 
         ClientTickEvents.END_CLIENT_TICK.register(this::clientTick);
-
         settingsButton = new ImageButton(0, 0, 20, 20,
             FeaturesScreen.SETTINGS_BUTTON, button -> openSettingsScreen());
     }
@@ -63,7 +52,7 @@ public class ClientInitializer implements ClientModInitializer {
                 }
 
                 parent.addRenderableWidget(settingsButton);
-                settingsButtonTooltip = Tooltip.create(Component.translatable("gui.charmony.settings.settings"));
+                Tooltip settingsButtonTooltip = Tooltip.create(Component.translatable("gui.charmony.settings.settings"));
                 settingsButton.setPosition(x, y);
                 settingsButton.setTooltip(settingsButtonTooltip);
             }
