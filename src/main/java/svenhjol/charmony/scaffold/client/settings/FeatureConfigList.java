@@ -9,6 +9,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import svenhjol.charmony.scaffold.annotations.Configurable;
 import svenhjol.charmony.scaffold.base.CompositeFeature;
+import svenhjol.charmony.scaffold.base.Feature;
 import svenhjol.charmony.scaffold.base.Log;
 import svenhjol.charmony.scaffold.helper.TextHelper;
 
@@ -17,16 +18,16 @@ import java.util.*;
 
 public class FeatureConfigList extends AbstractSelectionList<FeatureConfigList.Entry> {
     private static final Log LOGGER = new Log("FeatureConfigList");
-    private final CompositeFeature feature;
+    private final CompositeFeature composite;
     private final FeatureConfigScreen parent;
     private final Map<Field, Entry> entries = new HashMap<>();
     private final Map<Field, Object> newValues = new HashMap<>();
     private boolean requiresRestart = false;
     private int extraScrollHeight = 0;
 
-    public FeatureConfigList(CompositeFeature feature, Minecraft minecraft, int width, FeatureConfigScreen parent) {
+    public FeatureConfigList(CompositeFeature composite, Minecraft minecraft, int width, FeatureConfigScreen parent) {
         super(minecraft, width, parent.layout().getContentHeight() - parent.layout().getFooterHeight() + 10, parent.layout().getHeaderHeight(), 25);
-        this.feature = feature;
+        this.composite = composite;
         this.parent = parent;
         this.readConfig();
     }
@@ -52,39 +53,41 @@ public class FeatureConfigList extends AbstractSelectionList<FeatureConfigList.E
     }
 
     public void readConfig() {
-        var fields = new ArrayList<>(Arrays.asList(feature.getClass().getDeclaredFields()));
-        for (var field : fields) {
-            try {
-                var annotation = field.getDeclaredAnnotation(Configurable.class);
-                if (annotation == null) continue;
+        for (Feature feature : composite.all()) {
+            var fields = new ArrayList<>(Arrays.asList(feature.getClass().getDeclaredFields()));
+            for (var field : fields) {
+                try {
+                    var annotation = field.getDeclaredAnnotation(Configurable.class);
+                    if (annotation == null) continue;
 
-                Entry entry;
-                field.setAccessible(true);
-                var name = annotation.name();
-                var description = annotation.description();
-                var fieldValue = field.get(null);
+                    Entry entry;
+                    field.setAccessible(true);
+                    var name = annotation.name();
+                    var description = annotation.description();
+                    var fieldValue = field.get(null);
 
-                if (fieldValue instanceof Boolean) {
-                    entry = new BooleanEntry(field, name, description);
-                } else if (fieldValue instanceof Integer) {
-                    entry = new IntegerEntry(field, name, description);
-                } else if (fieldValue instanceof Double) {
-                    entry = new DoubleEntry(field, name, description);
-                } else if (fieldValue instanceof String) {
-                    entry = new StringEntry(field, name, description);
-                } else if (fieldValue instanceof List<?>) {
-                    entry = new StringListEntry(field, name, description);
-                } else {
-                    entry = null;
+                    if (fieldValue instanceof Boolean) {
+                        entry = new BooleanEntry(field, name, description);
+                    } else if (fieldValue instanceof Integer) {
+                        entry = new IntegerEntry(field, name, description);
+                    } else if (fieldValue instanceof Double) {
+                        entry = new DoubleEntry(field, name, description);
+                    } else if (fieldValue instanceof String) {
+                        entry = new StringEntry(field, name, description);
+                    } else if (fieldValue instanceof List<?>) {
+                        entry = new StringListEntry(field, name, description);
+                    } else {
+                        entry = null;
+                    }
+
+                    if (entry != null) {
+                        entries.put(field, entry);
+                        addEntry(entry);
+                    }
+
+                } catch (Exception e) {
+                    LOGGER.error("Could not read field " + field + ": " + e.getMessage());
                 }
-
-                if (entry != null) {
-                    entries.put(field, entry);
-                    addEntry(entry);
-                }
-
-            } catch (Exception e) {
-                LOGGER.error("Could not read field " + field + ": " + e.getMessage());
             }
         }
     }
@@ -101,7 +104,7 @@ public class FeatureConfigList extends AbstractSelectionList<FeatureConfigList.E
             }
         }
 
-        var mod = feature.mod();
+        var mod = composite.mod();
         mod.config().write();
     }
 
@@ -398,8 +401,8 @@ public class FeatureConfigList extends AbstractSelectionList<FeatureConfigList.E
             this.annotation = field.getDeclaredAnnotation(Configurable.class);
 
             // Try and get the default value for this config item.
-            var feature = FeatureConfigList.this.feature;
-            defaultVal = feature.mod().config().defaultValue(field).orElse(null);
+            var composite = FeatureConfigList.this.composite;
+            defaultVal = composite.mod().config().defaultValue(field).orElse(null);
 
             try {
                 val = field.get(null);
