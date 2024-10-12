@@ -61,7 +61,7 @@ public class FeaturesList extends AbstractSelectionList<FeaturesList.Entry> {
         if (cachedFeatures.isEmpty()) {
             var mod = Mod.get(modId);
             if (mod.isEmpty()) return List.of();
-            cachedFeatures = mod.get().features();
+            cachedFeatures = mod.get().composites();
         }
         return cachedFeatures;
     }
@@ -120,7 +120,7 @@ public class FeaturesList extends AbstractSelectionList<FeaturesList.Entry> {
                 configureButton.active = true;
             }
 
-            hasDefaultValues = feature.config().hasDefaultValues(feature);
+            hasDefaultValues = feature.mod().config().hasDefaultValues(feature);
         }
 
         private void setStateAndUpdate(boolean state) {
@@ -143,7 +143,7 @@ public class FeaturesList extends AbstractSelectionList<FeaturesList.Entry> {
         }
 
         private void writeConfig() {
-            feature.config().writeToDisk(features());
+            feature.mod().config().write();
         }
 
         /**

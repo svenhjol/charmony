@@ -9,8 +9,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import svenhjol.charmony.scaffold.annotations.Configurable;
 import svenhjol.charmony.scaffold.base.CompositeFeature;
-import svenhjol.charmony.scaffold.base.Feature;
-import svenhjol.charmony.scaffold.base.feature.CompositeFeature;
 import svenhjol.charmony.scaffold.base.Log;
 import svenhjol.charmony.scaffold.helper.TextHelper;
 
@@ -104,7 +102,7 @@ public class FeatureConfigList extends AbstractSelectionList<FeatureConfigList.E
         }
 
         var mod = feature.mod();
-        mod.config().writeToDisk();
+        mod.config().write();
     }
 
     public void defaults() {

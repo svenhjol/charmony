@@ -12,14 +12,15 @@ public abstract class Mod {
 
     private final String id;
     private final Log log;
+    private final Config config;
     private final Map<String, CompositeFeature> composites = new HashMap<>();
     private final Map<Class<? extends Feature>, Feature> classFeatures = new HashMap<>();
     private final Map<Side, LinkedList<Class<? extends Feature>>> classes = new LinkedHashMap<>();
     private final Map<Side, Map<Feature, List<Runnable>>> boots = new HashMap<>();
-    private final Map<Side, Config> configs = new HashMap<>();
 
     public Mod(String id) {
         this.id = id;
+        this.config = new Config(this);
         this.log = new Log(id(), name());
         REGISTERED.put(id, this);
     }
@@ -58,7 +59,6 @@ public abstract class Mod {
         }
 
         log().info("Configuring " + name() + " " + sideName);
-        var config = configs.computeIfAbsent(side, o -> new Config(this, side));
         config.populate();
         config.write();
 
@@ -73,9 +73,10 @@ public abstract class Mod {
         log().info("Running " + sideName + " features for " + name());
         composites.forEach((name, composite) -> {
             var featureName = composite.name();
-            if (composite.enabled()) {
+            var feature = composite.get(side).orElse(null);
+            if (feature != null && feature.enabled()) {
                 log().info("✔ Running feature " + featureName);
-                composite.get(side).run();
+                feature.run();
             } else {
                 log().info("✖ Not running feature " + featureName);
             }
@@ -94,8 +95,8 @@ public abstract class Mod {
         return this.log;
     }
 
-    public Optional<Config> config(Side side) {
-        return Optional.ofNullable(configs.get(side));
+    public Config config() {
+        return this.config;
     }
 
     public <F extends Feature> F feature(Class<F> clazz) {
@@ -117,7 +118,7 @@ public abstract class Mod {
         boots.computeIfAbsent(feature.side(), m -> new HashMap<>()).computeIfAbsent(feature, a -> new ArrayList<>()).add(step);
     }
 
-    public List<CompositeFeature> features() {
+    public List<CompositeFeature> composites() {
         return new ArrayList<>(composites.values());
     }
 

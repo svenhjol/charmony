@@ -4,7 +4,7 @@ import svenhjol.charmony.scaffold.enums.Side;
 
 import java.util.*;
 
-public final class CompositeFeature implements IFeature {
+public final class CompositeFeature {
     private final Log log;
     private final Mod mod;
     private final Map<Side, Feature> features = new HashMap<>();
@@ -14,42 +14,34 @@ public final class CompositeFeature implements IFeature {
         this.log = mod.log();
     }
 
-    @Override
     public void enabled(boolean state) {
         features.values().forEach(f -> f.enabled(state));
     }
 
-    @Override
     public boolean enabled() {
         return features.values().stream().anyMatch(Feature::enabled);
     }
 
-    @Override
     public boolean enabledByDefault() {
         return features.values().stream().anyMatch(Feature::enabledByDefault);
     }
 
-    @Override
     public boolean canBeDisabled() {
         return features.values().stream().anyMatch(Feature::canBeDisabled);
     }
 
-    @Override
     public Mod mod() {
         return this.mod;
     }
 
-    @Override
     public Log log() {
         return log;
     }
 
-    @Override
     public String name() {
         return getFirst().name();
     }
 
-    @Override
     public String description() {
         return getFirst().description();
     }
