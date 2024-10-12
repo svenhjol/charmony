@@ -15,6 +15,7 @@
   "mixins": [
     "charmony-nano.mixins.json"
   ],
+  "accessWidener": "charmony-nano.accesswidener",
 
   "entrypoints": {
     "main": [
