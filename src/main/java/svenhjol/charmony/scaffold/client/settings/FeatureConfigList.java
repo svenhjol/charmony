@@ -8,6 +8,7 @@ import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import svenhjol.charmony.scaffold.annotations.Configurable;
+import svenhjol.charmony.scaffold.base.CompositeFeature;
 import svenhjol.charmony.scaffold.base.Feature;
 import svenhjol.charmony.scaffold.base.feature.CompositeFeature;
 import svenhjol.charmony.scaffold.base.Log;
@@ -18,14 +19,14 @@ import java.util.*;
 
 public class FeatureConfigList extends AbstractSelectionList<FeatureConfigList.Entry> {
     private static final Log LOGGER = new Log("FeatureConfigList");
-    private final Feature feature;
+    private final CompositeFeature feature;
     private final FeatureConfigScreen parent;
     private final Map<Field, Entry> entries = new HashMap<>();
     private final Map<Field, Object> newValues = new HashMap<>();
     private boolean requiresRestart = false;
     private int extraScrollHeight = 0;
 
-    public FeatureConfigList(Feature feature, Minecraft minecraft, int width, FeatureConfigScreen parent) {
+    public FeatureConfigList(CompositeFeature feature, Minecraft minecraft, int width, FeatureConfigScreen parent) {
         super(minecraft, width, parent.layout().getContentHeight() - parent.layout().getFooterHeight() + 10, parent.layout().getHeaderHeight(), 25);
         this.feature = feature;
         this.parent = parent;
@@ -399,7 +400,8 @@ public class FeatureConfigList extends AbstractSelectionList<FeatureConfigList.E
             this.annotation = field.getDeclaredAnnotation(Configurable.class);
 
             // Try and get the default value for this config item.
-            defaultVal = FeatureConfigList.this.feature.config().defaultValue(field).orElse(null);
+            var feature = FeatureConfigList.this.feature;
+            defaultVal = feature.mod().config().defaultValue(field).orElse(null);
 
             try {
                 val = field.get(null);

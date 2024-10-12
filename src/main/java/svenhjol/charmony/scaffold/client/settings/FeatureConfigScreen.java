@@ -4,17 +4,18 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.layouts.LinearLayout;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
+import svenhjol.charmony.scaffold.base.CompositeFeature;
 import svenhjol.charmony.scaffold.base.Feature;
 
 public class FeatureConfigScreen extends SettingsScreen {
     private static final Component DEFAULTS = Component.translatable("gui.charmony.settings.defaults");
     private static final Component SAVE = Component.translatable("gui.charmony.settings.save");
-    private final Feature feature;
+    private final CompositeFeature feature;
     private final FeaturesScreen parent;
 
     private FeatureConfigList list;
 
-    public FeatureConfigScreen(Feature feature, FeaturesScreen parent) {
+    public FeatureConfigScreen(CompositeFeature feature, FeaturesScreen parent) {
         super(Component.translatable("gui.charmony.settings.feature.title", feature.name()));
         this.feature = feature;
         this.parent = parent;
