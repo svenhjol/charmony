@@ -9,7 +9,7 @@ import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import svenhjol.charmony.scaffold.base.feature.CompositeFeature;
+import svenhjol.charmony.scaffold.base.CompositeFeature;
 import svenhjol.charmony.scaffold.base.Mod;
 import svenhjol.charmony.scaffold.helper.TextHelper;
 
@@ -59,9 +59,9 @@ public class FeaturesList extends AbstractSelectionList<FeaturesList.Entry> {
 
     protected List<CompositeFeature> features() {
         if (cachedFeatures.isEmpty()) {
-            var mod = Mod.all().get(modId);
-            if (mod == null) return List.of();
-            cachedFeatures = mod.features();
+            var mod = Mod.get(modId);
+            if (mod.isEmpty()) return List.of();
+            cachedFeatures = mod.get().features();
         }
         return cachedFeatures;
     }

@@ -30,7 +30,7 @@ public final class Config {
         var toml = new Toml();
         var path = configPath();
         var file = path.toFile();
-        var features = this.mod.features().getOrDefault(side, new LinkedList<>());
+        var features = mod.featuresForSide(side);
 
         if (file.exists()) {
             toml = toml.read(file);
@@ -110,10 +110,7 @@ public final class Config {
     public void write() {
         // Blank config is appended and then written out. LinkedHashMap supplier sorts contents alphabetically.
         var config = TomlFormat.newConfig(LinkedHashMap::new);
-        var features = this.mod.features().getOrDefault(side, new LinkedList<>());
-
-        // Sort alphabetically.
-        features.sort(Comparator.comparing(Feature::name));
+        var features = mod.featuresForSide(side);
 
         for (var feature : features) {
             if (feature.canBeDisabled()) {
