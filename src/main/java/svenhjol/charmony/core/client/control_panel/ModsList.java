@@ -10,12 +10,14 @@ import net.minecraft.network.chat.Component;
 import svenhjol.charmony.core.base.Mod;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
 
 public class ModsList extends AbstractSelectionList<ModsList.Entry> {
     private final ModsScreen parent;
     private final List<Entry> entries = new ArrayList<>();
-    private final List<Mod> mods = new ArrayList<>();
+    private final List<Mod> mods = new LinkedList<>();
 
     public ModsList(Minecraft minecraft, ModsScreen parent) {
         super(minecraft, parent.width, parent.layout().getContentHeight(), parent.layout().getHeaderHeight(), 25);
@@ -53,6 +55,7 @@ public class ModsList extends AbstractSelectionList<ModsList.Entry> {
     protected List<Mod> mods() {
         if (mods.isEmpty()) {
             mods.addAll(Mod.all());
+            mods.sort(Comparator.comparing(Mod::name));
         }
         return mods;
     }
@@ -60,13 +63,12 @@ public class ModsList extends AbstractSelectionList<ModsList.Entry> {
     public class Entry extends AbstractSelectionList.Entry<Entry> {
         private final Mod mod;
         private final Button modButton;
-        private final Tooltip modTooltip;
 
         public Entry(Mod mod) {
             this.mod = mod;
             this.modButton = Button.builder(Component.literal(mod.name()),
                 button -> configure()).build();
-            this.modTooltip = Tooltip.create(Component.literal(mod.description()));
+            Tooltip modTooltip = Tooltip.create(Component.literal(mod.description()));
             this.modButton.setTooltip(modTooltip);
         }
 
@@ -78,7 +80,6 @@ public class ModsList extends AbstractSelectionList<ModsList.Entry> {
         public void render(GuiGraphics guiGraphics, int i, int y, int offsetX, int l, int m, int mouseX, int mouseY, boolean bl, float tickDelta) {
             y += SettingsScreen.CONTENT_TOP_MARGIN;
 
-//            var font = ModsList.this.minecraft.font;
             int buttonX = ModsList.this.width / 2 - (modButton.getWidth() / 2);
             int buttonY = y - 2;
             modButton.setPosition(buttonX, buttonY);
