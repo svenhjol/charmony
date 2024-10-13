@@ -138,8 +138,10 @@ public abstract class Mod {
         boots.computeIfAbsent(sidedFeature.side(), m -> new HashMap<>()).computeIfAbsent(sidedFeature, a -> new ArrayList<>()).add(step);
     }
 
-    public List<Feature> features() {
-        return new ArrayList<>(features.values());
+    public LinkedList<Feature> features() {
+        var values = new LinkedList<>(features.values());
+        values.sort(Comparator.comparing(Feature::name));
+        return values;
     }
 
     public LinkedList<SidedFeature> featuresForSide(Side side) {
