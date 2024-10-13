@@ -3,7 +3,6 @@ package svenhjol.charmony.core.client;
 import net.fabricmc.api.ClientModInitializer;
 import svenhjol.charmony.core.Charmony;
 import svenhjol.charmony.core.client.control_panel.ControlPanel;
-import svenhjol.charmony.core.client.diagnostics.Diagnostics;
 import svenhjol.charmony.core.enums.Side;
 
 public class ClientInitializer implements ClientModInitializer {
@@ -23,7 +22,6 @@ public class ClientInitializer implements ClientModInitializer {
         // Setup and run the mod.
         var charmony = Charmony.instance();
         charmony.addFeature(ControlPanel.class);
-        charmony.addFeature(Diagnostics.class);
         charmony.run(Side.Client);
 
         initialized = true;
