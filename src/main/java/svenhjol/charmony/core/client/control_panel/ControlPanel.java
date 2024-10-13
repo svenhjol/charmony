@@ -7,7 +7,7 @@ import svenhjol.charmony.core.enums.Side;
 
 @FeatureDefinition(side = Side.Client, canBeDisabled = false, description = """
     In-game control panel for Charmony mods.""")
-public class ControlPanel extends SidedFeature {
+public final class ControlPanel extends SidedFeature {
     public final Registers registers;
     public final Handlers handlers;
 

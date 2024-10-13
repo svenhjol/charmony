@@ -8,7 +8,7 @@ import svenhjol.charmony.core.enums.Side;
 
 @FeatureDefinition(side = Side.Common, canBeDisabled = false, description = """
     Diagnostics tools for Charmony client.""")
-public class Diagnostics extends SidedFeature {
+public final class Diagnostics extends SidedFeature {
     @Configurable(
         name = "Debug mode",
         description = "Enable debugging mode. Produces more logging output and adds some testing code."
