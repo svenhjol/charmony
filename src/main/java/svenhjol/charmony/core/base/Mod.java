@@ -74,10 +74,10 @@ public abstract class Mod {
             var featureName = feature.className();
             var sided = feature.get(side).orElse(null);
             if (sided != null && sided.enabled()) {
-                log().info("✔ Running feature " + featureName);
+                log().info("✔ Running " + sideName  + " feature " + featureName);
                 sided.run();
             } else {
-                log().info("✖ Not running feature " + featureName);
+                log().info("✖ Not running " + sideName + " feature " + featureName);
             }
         });
     }
