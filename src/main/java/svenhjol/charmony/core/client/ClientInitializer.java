@@ -5,7 +5,7 @@ import svenhjol.charmony.core.Charmony;
 import svenhjol.charmony.core.client.control_panel.ControlPanel;
 import svenhjol.charmony.core.enums.Side;
 
-public class ClientInitializer implements ClientModInitializer {
+public final class ClientInitializer implements ClientModInitializer {
     private static boolean initialized = false;
 
     @Override
