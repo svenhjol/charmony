@@ -98,7 +98,7 @@ public class ModsList extends AbstractSelectionList<ModsList.Entry> {
         }
 
         private void configure() {
-            minecraft.setScreen(new FeaturesScreen(mod.id(), parent));
+            minecraft.setScreen(new FeaturesScreen(mod, parent));
         }
     }
 }

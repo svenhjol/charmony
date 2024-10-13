@@ -5,7 +5,7 @@ import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
-import svenhjol.charmony.core.helper.TextHelper;
+import svenhjol.charmony.core.base.Mod;
 
 public class FeaturesScreen extends SettingsScreen {
     public static final WidgetSprites CONFIG_BUTTON = makeButton("config");
@@ -14,14 +14,14 @@ public class FeaturesScreen extends SettingsScreen {
     public static final WidgetSprites SETTINGS_BUTTON = makeButton("settings");
 
     private final Screen parent;
-    private final String modId;
+    private final Mod mod;
 
     private FeaturesList list;
 
-    public FeaturesScreen(String modId, Screen parent) {
-        super(Component.translatable("gui.charmony.settings.title", TextHelper.capitalize(modId)));
+    public FeaturesScreen(Mod mod, Screen parent) {
+        super(Component.translatable("gui.charmony.settings.title", mod.name()));
         this.parent = parent;
-        this.modId = modId;
+        this.mod = mod;
     }
 
     @Override
@@ -32,7 +32,7 @@ public class FeaturesScreen extends SettingsScreen {
 
     @Override
     protected void addContents() {
-        list = layout().addToContents(new FeaturesList(minecraft, modId, this));
+        list = layout().addToContents(new FeaturesList(minecraft, mod, this));
     }
 
     @Override

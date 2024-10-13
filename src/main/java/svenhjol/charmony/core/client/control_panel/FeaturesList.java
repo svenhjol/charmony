@@ -21,14 +21,14 @@ public class FeaturesList extends AbstractSelectionList<FeaturesList.Entry> {
     private static final MutableComponent FEATURE_IS_DISABLED = Component.translatable("gui.charmony.settings.feature.disabled");
     private static final MutableComponent NOT_USING_DEFAULTS = Component.translatable("gui.charmony.settings.not_using_defaults");
     private final FeaturesScreen parent;
-    private final String modId;
+    private final Mod mod;
     private final List<Entry> entries = new ArrayList<>();
     private final List<Feature> features = new ArrayList<>();
 
-    public FeaturesList(Minecraft minecraft, String modId, FeaturesScreen parent) {
+    public FeaturesList(Minecraft minecraft, Mod mod, FeaturesScreen parent) {
         super(minecraft, parent.width, parent.layout().getContentHeight(), parent.layout().getHeaderHeight(), 25);
         this.parent = parent;
-        this.modId = modId;
+        this.mod = mod;
 
         for (var feature : features()) {
             // Don't show a button for the feature if it has no configurable elements.
@@ -61,9 +61,7 @@ public class FeaturesList extends AbstractSelectionList<FeaturesList.Entry> {
 
     protected List<Feature> features() {
         if (features.isEmpty()) {
-            var mod = Mod.get(modId);
-            if (mod.isEmpty()) return List.of();
-            features.addAll(mod.get().features());
+            features.addAll(mod.features());
         }
         return features;
     }
@@ -91,9 +89,9 @@ public class FeaturesList extends AbstractSelectionList<FeaturesList.Entry> {
             this.configureButton = new ImageButton(0, 0, 20, 20,
                 FeaturesScreen.CONFIG_BUTTON, button -> configure());
 
-            this.enableButtonTooltip = Tooltip.create(Component.translatable("gui.charmony.settings.enable_feature", this.feature.className()));
-            this.disableButtonTooltip = Tooltip.create(Component.translatable("gui.charmony.settings.disable_feature", this.feature.className()));
-            this.configureButtonTooltip = Tooltip.create(Component.translatable("gui.charmony.settings.configure_feature", this.feature.className()));
+            this.enableButtonTooltip = Tooltip.create(Component.translatable("gui.charmony.settings.enable_feature", this.feature.name()));
+            this.disableButtonTooltip = Tooltip.create(Component.translatable("gui.charmony.settings.disable_feature", this.feature.name()));
+            this.configureButtonTooltip = Tooltip.create(Component.translatable("gui.charmony.settings.configure_feature", this.feature.name()));
 
             refreshState();
         }
