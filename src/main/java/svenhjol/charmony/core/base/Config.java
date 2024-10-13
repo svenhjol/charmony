@@ -41,8 +41,7 @@ public final class Config {
 
         for (var feature : features) {
             for (var sided : feature.sides()) {
-                var side = sided.side();
-                var toml = configs.get(side);
+                var toml = configs.get(sided.side());
                 var featurePath = sided.className() + ".Enabled";
                 if (toml.contains(featurePath) && sided.canBeDisabled()) {
                     sided.enabled(toml.getBoolean(featurePath));
@@ -117,10 +116,13 @@ public final class Config {
     public void write() {
         // Blank config is appended and then written out. LinkedHashMap supplier sorts contents alphabetically.
         Map<Side, CommentedConfig> configs = new HashMap<>();
+        for (var side : Side.values()) {
+            configs.put(side, TomlFormat.newConfig(LinkedHashMap::new));
+        }
 
         for (var feature : mod.features()) {
             for (var sided : feature.sides()) {
-                var config = configs.computeIfAbsent(sided.side(), o -> TomlFormat.newConfig(LinkedHashMap::new));
+                var config = configs.get(sided.side());
 
                 if (sided.canBeDisabled()) {
                     var field = "Enabled";
