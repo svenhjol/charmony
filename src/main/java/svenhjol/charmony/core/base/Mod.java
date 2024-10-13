@@ -13,10 +13,10 @@ public abstract class Mod {
 
     private final Log log;
     private final Config config;
-    private final Map<String, CompositeFeature> composites = new HashMap<>();
-    private final Map<Class<? extends Feature>, Feature> classFeatures = new HashMap<>();
-    private final Map<Side, LinkedList<Class<? extends Feature>>> classes = new LinkedHashMap<>();
-    private final Map<Side, Map<Feature, List<Runnable>>> boots = new HashMap<>();
+    private final Map<String, Feature> features = new HashMap<>();
+    private final Map<Class<? extends SidedFeature>, SidedFeature> classFeatures = new HashMap<>();
+    private final Map<Side, LinkedList<Class<? extends SidedFeature>>> classes = new LinkedHashMap<>();
+    private final Map<Side, Map<SidedFeature, List<Runnable>>> boots = new HashMap<>();
 
     public Mod() {
         this.config = new Config(this);
@@ -46,11 +46,11 @@ public abstract class Mod {
         classes.sort(Comparator.comparing(c -> c.getAnnotation(FeatureDefinition.class).priority()));
 
         for (var clazz : classes) {
-            Feature feature;
+            SidedFeature sidedFeature;
             try {
-                feature = clazz.getDeclaredConstructor(Mod.class).newInstance(this);
-                classFeatures.put(clazz, feature);
-                composites.computeIfAbsent(feature.className(), c -> new CompositeFeature(this)).put(side, feature);
+                sidedFeature = clazz.getDeclaredConstructor(Mod.class).newInstance(this);
+                classFeatures.put(clazz, sidedFeature);
+                features.computeIfAbsent(sidedFeature.className(), c -> new Feature(this)).put(side, sidedFeature);
 
             } catch (Exception e) {
                 throw new RuntimeException("Failed to instantiate feature " + clazz + " for mod " + name() + ": " + e.getMessage());
@@ -70,12 +70,12 @@ public abstract class Mod {
         });
 
         log().info("Running " + sideName + " features for " + name());
-        composites.forEach((name, composite) -> {
-            var featureName = composite.className();
-            var feature = composite.get(side).orElse(null);
-            if (feature != null && feature.enabled()) {
+        features.forEach((name, feature) -> {
+            var featureName = feature.className();
+            var sided = feature.get(side).orElse(null);
+            if (sided != null && sided.enabled()) {
                 log().info("✔ Running feature " + featureName);
-                feature.run();
+                sided.run();
             } else {
                 log().info("✖ Not running feature " + featureName);
             }
@@ -119,31 +119,31 @@ public abstract class Mod {
         return this.config;
     }
 
-    public <F extends Feature> F feature(Class<F> clazz) {
+    public <F extends SidedFeature> F feature(Class<F> clazz) {
         return tryFeature(clazz).orElseThrow(() -> new RuntimeException("Could not resolve feature for class " + clazz));
     }
 
     @SuppressWarnings("unchecked")
-    public <F extends Feature> Optional<F> tryFeature(Class<F> clazz) {
+    public <F extends SidedFeature> Optional<F> tryFeature(Class<F> clazz) {
         F resolved = (F) classFeatures.get(clazz);
         return Optional.ofNullable(resolved);
     }
 
-    public void addFeature(Class<? extends Feature> clazz) {
+    public void addFeature(Class<? extends SidedFeature> clazz) {
         var side = clazz.getAnnotation(FeatureDefinition.class).side();
         classes.computeIfAbsent(side, a -> new LinkedList<>()).add(clazz);
     }
 
-    public void addBootStep(Feature feature, Runnable step) {
-        boots.computeIfAbsent(feature.side(), m -> new HashMap<>()).computeIfAbsent(feature, a -> new ArrayList<>()).add(step);
+    public void addBootStep(SidedFeature sidedFeature, Runnable step) {
+        boots.computeIfAbsent(sidedFeature.side(), m -> new HashMap<>()).computeIfAbsent(sidedFeature, a -> new ArrayList<>()).add(step);
     }
 
-    public List<CompositeFeature> composites() {
-        return new ArrayList<>(composites.values());
+    public List<Feature> features() {
+        return new ArrayList<>(features.values());
     }
 
-    public LinkedList<Feature> featuresForSide(Side side) {
-        return composites.values().stream()
+    public LinkedList<SidedFeature> featuresForSide(Side side) {
+        return features.values().stream()
             .map(c -> c.get(side))
             .filter(Optional::isPresent)
             .map(Optional::get)

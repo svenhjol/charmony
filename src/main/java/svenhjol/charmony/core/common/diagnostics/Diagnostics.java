@@ -3,12 +3,12 @@ package svenhjol.charmony.core.common.diagnostics;
 import svenhjol.charmony.core.annotations.Configurable;
 import svenhjol.charmony.core.annotations.FeatureDefinition;
 import svenhjol.charmony.core.base.Mod;
-import svenhjol.charmony.core.base.Feature;
+import svenhjol.charmony.core.base.SidedFeature;
 import svenhjol.charmony.core.enums.Side;
 
 @FeatureDefinition(side = Side.Common, canBeDisabled = false, description = """
     Diagnostics tools for Charmony client.""")
-public class Diagnostics extends Feature {
+public class Diagnostics extends SidedFeature {
     @Configurable(
         name = "Debug mode",
         description = "Enable debugging mode. Produces more logging output and adds some testing code."

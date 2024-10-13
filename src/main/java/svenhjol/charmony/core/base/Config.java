@@ -18,7 +18,7 @@ public final class Config {
     private final Mod mod;
     private final Log log;
     private final Map<Field, Object> defaultFieldValues = new HashMap<>();
-    private final List<Class<? extends Feature>> populatedFeatures = new ArrayList<>();
+    private final List<Class<? extends SidedFeature>> populatedFeatures = new ArrayList<>();
 
     public Config(Mod mod) {
         this.mod = mod;
@@ -26,7 +26,7 @@ public final class Config {
     }
 
     public void populate() {
-        var composites = mod.composites();
+        var features = mod.features();
 
         // Initialize a toml object for each side.
         Map<Side, Toml> configs = new HashMap<>();
@@ -39,17 +39,17 @@ public final class Config {
             configs.put(side, toml);
         }
 
-        for (var composite : composites) {
-            for (var feature : composite.all()) {
-                var side = feature.side();
+        for (var feature : features) {
+            for (var sided : feature.sides()) {
+                var side = sided.side();
                 var toml = configs.get(side);
-                var featurePath = feature.className() + ".Enabled";
-                if (toml.contains(featurePath) && feature.canBeDisabled()) {
-                    feature.enabled(toml.getBoolean(featurePath));
+                var featurePath = sided.className() + ".Enabled";
+                if (toml.contains(featurePath) && sided.canBeDisabled()) {
+                    sided.enabled(toml.getBoolean(featurePath));
                 }
 
                 // Process fields in the feature that have the @Config annotation.
-                var fields = new ArrayList<>(Arrays.asList(feature.getClass().getDeclaredFields()));
+                var fields = new ArrayList<>(Arrays.asList(sided.getClass().getDeclaredFields()));
                 for (var field : fields) {
                     try {
                         // Ignore fields that don't have the Config annotation.
@@ -67,15 +67,15 @@ public final class Config {
                         Object fieldValue = field.get(null);
                         Object configValue;
 
-                        if (!populatedFeatures.contains(feature.getClass())) {
+                        if (!populatedFeatures.contains(sided.getClass())) {
                             defaultFieldValues.put(field, fieldValue);
                         }
 
                         // Get the config values that were set in the toml file and apply them to the feature objects.
-                        if (toml.contains(feature.className())) {
+                        if (toml.contains(sided.className())) {
 
                             // Get the set of key/value pairs for this feature.
-                            var featureKeys = toml.getTable(feature.className());
+                            var featureKeys = toml.getTable(sided.className());
                             Map<String, Object> mappedKeys = new HashMap<>();
 
                             // Key names sometimes have quotes, map to remove them.
@@ -97,18 +97,18 @@ public final class Config {
                                 }
 
                                 // Set the class property.
-                                log.debug("In feature " + feature.className() + ": setting `" + fieldName + "` to `" + configValue + "`");
+                                log.debug("In feature " + sided.className() + ": setting `" + fieldName + "` to `" + configValue + "`");
                                 field.set(null, configValue);
                             }
                         }
 
                     } catch (Exception e) {
-                        log.warn("Failed to read config field in feature " + feature.className() + ": " + e.getMessage());
+                        log.warn("Failed to read config field in feature " + sided.className() + ": " + e.getMessage());
                     }
                 }
 
-                if (!populatedFeatures.contains(feature.getClass())) {
-                    populatedFeatures.add(feature.getClass());
+                if (!populatedFeatures.contains(sided.getClass())) {
+                    populatedFeatures.add(sided.getClass());
                 }
             }
         }
@@ -117,23 +117,22 @@ public final class Config {
     public void write() {
         // Blank config is appended and then written out. LinkedHashMap supplier sorts contents alphabetically.
         Map<Side, CommentedConfig> configs = new HashMap<>();
-        var composites = mod.composites();
 
-        for (var composite : composites) {
-            for (var feature : composite.all()) {
-                var config = configs.computeIfAbsent(feature.side(), o -> TomlFormat.newConfig(LinkedHashMap::new));
+        for (var feature : mod.features()) {
+            for (var sided : feature.sides()) {
+                var config = configs.computeIfAbsent(sided.side(), o -> TomlFormat.newConfig(LinkedHashMap::new));
 
-                if (feature.canBeDisabled()) {
+                if (sided.canBeDisabled()) {
                     var field = "Enabled";
-                    var description = feature.description();
-                    var configName = feature.className() + "." + field;
+                    var description = sided.description();
+                    var configName = sided.className() + "." + field;
 
                     config.setComment(configName, description);
-                    config.add(configName, feature.enabled());
+                    config.add(configName, sided.enabled());
                 }
 
                 // Get config values and write them into the toml object.
-                var fields = new ArrayList<>(Arrays.asList(feature.getClass().getDeclaredFields()));
+                var fields = new ArrayList<>(Arrays.asList(sided.getClass().getDeclaredFields()));
                 for (var field : fields) {
                     try {
                         var annotation = field.getDeclaredAnnotation(Configurable.class);
@@ -145,12 +144,12 @@ public final class Config {
                         Object fieldValue = field.get(null);
 
                         // Set the key/value pair. The "." specifies that it is nested
-                        var featureConfigName = feature.className() + "." + fieldName;
+                        var featureConfigName = sided.className() + "." + fieldName;
                         config.setComment(featureConfigName, fieldDescription);
                         config.add(featureConfigName, fieldValue);
 
                     } catch (Exception e) {
-                        log.error("Failed to write config property `" + field.getName() + "` in `" + feature.className() + "`: " + e.getMessage());
+                        log.error("Failed to write config property `" + field.getName() + "` in `" + sided.className() + "`: " + e.getMessage());
                     }
                 }
             }
@@ -175,9 +174,9 @@ public final class Config {
         });
     }
 
-    public boolean hasConfiguration(CompositeFeature composite) {
-        for (var feature : composite.all()) {
-            var fields = new ArrayList<>(Arrays.asList(feature.getClass().getDeclaredFields()));
+    public boolean hasConfiguration(Feature feature) {
+        for (var sided : feature.sides()) {
+            var fields = new ArrayList<>(Arrays.asList(sided.getClass().getDeclaredFields()));
             if (fields.stream().anyMatch(f -> f.getDeclaredAnnotation(Configurable.class) != null)) {
                 return true;
             }
@@ -185,9 +184,9 @@ public final class Config {
         return false;
     }
 
-    public boolean hasDefaultValues(CompositeFeature composite) {
-        for (var feature : composite.all()) {
-            var fields = new ArrayList<>(Arrays.asList(feature.getClass().getDeclaredFields()));
+    public boolean hasDefaultValues(Feature feature) {
+        for (var sided : feature.sides()) {
+            var fields = new ArrayList<>(Arrays.asList(sided.getClass().getDeclaredFields()));
             for (var field : fields) {
                 try {
                     var annotation = field.getDeclaredAnnotation(Configurable.class);
@@ -200,7 +199,7 @@ public final class Config {
                         return false;
                     }
                 } catch (Exception e) {
-                    log.warn("Failed to read config field in feature " + feature.className() + ": " + e.getMessage());
+                    log.warn("Failed to read config field in feature " + sided.className() + ": " + e.getMessage());
                 }
             }
         }

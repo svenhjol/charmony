@@ -1,48 +1,41 @@
 package svenhjol.charmony.core.base;
 
-import com.google.common.base.CaseFormat;
-import svenhjol.charmony.core.annotations.FeatureDefinition;
 import svenhjol.charmony.core.enums.Side;
 
-@SuppressWarnings("unused")
-public abstract class Feature {
-    private final Mod mod;
-    private final Log log;
+import java.util.*;
 
-    private boolean enabled;
+/**
+ * Holder for sidedFeature instances.
+ * Use get(side) to get a specific sided feature and sides() for all sided features.
+ */
+public final class Feature {
+    private final Log log;
+    private final Mod mod;
+    private final Map<Side, SidedFeature> features = new HashMap<>();
 
     public Feature(Mod mod) {
         this.mod = mod;
-        this.log = new Log(mod.id(), className());
-        this.enabled = enabledByDefault();
+        this.log = mod.log();
+    }
+
+    public void enabled(boolean state) {
+        features.values().forEach(f -> f.enabled(state));
+    }
+
+    public boolean enabled() {
+        return features.values().stream().anyMatch(SidedFeature::enabled);
+    }
+
+    public boolean enabledByDefault() {
+        return features.values().stream().anyMatch(SidedFeature::enabledByDefault);
+    }
+
+    public boolean canBeDisabled() {
+        return features.values().stream().anyMatch(SidedFeature::canBeDisabled);
     }
 
     public Mod mod() {
-        return mod;
-    }
-
-    /**
-     * Returns a pretty-format version of the feature name.
-     * For example, "CharmonySettings" becomes "Charmony settings".
-     * Use className() for the pascal-case feature name.
-     * @return Pretty-format feature name.
-     */
-    public String name() {
-        var name = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, className());
-        var first = name.substring(0, 1);
-        return first.toUpperCase() + name.replace("_", " ").substring(1);
-    }
-
-    /**
-     * Pascal-case feature name.
-     * @return Pascal-case feature name.
-     */
-    public String className() {
-        return this.getClass().getSimpleName();
-    }
-
-    public String description() {
-        return annotation().description();
+        return this.mod;
     }
 
     public Log log() {
@@ -53,35 +46,56 @@ public abstract class Feature {
         return mod().config();
     }
 
-    public boolean enabled() {
-        return enabled;
+    /**
+     * Pretty-format feature name.
+     * Use className() for the pascal-case feature name.
+     * @return Pretty-format feature name.
+     */
+    public String name() {
+        return getFirst().name();
     }
 
-    public void enabled(boolean flag) {
-        this.enabled = flag;
+    /**
+     * Pascal-case feature name.
+     * @return Pascal-case feature name.
+     */
+    public String className() {
+        return getFirst().className();
     }
 
-    public boolean enabledByDefault() {
-        return annotation().enabledByDefault();
+    public String description() {
+        return getFirst().description();
     }
 
-    public boolean canBeDisabled() {
-        return annotation().canBeDisabled();
+    public void put(Side side, SidedFeature sidedFeature) {
+        features.put(side, sidedFeature);
     }
 
-    public void run() {
-        // no op
+    public Optional<SidedFeature> get(Side side) {
+        return Optional.ofNullable(features.get(side));
     }
 
-    public Side side() {
-        return annotation().side();
-    }
-
-    private FeatureDefinition annotation() {
-        var annotation = getClass().getAnnotation(FeatureDefinition.class);
-        if (annotation == null) {
-            throw new RuntimeException("Feature " + getClass() + " is missing annotation");
+    public SidedFeature getFirst() {
+        var first = sides().getFirst();
+        if (first == null) {
+            throw new RuntimeException("No sided features in this feature.");
         }
-        return annotation;
+        return first;
+    }
+
+    public List<SidedFeature> sides() {
+        return new ArrayList<>(features.values());
+    }
+
+    public Optional<SidedFeature> client() {
+        return get(Side.Client);
+    }
+
+    public Optional<SidedFeature> common() {
+        return get(Side.Common);
+    }
+
+    public Optional<SidedFeature> server() {
+        return get(Side.Server);
     }
 }

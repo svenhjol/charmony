@@ -23,7 +23,7 @@ public class ModsList extends AbstractSelectionList<ModsList.Entry> {
 
         for (var mod : mods()) {
             // Don't show a button for the mod if it has no features.
-            if (mod.composites().isEmpty()) continue;
+            if (mod.features().isEmpty()) continue;
 
             var entry = new Entry(mod);
             entries.add(entry);

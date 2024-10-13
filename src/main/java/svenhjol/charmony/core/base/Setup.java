@@ -1,7 +1,7 @@
 package svenhjol.charmony.core.base;
 
 
-public abstract class Setup<F extends Feature> {
+public abstract class Setup<F extends SidedFeature> {
     private final F feature;
 
     public Setup(F feature) {

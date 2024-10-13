@@ -9,7 +9,7 @@ import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import svenhjol.charmony.core.base.CompositeFeature;
+import svenhjol.charmony.core.base.Feature;
 import svenhjol.charmony.core.base.Mod;
 import svenhjol.charmony.core.helper.TextHelper;
 
@@ -23,18 +23,18 @@ public class FeaturesList extends AbstractSelectionList<FeaturesList.Entry> {
     private final FeaturesScreen parent;
     private final String modId;
     private final List<Entry> entries = new ArrayList<>();
-    private final List<CompositeFeature> features = new ArrayList<>();
+    private final List<Feature> features = new ArrayList<>();
 
     public FeaturesList(Minecraft minecraft, String modId, FeaturesScreen parent) {
         super(minecraft, parent.width, parent.layout().getContentHeight(), parent.layout().getHeaderHeight(), 25);
         this.parent = parent;
         this.modId = modId;
 
-        for (var composite : composites()) {
+        for (var feature : features()) {
             // Don't show a button for the feature if it has no configurable elements.
-            if (!composite.config().hasConfiguration(composite)) continue;
+            if (!feature.config().hasConfiguration(feature)) continue;
 
-            var entry = new Entry(composite);
+            var entry = new Entry(feature);
             entries.add(entry);
             addEntry(entry); // The vanilla method.
         }
@@ -59,17 +59,17 @@ public class FeaturesList extends AbstractSelectionList<FeaturesList.Entry> {
         return super.getMaxPosition() + SettingsScreen.CONTENT_BOTTOM_MARGIN;
     }
 
-    protected List<CompositeFeature> composites() {
+    protected List<Feature> features() {
         if (features.isEmpty()) {
             var mod = Mod.get(modId);
             if (mod.isEmpty()) return List.of();
-            features.addAll(mod.get().composites());
+            features.addAll(mod.get().features());
         }
         return features;
     }
 
     public class Entry extends AbstractSelectionList.Entry<Entry> {
-        private final CompositeFeature composite;
+        private final Feature feature;
         private final ImageButton enableButton;
         private final ImageButton disableButton;
         private final ImageButton configureButton;
@@ -79,8 +79,8 @@ public class FeaturesList extends AbstractSelectionList<FeaturesList.Entry> {
 
         private boolean hasDefaultValues = false;
 
-        public Entry(CompositeFeature composite) {
-            this.composite = composite;
+        public Entry(Feature feature) {
+            this.feature = feature;
 
             this.enableButton = new ImageButton(0, 0, 20, 20,
                 FeaturesScreen.ENABLE_BUTTON, button -> enable());
@@ -91,9 +91,9 @@ public class FeaturesList extends AbstractSelectionList<FeaturesList.Entry> {
             this.configureButton = new ImageButton(0, 0, 20, 20,
                 FeaturesScreen.CONFIG_BUTTON, button -> configure());
 
-            this.enableButtonTooltip = Tooltip.create(Component.translatable("gui.charmony.settings.enable_feature", this.composite.className()));
-            this.disableButtonTooltip = Tooltip.create(Component.translatable("gui.charmony.settings.disable_feature", this.composite.className()));
-            this.configureButtonTooltip = Tooltip.create(Component.translatable("gui.charmony.settings.configure_feature", this.composite.className()));
+            this.enableButtonTooltip = Tooltip.create(Component.translatable("gui.charmony.settings.enable_feature", this.feature.className()));
+            this.disableButtonTooltip = Tooltip.create(Component.translatable("gui.charmony.settings.disable_feature", this.feature.className()));
+            this.configureButtonTooltip = Tooltip.create(Component.translatable("gui.charmony.settings.configure_feature", this.feature.className()));
 
             refreshState();
         }
@@ -106,11 +106,11 @@ public class FeaturesList extends AbstractSelectionList<FeaturesList.Entry> {
             enableButton.visible = false;
             enableButton.active = false;
 
-            if (!composite.canBeDisabled()) {
+            if (!feature.canBeDisabled()) {
                 disableButton.visible = true;
                 disableButton.active = false;
                 enableButton.active = false;
-            } else if (composite.enabled()) {
+            } else if (feature.enabled()) {
                 disableButton.visible = true;
                 disableButton.active = true;
             } else {
@@ -118,15 +118,15 @@ public class FeaturesList extends AbstractSelectionList<FeaturesList.Entry> {
                 enableButton.active = true;
             }
 
-            if (composite.enabled())  {
+            if (feature.enabled())  {
                 configureButton.active = true;
             }
 
-            hasDefaultValues = composite.mod().config().hasDefaultValues(composite);
+            hasDefaultValues = feature.mod().config().hasDefaultValues(feature);
         }
 
         private void setStateAndUpdate(boolean state) {
-            composite.enabled(state);
+            feature.enabled(state);
             writeConfig();
             refreshState();
             FeaturesList.this.parent.requiresRestart();
@@ -141,11 +141,11 @@ public class FeaturesList extends AbstractSelectionList<FeaturesList.Entry> {
         }
 
         private void configure() {
-            minecraft.setScreen(new FeatureConfigScreen(composite, parent));
+            minecraft.setScreen(new FeatureConfigScreen(feature, parent));
         }
 
         private void writeConfig() {
-            composite.mod().config().write();
+            feature.mod().config().write();
         }
 
         /**
@@ -178,28 +178,28 @@ public class FeaturesList extends AbstractSelectionList<FeaturesList.Entry> {
             int buttonY = y - 2;
 
             var font = FeaturesList.this.minecraft.font;
-            var color = composite.enabled() ? 0xffffff : 0x808080; // Mute feature name color if disabled
-            var name = Component.literal(composite.name());
-            var descriptionLines = TextHelper.toComponents(composite.description(), 48);
+            var color = feature.enabled() ? 0xffffff : 0x808080; // Mute feature name color if disabled
+            var name = Component.literal(feature.name());
+            var descriptionLines = TextHelper.toComponents(feature.description(), 48);
             var nameWidth = font.width(name);
             var textLeft = offsetX + 5;
             var textTop = y + 2;
 
             // Show that the feature is not using default values.
-            if (composite.enabled() && !hasDefaultValues) {
+            if (feature.enabled() && !hasDefaultValues) {
                 name = name.withStyle(ChatFormatting.YELLOW);
                 descriptionLines.add(NOT_USING_DEFAULTS.withStyle(ChatFormatting.YELLOW));
             }
 
             // Add message to tooltip if feature is disabled.
-            if (!composite.enabled()) {
+            if (!feature.enabled()) {
                 descriptionLines.add(FEATURE_IS_DISABLED.withStyle(ChatFormatting.DARK_GRAY));
             }
 
             // Prepend the feature name to the description lines.
             descriptionLines.addFirst(name.copy()
                 .withStyle(ChatFormatting.BOLD)
-                .withStyle(composite.enabled() ? ChatFormatting.GOLD : ChatFormatting.GRAY));
+                .withStyle(feature.enabled() ? ChatFormatting.GOLD : ChatFormatting.GRAY));
 
             guiGraphics.drawString(font, name, offsetX + 5, y + 2, color);
 

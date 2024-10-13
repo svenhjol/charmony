@@ -8,7 +8,6 @@ import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import svenhjol.charmony.core.annotations.Configurable;
-import svenhjol.charmony.core.base.CompositeFeature;
 import svenhjol.charmony.core.base.Feature;
 import svenhjol.charmony.core.base.Log;
 import svenhjol.charmony.core.helper.TextHelper;
@@ -18,16 +17,16 @@ import java.util.*;
 
 public class FeatureConfigList extends AbstractSelectionList<FeatureConfigList.Entry> {
     private static final Log LOGGER = new Log("FeatureConfigList");
-    private final CompositeFeature composite;
+    private final Feature feature;
     private final FeatureConfigScreen parent;
     private final Map<Field, Entry> entries = new HashMap<>();
     private final Map<Field, Object> newValues = new HashMap<>();
     private boolean requiresRestart = false;
     private int extraScrollHeight = 0;
 
-    public FeatureConfigList(CompositeFeature composite, Minecraft minecraft, int width, FeatureConfigScreen parent) {
+    public FeatureConfigList(Feature feature, Minecraft minecraft, int width, FeatureConfigScreen parent) {
         super(minecraft, width, parent.layout().getContentHeight() - parent.layout().getFooterHeight() + 10, parent.layout().getHeaderHeight(), 25);
-        this.composite = composite;
+        this.feature = feature;
         this.parent = parent;
         this.readConfig();
     }
@@ -53,8 +52,8 @@ public class FeatureConfigList extends AbstractSelectionList<FeatureConfigList.E
     }
 
     public void readConfig() {
-        for (Feature feature : composite.all()) {
-            var fields = new ArrayList<>(Arrays.asList(feature.getClass().getDeclaredFields()));
+        for (var side : feature.sides()) {
+            var fields = new ArrayList<>(Arrays.asList(side.getClass().getDeclaredFields()));
             for (var field : fields) {
                 try {
                     var annotation = field.getDeclaredAnnotation(Configurable.class);
@@ -104,7 +103,7 @@ public class FeatureConfigList extends AbstractSelectionList<FeatureConfigList.E
             }
         }
 
-        var mod = composite.mod();
+        var mod = feature.mod();
         mod.config().write();
     }
 
@@ -401,8 +400,7 @@ public class FeatureConfigList extends AbstractSelectionList<FeatureConfigList.E
             this.annotation = field.getDeclaredAnnotation(Configurable.class);
 
             // Try and get the default value for this config item.
-            var composite = FeatureConfigList.this.composite;
-            defaultVal = composite.mod().config().defaultValue(field).orElse(null);
+            defaultVal = FeatureConfigList.this.feature.mod().config().defaultValue(field).orElse(null);
 
             try {
                 val = field.get(null);
