@@ -20,7 +20,7 @@ public abstract class Mod {
 
     public Mod() {
         this.config = new Config(this);
-        this.log = new Log(id(), name());
+        this.log = new Log(id(), "Mod");
         REGISTERED.put(id(), this);
     }
 
