@@ -4,7 +4,7 @@
   "version": "${mod_version}",
 
   "name": "Charmony (nano)",
-  "description": "Scaffolding for Charmony client mods.",
+  "description": "Core library for Charmony client mods.",
   "authors": [
     "svenhjol"
   ],
@@ -19,10 +19,10 @@
 
   "entrypoints": {
     "main": [
-      "svenhjol.charmony.scaffold.common.CommonInitializer"
+      "svenhjol.charmony.core.common.CommonInitializer"
     ],
     "client": [
-      "svenhjol.charmony.scaffold.client.ClientInitializer"
+      "svenhjol.charmony.core.client.ClientInitializer"
     ]
   },
 
