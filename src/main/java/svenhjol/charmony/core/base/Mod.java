@@ -28,8 +28,10 @@ public abstract class Mod {
         return Optional.ofNullable(REGISTERED.get(id));
     }
 
-    public static List<Mod> all() {
-        return new ArrayList<>(REGISTERED.values());
+    public static LinkedList<Mod> all() {
+        var values = new LinkedList<>(REGISTERED.values());
+        values.sort(Comparator.comparing(Mod::name));
+        return values;
     }
 
     public void run(Side side) {
