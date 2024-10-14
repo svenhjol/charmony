@@ -2,22 +2,19 @@ package svenhjol.charmony.core.client.control_panel;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.AbstractSelectionList;
-import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.Tooltip;
+import net.minecraft.client.gui.components.*;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import svenhjol.charmony.core.base.Mod;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class ModsList extends AbstractSelectionList<ModsList.Entry> {
     private final ModsScreen parent;
     private final List<Entry> entries = new ArrayList<>();
     private final List<Mod> mods = new LinkedList<>();
+    private final Map<String, WidgetSprites> modIconButtons = new HashMap<>();
 
     public ModsList(Minecraft minecraft, ModsScreen parent) {
         super(minecraft, parent.width, parent.layout().getContentHeight(), parent.layout().getHeaderHeight(), 25);
@@ -26,6 +23,8 @@ public class ModsList extends AbstractSelectionList<ModsList.Entry> {
         for (var mod : mods()) {
             // Don't show a button for the mod if it has no features.
             if (mod.features().isEmpty()) continue;
+
+            modIconButtons.put(mod.id(), makeIconButton(mod));
 
             var entry = new Entry(mod);
             entries.add(entry);
@@ -62,14 +61,19 @@ public class ModsList extends AbstractSelectionList<ModsList.Entry> {
 
     public class Entry extends AbstractSelectionList.Entry<Entry> {
         private final Mod mod;
-        private final Button modButton;
+        private final ImageButton modIconButton;
+        private final Button modNameButton;
 
         public Entry(Mod mod) {
             this.mod = mod;
-            this.modButton = Button.builder(Component.literal(mod.name()),
+            this.modNameButton = Button.builder(Component.literal(mod.name()),
                 button -> configure()).build();
+            this.modIconButton = new ImageButton(0, 0, 18, 18,
+                modIconButtons.get(mod.id()), button -> configure());
+
             Tooltip modTooltip = Tooltip.create(Component.literal(mod.description()));
-            this.modButton.setTooltip(modTooltip);
+            this.modNameButton.setTooltip(modTooltip);
+            this.modIconButton.setTooltip(modTooltip);
         }
 
         public void refreshState() {
@@ -80,10 +84,16 @@ public class ModsList extends AbstractSelectionList<ModsList.Entry> {
         public void render(GuiGraphics guiGraphics, int i, int y, int offsetX, int l, int m, int mouseX, int mouseY, boolean bl, float tickDelta) {
             y += SettingsScreen.CONTENT_TOP_MARGIN;
 
-            int buttonX = ModsList.this.width / 2 - (modButton.getWidth() / 2);
-            int buttonY = y - 2;
-            modButton.setPosition(buttonX, buttonY);
-            modButton.render(guiGraphics, mouseX, mouseY, tickDelta);
+            int nameButtonX = ModsList.this.width / 2 - (modNameButton.getWidth() / 2) + 10;
+            int nameButtonY = y - 2;
+
+            // Name button.
+            modNameButton.setPosition(nameButtonX, nameButtonY);
+            modNameButton.render(guiGraphics, mouseX, mouseY, tickDelta);
+
+            // Mod icon next to the button.
+            modIconButton.setPosition(nameButtonX - 22, nameButtonY + 1);
+            modIconButton.render(guiGraphics, mouseX, mouseY, tickDelta);
         }
 
         /**
@@ -91,8 +101,8 @@ public class ModsList extends AbstractSelectionList<ModsList.Entry> {
          */
         @Override
         public boolean mouseClicked(double mouseX, double mouseY, int button) {
-            if (modButton.isMouseOver(mouseX, mouseY)) {
-                modButton.mouseClicked(mouseX, mouseY, button);
+            if (modNameButton.isMouseOver(mouseX, mouseY)) {
+                modNameButton.mouseClicked(mouseX, mouseY, button);
                 return false;
             }
             return super.mouseClicked(mouseX, mouseY, button);
@@ -101,5 +111,12 @@ public class ModsList extends AbstractSelectionList<ModsList.Entry> {
         private void configure() {
             minecraft.setScreen(new FeaturesScreen(mod, parent));
         }
+    }
+
+    protected static WidgetSprites makeIconButton(Mod mod) {
+        return new WidgetSprites(
+            ResourceLocation.fromNamespaceAndPath(mod.id(), "icon"),
+            ResourceLocation.fromNamespaceAndPath(mod.id(), "icon")
+        );
     }
 }
