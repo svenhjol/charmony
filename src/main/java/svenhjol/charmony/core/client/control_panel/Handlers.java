@@ -4,44 +4,59 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.SpriteIconButton;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.TitleScreen;
+import net.minecraft.client.gui.screens.options.OptionsScreen;
 import net.minecraft.network.chat.Component;
 import svenhjol.charmony.core.base.Setup;
 
 public class Handlers extends Setup<ControlPanel> {
+    public static final Component SETTINGS_TOOLTIP = Component.translatable("gui.charmony.settings.settings");
     public Handlers(ControlPanel feature) {
         super(feature);
     }
 
     public void clientTick(Minecraft minecraft) {
         if (minecraft.player != null) return;
+
         var parent = minecraft.screen;
+        var button = feature().registers.settingsButton;
+        button.setTooltip(Tooltip.create(SETTINGS_TOOLTIP));
 
-        if (parent instanceof TitleScreen) {
-            var button = feature().registers.settingsButton;
+        int x = 0;
+        int y = 0;
+
+        if (feature().showButtonOnTitleScreen() && parent instanceof TitleScreen) {
             var children = parent.children();
-            if (!children.contains(button)) {
-                int x;
-                int y;
+            var accessibilityButton = children.stream()
+                .filter(b -> b instanceof SpriteIconButton s && s.sprite.getPath().equals("icon/accessibility"))
+                .map(b -> (SpriteIconButton)b)
+                .findFirst()
+                .orElse(null);
 
-                SpriteIconButton accessibilityButton = children.stream()
-                    .filter(b -> b instanceof SpriteIconButton s && s.sprite.getPath().equals("icon/accessibility"))
-                    .map(b -> (SpriteIconButton)b)
-                    .findFirst()
-                    .orElse(null);
-
-                if (accessibilityButton != null) {
-                    x = accessibilityButton.getX() + 24;
-                    y = accessibilityButton.getY();
-                } else {
-                    x = (parent.width / 2) + 128;
-                    y = (parent.height / 4) + 132;
-                }
-
-                parent.addRenderableWidget(button);
-                var tooltip = Tooltip.create(Component.translatable("gui.charmony.settings.settings"));
-                button.setPosition(x, y);
-                button.setTooltip(tooltip);
+            if (accessibilityButton != null) {
+                x = accessibilityButton.getX() + 24;
+                y = accessibilityButton.getY();
+            } else {
+                x = (parent.width / 2) + 128;
+                y = (parent.height / 4) + 132;
             }
+
+            if (!children.contains(button)) {
+                parent.addRenderableWidget(button);
+            }
+        }
+
+        if (feature().showButtonOnOptionsScreen() && parent instanceof OptionsScreen) {
+            var children = parent.children();
+            x = parent.width - 26;
+            y = parent.height - 26;
+
+            if (!children.contains(button)) {
+                parent.addRenderableWidget(button);
+            }
+        }
+
+        if (x > 0 && y > 0) {
+            button.setPosition(x, y);
         }
     }
 
