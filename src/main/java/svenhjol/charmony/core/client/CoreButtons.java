@@ -7,6 +7,7 @@ import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.network.chat.Component;
 import svenhjol.charmony.core.Charmony;
 
+@SuppressWarnings("unused")
 public final class CoreButtons {
     public static final WidgetSprites NEXT_PAGE_BUTTON = makeButton("next_page");
     public static final WidgetSprites PREVIOUS_PAGE_BUTTON = makeButton("previous_page");
