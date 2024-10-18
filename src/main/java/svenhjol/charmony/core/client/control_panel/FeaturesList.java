@@ -31,9 +31,6 @@ public class FeaturesList extends AbstractSelectionList<FeaturesList.Entry> {
         this.mod = mod;
 
         for (var feature : features()) {
-            // Don't show a button for the feature if it has no configurable elements.
-            if (!feature.config().hasConfiguration(feature)) continue;
-
             var entry = new Entry(feature);
             entries.add(entry);
             addEntry(entry); // The vanilla method.
@@ -116,7 +113,7 @@ public class FeaturesList extends AbstractSelectionList<FeaturesList.Entry> {
                 enableButton.active = true;
             }
 
-            if (feature.enabled())  {
+            if (feature.enabled() && feature.mod().config().hasConfiguration(feature))  {
                 configureButton.active = true;
             }
 
