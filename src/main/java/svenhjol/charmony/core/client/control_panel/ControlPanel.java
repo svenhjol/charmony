@@ -20,8 +20,8 @@ public final class ControlPanel extends SidedFeature {
     private static boolean showButtonOnTitleScreen = true;
 
     @Configurable(
-        name = "Show control panel button on options screen",
-        description = "If true, the control panel button will be shown on the options screen.",
+        name = "Show control panel button on in-game options screen",
+        description = "If true, the control panel button will be shown on the options screen after joining a world.",
         requireRestart = false
     )
     private static boolean showButtonOnOptionsScreen = true;

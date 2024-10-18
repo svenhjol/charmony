@@ -15,8 +15,6 @@ public class Handlers extends Setup<ControlPanel> {
     }
 
     public void clientTick(Minecraft minecraft) {
-        if (minecraft.player != null) return;
-
         var parent = minecraft.screen;
         var button = feature().registers.settingsButton;
         button.setTooltip(Tooltip.create(SETTINGS_TOOLTIP));
@@ -46,6 +44,7 @@ public class Handlers extends Setup<ControlPanel> {
         }
 
         if (feature().showButtonOnOptionsScreen() && parent instanceof OptionsScreen) {
+            if (minecraft.player == null) return;
             var children = parent.children();
             x = parent.width - 26;
             y = parent.height - 26;
