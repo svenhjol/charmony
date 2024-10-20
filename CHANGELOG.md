@@ -1,5 +1,22 @@
 # Changelog
 
+## 1.6.2
+
+- Control panel only shows on in-game options.
+
+## 1.6.1
+
+- Show control panel feature even if it doesn't have config options.
+
+## 1.6.0
+
+- Build for 1.12.2-rc1
+- Add control panel button to options screen.
+
+## 1.5.0
+
+- Build for 1.12.2-pre5
+
 ## 1.4.2
 
 - Control panel mods list now shows mod icon.
