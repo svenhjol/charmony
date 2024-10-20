@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.4.2
+
+- Control panel mods list now shows mod icon.
+- Update to loom 1.8.
+
+## 1.4.0-1
+
+- Control panel to adjust charmony mod settings in-game.
+- Rename "scaffold" to "core".
+- Add composite feature, move default feature to sided feature.
+- Change some log suffixes.
+- Update logo.
+
 ## 1.3.3
 
 - Variable pack version

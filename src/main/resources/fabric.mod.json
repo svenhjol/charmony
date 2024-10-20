@@ -4,21 +4,25 @@
   "version": "${mod_version}",
 
   "name": "Charmony",
-  "description": "Scaffolding for Charmony mods.",
+  "description": "Core library for Charmony mods.",
   "authors": [
     "svenhjol"
   ],
-  "icon": "icon.png",
+  "icon": "assets/charmony/textures/gui/sprites/icon.png",
 
   "license": "MIT",
   "environment": "client",
   "mixins": [
     "charmony.mixins.json"
   ],
+  "accessWidener": "charmony-nano.accesswidener",
 
   "entrypoints": {
+    "main": [
+      "svenhjol.charmony.core.common.CommonInitializer"
+    ],
     "client": [
-      "svenhjol.charmony.scaffold.fabric.ClientInitializer"
+      "svenhjol.charmony.core.client.ClientInitializer"
     ]
   },
 
