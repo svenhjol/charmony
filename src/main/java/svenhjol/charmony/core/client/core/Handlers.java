@@ -36,6 +36,11 @@ public class Handlers extends Setup<Core> {
     }
 
     public void clientTick(Minecraft minecraft) {
+        if (minecraft.player == null) {
+            // Not in game, ignore.
+            return;
+        }
+
         if (!hasCheckedCharmonyServer) {
             if (usesCharmonyServer) {
                 feature().log().debug("""

@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.7.1
+
+- Rename diagnostics
+- Network checking
+- Fix todos in mixin config
+- Add config stub for forcing client mode
+
 ## 1.7.0
 
 - Build for 1.21.3
