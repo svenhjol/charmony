@@ -15,24 +15,20 @@ import svenhjol.charmony.core.enums.Side;
 
 import java.io.File;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Predicate;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "OptionalUsedAsFieldOrParameterType"})
 public abstract class BaseMixinConfig implements IMixinConfigPlugin {
     protected static final String FEATURES = "features";
     protected static final String ACCESSORS = "accesors";
     protected static final Logger LOGGER = LogManager.getLogger("MixinConfig");
 
-    protected String mixinPackage;
     protected final List<String> blacklist = new ArrayList<>();
-    protected boolean hasCheckedDebugConfig = false;
-    protected boolean hasCheckedMixinDisableConfig = false;
-    protected boolean cachedDebugValue = false;
-    protected boolean cachedMixinDisableValue = false;
+    protected String mixinPackage;
+    protected Optional<Boolean> clientMode = Optional.empty();
+    protected Optional<Boolean> debugMode = Optional.empty();
+    protected Optional<Boolean> mixinDisableMode = Optional.empty();
 
     @Override
     public void onLoad(String mixinPackage) {
@@ -161,39 +157,32 @@ public abstract class BaseMixinConfig implements IMixinConfigPlugin {
      * @return The value of mixin disable mode.
      */
     protected boolean isMixinDisableMode() {
-        if (!hasCheckedMixinDisableConfig) {
-            var configFile = Paths.get(FabricLoader.getInstance().getConfigDir() + File.separator + Charmony.ID + "-common.toml").toFile();
-            if (!configFile.exists()) return false;
-            var handle = new Toml();
-            var toml = handle.read(configFile);
-            var key = "Diagnostics.\"" + Environment.MIXIN_DISABLE_MODE + "\"";
-            if (toml.contains(key)) {
-                cachedMixinDisableValue = toml.getBoolean(key);
-            }
-            hasCheckedMixinDisableConfig = true;
+        if (mixinDisableMode.isEmpty()) {
+            mixinDisableMode = tryReadFromCoreConfig(Side.Common, Environment.MIXIN_DISABLE_MODE);
         }
+        return mixinDisableMode.orElse(false);
+    }
 
-        return cachedMixinDisableValue;
+    /**
+     * Read the "client mode" value from the charmony config file as early as possible.
+     * @return The value of client mode.
+     */
+    protected boolean isClientMode() {
+        if (clientMode.isEmpty()) {
+            clientMode = tryReadFromCoreConfig(Side.Common, Environment.CLIENT_MODE);
+        }
+        return clientMode.orElse(false);
     }
 
     /**
      * Read the "debug mode" value from the charmony config file as early as possible.
-     * @return The value of debig mode.
+     * @return The value of debug mode.
      */
     protected boolean isDebugMode() {
-        if (!hasCheckedDebugConfig) {
-            var configFile = Paths.get(FabricLoader.getInstance().getConfigDir() + File.separator + Charmony.ID + "-common.toml").toFile();
-            if (!configFile.exists()) return false;
-            var handle = new Toml();
-            var toml = handle.read(configFile);
-            var key = "Diagnostics.\"" + Environment.DEBUG_MODE + "\"";
-            if (toml.contains(key)) {
-                cachedDebugValue = toml.getBoolean(key);
-            }
-            hasCheckedDebugConfig = true;
+        if (debugMode.isEmpty()) {
+            debugMode = tryReadFromCoreConfig(Side.Common, Environment.DEBUG_MODE);
         }
-
-        return cachedDebugValue;
+        return debugMode.orElse(false);
     }
 
     protected boolean enabledInConfig(String featureName) {
@@ -231,8 +220,7 @@ public abstract class BaseMixinConfig implements IMixinConfigPlugin {
         }
 
         for (var side : Side.values()) {
-            // @todo Move this to helper.
-            var configFile = Paths.get(FabricLoader.getInstance().getConfigDir() + File.separator + modId() + "-" + side.getSerializedName() + ".toml").toFile();
+            var configFile = getConfigFile(side);
 
             if (!configFile.exists()) {
                 continue;
@@ -249,5 +237,26 @@ public abstract class BaseMixinConfig implements IMixinConfigPlugin {
         }
 
         return feature.enabledByDefault();
+    }
+
+    private Optional<Boolean> tryReadFromCoreConfig(Side side, String key) {
+        var configFile = getConfigFile(side);
+
+        if (configFile.exists()) {
+            var handle = new Toml();
+            var toml = handle.read(configFile);
+            var configKey = "Core.\"" + key + "\"";
+            if (toml.contains(configKey)) {
+                return Optional.of(toml.getBoolean(configKey));
+            }
+        }
+
+        return Optional.empty();
+    }
+
+    private File getConfigFile(Side side) {
+        var sideName = side.getSerializedName();
+        var configDir = FabricLoader.getInstance().getConfigDir();
+        return Paths.get(configDir + File.separator + Charmony.ID + "-" + sideName + ".toml").toFile();
     }
 }

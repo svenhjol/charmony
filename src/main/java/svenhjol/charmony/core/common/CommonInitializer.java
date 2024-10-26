@@ -2,7 +2,7 @@ package svenhjol.charmony.core.common;
 
 import net.fabricmc.api.ModInitializer;
 import svenhjol.charmony.core.Charmony;
-import svenhjol.charmony.core.common.diagnostics.Diagnostics;
+import svenhjol.charmony.core.common.core.Core;
 import svenhjol.charmony.core.enums.Side;
 
 public class CommonInitializer implements ModInitializer {
@@ -13,11 +13,14 @@ public class CommonInitializer implements ModInitializer {
         init();
     }
 
+    /**
+     * We expose init() so that child mods can ensure that Charmony gets launched first.
+     */
     public static void init() {
         if (initialized) return;
 
         var charmony = Charmony.instance();
-        charmony.addFeature(Diagnostics.class);
+        charmony.addFeature(Core.class);
         charmony.run(Side.Common);
 
         initialized = true;

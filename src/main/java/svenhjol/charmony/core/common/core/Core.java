@@ -1,5 +1,6 @@
-package svenhjol.charmony.core.common.diagnostics;
+package svenhjol.charmony.core.common.core;
 
+import svenhjol.charmony.core.Charmony;
 import svenhjol.charmony.core.annotations.Configurable;
 import svenhjol.charmony.core.annotations.FeatureDefinition;
 import svenhjol.charmony.core.base.Mod;
@@ -7,8 +8,18 @@ import svenhjol.charmony.core.base.SidedFeature;
 import svenhjol.charmony.core.enums.Side;
 
 @FeatureDefinition(side = Side.Common, canBeDisabled = false, description = """
-    Diagnostics tools for Charmony client.""")
-public final class Diagnostics extends SidedFeature {
+    Core functionality and settings.""")
+public final class Core extends SidedFeature {
+    public final Registers registers;
+    public final Handlers handlers;
+    public final Networking networking;
+
+    @Configurable(
+        name = "Client mode",
+        description = "Force client mode. Disables all common and server mixins and features."
+    )
+    private static boolean clientMode = false;
+
     @Configurable(
         name = "Debug mode",
         description = "Enable debugging mode. Produces more logging output and adds some testing code."
@@ -23,8 +34,19 @@ public final class Diagnostics extends SidedFeature {
     )
     private static boolean mixinsDisableMode = false;
 
-    public Diagnostics(Mod mod) {
+    public Core(Mod mod) {
         super(mod);
+        registers = new Registers(this);
+        handlers = new Handlers(this);
+        networking = new Networking(this);
+    }
+
+    public static Core feature() {
+        return Charmony.instance().feature(Core.class);
+    }
+
+    public boolean clientMode() {
+        return clientMode;
     }
 
     public boolean debugMode() {
