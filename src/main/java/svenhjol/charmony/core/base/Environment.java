@@ -25,7 +25,7 @@ public final class Environment {
     }
 
     public static boolean isDebugMode() {
-        return isDevEnvironment() || Charmony.instance().tryFeature(Core.class)
+        return Charmony.instance().tryFeature(Core.class)
             .map(Core::debugMode).orElse(false);
     }
 

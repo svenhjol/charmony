@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.7.4
+
+- Disable dev environment check for debug.
+- Charmony server type message will now show in default log.
+
 ## 1.7.3
 
 - Use common environment

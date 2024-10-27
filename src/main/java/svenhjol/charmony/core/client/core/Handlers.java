@@ -43,7 +43,7 @@ public class Handlers extends Setup<Core> {
 
         if (!hasCheckedCharmonyServer) {
             if (usesCharmonyServer) {
-                feature().log().debug("""
+                feature().log().info("""
                     
                     ----------------------------------------------
                     Your client is connected to a charmony server.
@@ -52,7 +52,7 @@ public class Handlers extends Setup<Core> {
                 hasCheckedCharmonyServer = true;
             }
             if (!usesCharmonyServer && ticksSinceLogin++ > 20) {
-                feature().log().debug("""
+                feature().log().info("""
                     
                     ----------------------------------------------
                     Your client is connected to a vanilla server.
