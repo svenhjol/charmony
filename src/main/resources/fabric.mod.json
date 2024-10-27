@@ -11,7 +11,7 @@
   "icon": "assets/charmony/textures/gui/sprites/icon.png",
 
   "license": "MIT",
-  "environment": "client",
+  "environment": "*",
   "mixins": [
     "charmony.mixins.json"
   ],
