@@ -1,5 +1,6 @@
 package svenhjol.charmony.core.base;
 
+import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
 import svenhjol.charmony.core.Charmony;
 import svenhjol.charmony.core.common.core.Core;
@@ -31,5 +32,15 @@ public final class Environment {
     public static boolean isMixinDisableMode() {
         return Charmony.instance().tryFeature(Core.class)
             .map(Core::mixinsDisabled).orElse(false);
+    }
+
+    /**
+     * Checks if the client is using a charmony server.
+     * Don't call this on the server!
+     */
+    @net.fabricmc.api.Environment(EnvType.CLIENT)
+    public static boolean usesCharmonyServer() {
+        return Charmony.instance().tryFeature(svenhjol.charmony.core.client.core.Core.class)
+            .map(c -> c.handlers.usesCharmonyServer()).orElse(false);
     }
 }

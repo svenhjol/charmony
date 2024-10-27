@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.7.2
+
+- Helper method for the client to check if it's running on a charmony server.
+
 ## 1.7.1
 
 - Rename diagnostics
