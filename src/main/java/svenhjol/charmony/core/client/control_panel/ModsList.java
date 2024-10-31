@@ -21,9 +21,6 @@ public class ModsList extends AbstractSelectionList<ModsList.Entry> {
         this.parent = parent;
 
         for (var mod : mods()) {
-            // Don't show a button for the mod if it has no features.
-            if (mod.features().isEmpty()) continue;
-
             modIconButtons.put(mod.id(), makeIconButton(mod));
 
             var entry = new Entry(mod);
