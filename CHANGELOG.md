@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.7.5
+
+- Allow mods that have no features to be displayed on the in-game options screen
+
 ## 1.7.4
 
 - Disable dev environment check for debug.
