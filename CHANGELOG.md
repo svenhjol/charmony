@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.8.3
+
+- Add a helper method to trigger a custom advancement.
+
 ## 1.8.2
 
 - Add advancements feature, ported across from Charm and simplified.
