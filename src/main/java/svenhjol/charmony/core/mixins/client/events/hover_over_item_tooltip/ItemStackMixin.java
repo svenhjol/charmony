@@ -1,4 +1,4 @@
-package svenhjol.charmony.core.mixins.events.hover_over_item_tooltip;
+package svenhjol.charmony.core.mixins.client.events.hover_over_item_tooltip;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;

@@ -1,4 +1,4 @@
-package svenhjol.charmony.core.mixins.events.client_login_player;
+package svenhjol.charmony.core.mixins.client.events.client_login_player;
 
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.network.protocol.game.ClientboundLoginPacket;

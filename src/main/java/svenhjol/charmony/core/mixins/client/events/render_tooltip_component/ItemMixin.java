@@ -1,4 +1,4 @@
-package svenhjol.charmony.core.mixins.events.render_tooltip_component;
+package svenhjol.charmony.core.mixins.client.events.render_tooltip_component;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;

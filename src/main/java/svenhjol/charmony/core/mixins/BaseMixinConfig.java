@@ -22,6 +22,8 @@ import java.util.function.Predicate;
 public abstract class BaseMixinConfig implements IMixinConfigPlugin {
     protected static final String FEATURES = "features";
     protected static final String ACCESSORS = "accesors";
+    protected static final String CLIENT = "client";
+    protected static final String COMMON = "common";
     protected static final Logger LOGGER = LogManager.getLogger("MixinConfig");
 
     protected final List<String> blacklist = new ArrayList<>();
@@ -37,16 +39,25 @@ public abstract class BaseMixinConfig implements IMixinConfigPlugin {
     }
 
     @Override
-    public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-        var mixinSimpleName = mixinClassName.substring(mixinPackage.length() + 1);
-        var split = mixinSimpleName.split("\\.");
-        var mixinBaseName = split[0];
+    public boolean shouldApplyMixin(String targetClassName, String mixinName) {
+        var simpleName = mixinName.substring(mixinPackage.length() + 1);
+        var split = simpleName.split("\\.");
+        var side = split[0]; // "client", "common", "server"
+        var type = split[1]; // "events", "registry", "feature" etc.
         var featureName = "";
-        var mixinIsFeature = mixinBaseName.equals(FEATURES);
 
-        if (mixinIsFeature) {
+        var isFeature = type.equals(FEATURES);
+        var isClient = side.equals(CLIENT);
+        var isCommon = side.equals(COMMON);
+
+        if (isClientMode() && !isClient) {
+            LOGGER.warn("✖ Client mode is enabled and mixin {} is not a client mixin", mixinName);
+            return false;
+        }
+
+        if (isFeature) {
             var builder = new StringBuilder();
-            for (int i = 1; i < split.length; i++) {
+            for (int i = 2; i < split.length; i++) {
                 if (!split[i].contains("Mixin")) {
                     builder.append(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, (split[i])));
                     builder.append(".");
@@ -59,39 +70,39 @@ public abstract class BaseMixinConfig implements IMixinConfigPlugin {
             }
 
             if (featureName.isEmpty()) {
-                LOGGER.warn("Could not resolve feature name from mixin base name {}", mixinBaseName);
+                LOGGER.warn("✖ Could not resolve feature name from mixin class name {}", mixinName);
                 return false;
             }
         }
 
         // Allow the subclass to check if this mixin base is permitted.
-        if (!allowBaseName(mixinBaseName, mixinClassName)) {
-            LOGGER.warn("✖ Mixin {} is not allowed", mixinClassName);
+        if (!allowBaseName(type, mixinName)) {
+            LOGGER.warn("✖ Mixin {} is not allowed", mixinName);
             return false;
         }
 
         // All mixins other than accessors are disabled when mixin disable mode is active.
-        if (isMixinDisableMode() && !mixinBaseName.equals(ACCESSORS)) {
-            LOGGER.warn("✖ Mixin disable mode is active, not loading {}", mixinClassName);
+        if (isMixinDisableMode() && !type.equals(ACCESSORS)) {
+            LOGGER.warn("✖ Mixin disable mode is active, not loading {}", mixinName);
             return false;
         }
 
         for (var predicate : runtimeBlacklist()) {
-            if (mixinIsFeature && predicate.test(featureName)) {
-                blacklist.add(mixinSimpleName);
+            if (isFeature && predicate.test(featureName)) {
+                blacklist.add(simpleName);
             }
         }
 
-        if (blacklist.contains(mixinSimpleName)) {
-            LOGGER.warn("✖ Mixin {} is blacklisted", mixinSimpleName);
+        if (blacklist.contains(simpleName)) {
+            LOGGER.warn("✖ Mixin {} is blacklisted", mixinName);
             return false;
         }
 
-        var valid = !mixinIsFeature || enabledInConfig(featureName);
+        var valid = !isFeature || enabledInConfig(featureName);
         if (valid) {
-            LOGGER.info("✔ Enabled mixin {}", mixinClassName);
+            LOGGER.info("✔ Enabled mixin {}", mixinName);
         } else {
-            LOGGER.warn("✖ Disabled mixin {}", mixinClassName);
+            LOGGER.warn("✖ Disabled mixin {}", mixinName);
         }
         return valid;
     }

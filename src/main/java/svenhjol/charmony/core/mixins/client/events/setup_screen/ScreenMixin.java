@@ -1,4 +1,4 @@
-package svenhjol.charmony.core.mixins.events.setup_screen;
+package svenhjol.charmony.core.mixins.client.events.setup_screen;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;

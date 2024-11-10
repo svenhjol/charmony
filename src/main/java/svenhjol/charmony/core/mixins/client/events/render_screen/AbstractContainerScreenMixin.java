@@ -1,4 +1,4 @@
-package svenhjol.charmony.core.mixins.events.render_screen;
+package svenhjol.charmony.core.mixins.client.events.render_screen;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;

@@ -8,15 +8,20 @@
     "defaultRequire": 1
   },
   "client": [
-    "events.hover_over_item_tooltip.ItemStackMixin",
-    "events.client_login_player.ClientPacketListenerMixin",
-    "events.play_sound.SoundEngineMixin",
-    "events.render_screen.AbstractContainerScreenMixin",
-    "events.render_tooltip.GuiGraphicsMixin",
-    "events.render_tooltip.ScreenMixin",
-    "events.render_tooltip_component.ItemMixin",
-    "events.client_respawn_player.login_client.ClientPacketListenerMixin",
-    "events.setup_screen.ScreenMixin",
-    "registry.client_tooltip_component.ClientTooltipComponentMixin"
+    "client.events.client_login_player.ClientPacketListenerMixin",
+    "client.events.client_respawn_player.login_client.ClientPacketListenerMixin",
+    "client.events.hover_over_item_tooltip.ItemStackMixin",
+    "client.events.play_sound.SoundEngineMixin",
+    "client.events.render_screen.AbstractContainerScreenMixin",
+    "client.events.render_tooltip.GuiGraphicsMixin",
+    "client.events.render_tooltip.ScreenMixin",
+    "client.events.render_tooltip_component.ItemMixin",
+    "client.events.setup_screen.ScreenMixin",
+    "client.registry.client_tooltip_component.ClientTooltipComponentMixin"
+  ],
+  "mixins": [
+    "common.events.grindstone.GrindstoneMenuInputMixin",
+    "common.events.grindstone.GrindstoneMenuMixin",
+    "common.events.grindstone.GrindstoneMenuOutputMixin"
   ]
 }

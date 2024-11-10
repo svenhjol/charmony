@@ -7,7 +7,7 @@ import net.minecraft.client.sounds.SoundEngine;
 
 /**
  * Custom Fabric event that fires whenever a sound plays.
- * @see svenhjol.charmony.core.mixins.events.play_sound.SoundEngineMixin
+ * @see svenhjol.charmony.core.mixins.client.events.play_sound.SoundEngineMixin
  */
 @SuppressWarnings("unused")
 public interface PlaySoundCallback {

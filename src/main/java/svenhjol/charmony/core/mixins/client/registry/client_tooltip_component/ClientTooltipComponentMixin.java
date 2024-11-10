@@ -1,4 +1,4 @@
-package svenhjol.charmony.core.mixins.registry.client_tooltip_component;
+package svenhjol.charmony.core.mixins.client.registry.client_tooltip_component;
 
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;

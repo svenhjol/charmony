@@ -1,4 +1,4 @@
-package svenhjol.charmony.core.mixins.events.play_sound;
+package svenhjol.charmony.core.mixins.client.events.play_sound;
 
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.client.sounds.SoundEngine;

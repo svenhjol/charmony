@@ -1,4 +1,4 @@
-package svenhjol.charmony.core.mixins.events.client_respawn_player.login_client;
+package svenhjol.charmony.core.mixins.client.events.client_respawn_player.login_client;
 
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.network.protocol.game.ClientboundRespawnPacket;

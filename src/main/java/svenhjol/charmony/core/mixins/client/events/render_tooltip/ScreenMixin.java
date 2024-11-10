@@ -1,4 +1,4 @@
-package svenhjol.charmony.core.mixins.events.render_tooltip;
+package svenhjol.charmony.core.mixins.client.events.render_tooltip;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
