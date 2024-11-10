@@ -1,4 +1,20 @@
 {
+  "display": {
+    "icon": {
+      "id": "minecraft:smithing_table"
+    },
+    "title": {
+      "translate": "advancements.charmony.root.title"
+    },
+    "description": {
+      "translate": "advancements.charmony.root.description"
+    },
+    "frame": "task",
+    "show_toast": false,
+    "announce_to_chat": false,
+    "hidden": true,
+    "background": "minecraft:textures/gui/advancements/backgrounds/stone.png"
+  },
   "criteria": {
     "player_joined": {
       "trigger": "charmony_action_performed",

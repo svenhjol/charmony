@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.8.5
+
+- Root node must be visible.
+
 ## 1.8.4
 
 - Add player_joined criteria and root advancement node.
