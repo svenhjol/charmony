@@ -14,11 +14,13 @@ import svenhjol.charmony.core.enums.Side;
     Triggers advancements for Charmony features.
     If this feature is disabled, no Charmony advancements will be awarded.""")
 public final class Advancements extends SidedFeature {
-    private final Registers registers;
+    public final Registers registers;
+    public final Handlers handlers;
 
     public Advancements(Mod mod) {
         super(mod);
         registers = new Registers(this);
+        handlers = new Handlers(this);
     }
 
     public static void trigger(String id, Player player) {

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.8.4
+
+- Add player_joined criteria and root advancement node.
+
 ## 1.8.3
 
 - Add a helper method to trigger a custom advancement.
