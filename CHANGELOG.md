@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.8.2
+
+- Add advancements feature, ported across from Charm and simplified.
+
 ## 1.8.1
 
 - Don't show message about features being disabled if they're not included in the side.
