@@ -75,7 +75,9 @@ public abstract class Mod {
         features.forEach((name, feature) -> {
             var featureName = feature.className();
             var sided = feature.get(side).orElse(null);
-            if (sided != null && sided.enabled()) {
+            if (sided == null) return;
+
+            if (sided.enabled()) {
                 log().info("✔ Running " + sideName  + " feature " + featureName);
                 sided.run();
             } else {

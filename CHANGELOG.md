@@ -1,8 +1,8 @@
 # Changelog
 
-## 1.7.5
+## 1.8.1
 
-- Allow mods that have no features to be displayed on the in-game options screen
+- Don't show message about features being disabled if they're not included in the side.
 
 ## 1.8.0
 
@@ -11,7 +11,7 @@
 
 ## 1.7.5
 
-- Allow mods that have no features to be displayed on the in-game options screen
+- Allow mods that have no features to be displayed on the in-game options screen.
 
 ## 1.7.4
 
