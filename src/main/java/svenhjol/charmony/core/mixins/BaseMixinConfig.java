@@ -8,7 +8,6 @@ import org.apache.logging.log4j.Logger;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
-import svenhjol.charmony.core.Charmony;
 import svenhjol.charmony.core.annotations.FeatureDefinition;
 import svenhjol.charmony.core.base.Environment;
 import svenhjol.charmony.core.enums.Side;
@@ -18,7 +17,7 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.function.Predicate;
 
-@SuppressWarnings({"unused", "OptionalUsedAsFieldOrParameterType"})
+@SuppressWarnings({"unused", "OptionalUsedAsFieldOrParameterType", "SameParameterValue"})
 public abstract class BaseMixinConfig implements IMixinConfigPlugin {
     protected static final String FEATURES = "features";
     protected static final String ACCESSORS = "accesors";
@@ -268,6 +267,6 @@ public abstract class BaseMixinConfig implements IMixinConfigPlugin {
     private File getConfigFile(Side side) {
         var sideName = side.getSerializedName();
         var configDir = FabricLoader.getInstance().getConfigDir();
-        return Paths.get(configDir + File.separator + Charmony.ID + "-" + sideName + ".toml").toFile();
+        return Paths.get(configDir + File.separator + modId() + "-" + sideName + ".toml").toFile();
     }
 }

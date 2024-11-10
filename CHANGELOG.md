@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.8.6
+
+- Fix hardcoded modId in mixin config loader.
+
 ## 1.8.5
 
 - Root node must be visible.
