@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.8.7
+
+- Port EnchantmentsHelper.
+
 ## 1.8.6
 
 - Fix hardcoded modId in mixin config loader.
