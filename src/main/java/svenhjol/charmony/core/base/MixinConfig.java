@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
+import svenhjol.charmony.core.Charmony;
 import svenhjol.charmony.core.annotations.FeatureDefinition;
 import svenhjol.charmony.core.enums.Side;
 
@@ -230,7 +231,7 @@ public abstract class MixinConfig implements IMixinConfigPlugin {
         }
 
         var niceName = getNiceFeatureName(baseName);
-        var configFile = getConfigFile(side());
+        var configFile = getConfigFile(modId(), side());
 
         if (configFile.exists()) {
             // Read the value from the config file.
@@ -252,7 +253,7 @@ public abstract class MixinConfig implements IMixinConfigPlugin {
      * @return Optional null if the key value is not set, or the boolean value of the key.
      */
     private Optional<Boolean> tryReadFromCoreConfig(String key) {
-        var configFile = getConfigFile(Side.Common);
+        var configFile = getConfigFile(Charmony.ID, Side.Common);
 
         if (configFile.exists()) {
             var handle = new Toml();
@@ -268,13 +269,14 @@ public abstract class MixinConfig implements IMixinConfigPlugin {
 
     /**
      * Helper method to read the mod's sided config file.
+     * @param modId Mod to load for file, e.g. "charmony"
      * @param side Side to load for file, e.g. Common, Client
      * @return File reference of the mod's sided config file.
      */
-    private File getConfigFile(Side side) {
+    private File getConfigFile(String modId, Side side) {
         var sideName = side.getSerializedName();
         var configDir = FabricLoader.getInstance().getConfigDir();
-        return Paths.get(configDir + File.separator + modId() + "-" + sideName + ".toml").toFile();
+        return Paths.get(configDir + File.separator + modId + "-" + sideName + ".toml").toFile();
     }
 
     @Override

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.9.1
+
+- Fix for trying to load core values from a non-charmony core config.
+
 ## 1.9.0
 
 - Rewrite and simplify mixin config and conditional mixin loading.
