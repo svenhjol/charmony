@@ -1,7 +1,7 @@
 package svenhjol.charmony.core.helper;
 
 import net.minecraft.server.level.ServerPlayer;
-import svenhjol.charmony.core.common.advancements.Advancements;
+import svenhjol.charmony.core.common.features.advancements.Advancements;
 
 @SuppressWarnings("unused")
 public final class AdvancementHelper {

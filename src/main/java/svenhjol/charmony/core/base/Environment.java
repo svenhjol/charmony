@@ -3,7 +3,7 @@ package svenhjol.charmony.core.base;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
 import svenhjol.charmony.core.Charmony;
-import svenhjol.charmony.core.common.core.Core;
+import svenhjol.charmony.core.common.features.core.Core;
 
 public final class Environment {
     public static final String CLIENT_MODE = "Client mode";
@@ -40,7 +40,7 @@ public final class Environment {
      */
     @net.fabricmc.api.Environment(EnvType.CLIENT)
     public static boolean usesCharmonyServer() {
-        return Charmony.instance().tryFeature(svenhjol.charmony.core.client.core.Core.class)
+        return Charmony.instance().tryFeature(svenhjol.charmony.core.client.features.core.Core.class)
             .map(c -> c.handlers.usesCharmonyServer()).orElse(false);
     }
 }

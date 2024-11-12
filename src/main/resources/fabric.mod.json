@@ -13,7 +13,8 @@
   "license": "MIT",
   "environment": "*",
   "mixins": [
-    "charmony.mixins.json"
+    "charmony.client.mixins.json",
+    "charmony.common.mixins.json"
   ],
   "accessWidener": "charmony.accesswidener",
 

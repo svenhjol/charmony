@@ -1,0 +1,22 @@
+{
+  "required": true,
+  "package": "svenhjol.charmony.core.client.mixins",
+  "compatibilityLevel": "JAVA_21",
+  "refmap": "${refmap_file}",
+  "plugin": "svenhjol.charmony.core.client.mixins.ClientMixinConfig",
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "client": [
+    "client_login_player.ClientPacketListenerMixin",
+    "client_respawn_player.login_client.ClientPacketListenerMixin",
+    "client_tooltip_component.ClientTooltipComponentMixin",
+    "hover_over_item_tooltip.ItemStackMixin",
+    "play_sound.SoundEngineMixin",
+    "render_screen.AbstractContainerScreenMixin",
+    "render_tooltip.GuiGraphicsMixin",
+    "render_tooltip.ScreenMixin",
+    "render_tooltip_component.ItemMixin",
+    "setup_screen.ScreenMixin"
+  ]
+}

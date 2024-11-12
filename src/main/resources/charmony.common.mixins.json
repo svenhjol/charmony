@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "svenhjol.charmony.core.common.mixins",
+  "compatibilityLevel": "JAVA_21",
+  "refmap": "${refmap_file}",
+  "plugin": "svenhjol.charmony.core.common.mixins.CommonMixinConfig",
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "mixins": [
+    "grindstone.GrindstoneMenuInputMixin",
+    "grindstone.GrindstoneMenuMixin",
+    "grindstone.GrindstoneMenuOutputMixin"
+  ]
+}

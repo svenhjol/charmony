@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.9.0
+
+- Rewrite and simplify mixin config and conditional mixin loading.
+
 ## 1.8.7
 
 - Port EnchantmentsHelper.

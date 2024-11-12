@@ -2,8 +2,8 @@ package svenhjol.charmony.core.client;
 
 import net.fabricmc.api.ClientModInitializer;
 import svenhjol.charmony.core.Charmony;
-import svenhjol.charmony.core.client.control_panel.ControlPanel;
-import svenhjol.charmony.core.client.core.Core;
+import svenhjol.charmony.core.client.features.control_panel.ControlPanel;
+import svenhjol.charmony.core.client.features.core.Core;
 import svenhjol.charmony.core.enums.Side;
 
 public final class ClientInitializer implements ClientModInitializer {
