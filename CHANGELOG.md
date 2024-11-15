@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.9.3
+
+- Add sided feature checks.
+
 ## 1.9.2
 
 - Add enabledInConfig optional switch for sided features.

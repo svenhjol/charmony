@@ -5,6 +5,7 @@ import svenhjol.charmony.core.annotations.ModDefinition;
 import svenhjol.charmony.core.enums.Side;
 
 import java.util.*;
+import java.util.function.BooleanSupplier;
 import java.util.stream.Collectors;
 
 @SuppressWarnings("unused")
@@ -17,6 +18,7 @@ public abstract class Mod {
     private final Map<Class<? extends SidedFeature>, SidedFeature> classFeatures = new HashMap<>();
     private final Map<Side, LinkedList<Class<? extends SidedFeature>>> classes = new LinkedHashMap<>();
     private final Map<Side, Map<SidedFeature, List<Runnable>>> boots = new HashMap<>();
+    private final Map<Side, Map<SidedFeature, List<BooleanSupplier>>> checks = new HashMap<>();
 
     public Mod() {
         this.config = new Config(this);
@@ -62,6 +64,11 @@ public abstract class Mod {
         log().info("Configuring " + name() + " " + sideName);
         config.populate();
         config.write();
+
+        log().info("Checking " + name() + " " + sideName);
+        var checks = this.checks.computeIfAbsent(side, m -> new HashMap<>());
+        checks.forEach((feature, check) ->
+            feature.enabled(check.stream().allMatch(BooleanSupplier::getAsBoolean)));
 
         log().info("Booting up " + name() + " " + sideName);
         var boots = this.boots.computeIfAbsent(side, m -> new HashMap<>());
@@ -138,8 +145,14 @@ public abstract class Mod {
         classes.computeIfAbsent(side, a -> new LinkedList<>()).add(clazz);
     }
 
-    public void addBootStep(SidedFeature sidedFeature, Runnable step) {
-        boots.computeIfAbsent(sidedFeature.side(), m -> new HashMap<>()).computeIfAbsent(sidedFeature, a -> new ArrayList<>()).add(step);
+    public void addCheckStep(SidedFeature feature, BooleanSupplier check) {
+        checks.computeIfAbsent(feature.side(), m -> new HashMap<>())
+            .computeIfAbsent(feature, a -> new ArrayList<>()).add(check);
+    }
+
+    public void addBootStep(SidedFeature feature, Runnable step) {
+        boots.computeIfAbsent(feature.side(), m -> new HashMap<>())
+            .computeIfAbsent(feature, a -> new ArrayList<>()).add(step);
     }
 
     public LinkedList<Feature> features() {
