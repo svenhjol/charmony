@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.9.6
+
+- Port ColorHelper.
+
 ## 1.9.5
 
 - Port CustomParticle and PlayerHelper.
