@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.9.5
+
+- Port CustomParticle and PlayerHelper.
+
 ## 1.9.4
 
 - Make Feature description pick from the side that has the longest string.
