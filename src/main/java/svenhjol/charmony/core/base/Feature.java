@@ -67,8 +67,19 @@ public final class Feature {
         return getFirst().className();
     }
 
+    /**
+     * Feature description from its annotation.
+     * Note that this methods always picks the side that has the longest description string.
+     * @return Feature description.
+     */
     public String description() {
-        return getFirst().description();
+        var description = "";
+        for (var sidedFeature : sides()) {
+            if (sidedFeature.description().length() > description.length()) {
+                description = sidedFeature.description();
+            }
+        }
+        return description;
     }
 
     public void put(Side side, SidedFeature sidedFeature) {

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.9.4
+
+- Make Feature description pick from the side that has the longest string.
+
 ## 1.9.3
 
 - Add sided feature checks.
