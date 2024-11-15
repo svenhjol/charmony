@@ -124,6 +124,10 @@ public final class Config {
             for (var sided : feature.sides()) {
                 var config = configs.get(sided.side());
 
+                if (!sided.showInConfig()) {
+                    continue;
+                }
+
                 if (sided.canBeDisabled()) {
                     var field = "Enabled";
                     var description = sided.description();

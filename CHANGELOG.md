@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.9.2
+
+- Add enabledInConfig optional switch for sided features.
+- Update feature definition annotation with details.
+
 ## 1.9.1
 
 - Fix for trying to load core values from a non-charmony core config.

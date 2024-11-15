@@ -4,6 +4,7 @@ import net.fabricmc.api.ModInitializer;
 import svenhjol.charmony.core.Charmony;
 import svenhjol.charmony.core.common.features.advancements.Advancements;
 import svenhjol.charmony.core.common.features.core.Core;
+import svenhjol.charmony.core.common.features.test.TestFeature;
 import svenhjol.charmony.core.enums.Side;
 
 public class CommonInitializer implements ModInitializer {
@@ -23,6 +24,7 @@ public class CommonInitializer implements ModInitializer {
         var charmony = Charmony.instance();
         charmony.addFeature(Core.class);
         charmony.addFeature(Advancements.class);
+        charmony.addFeature(TestFeature.class);
         charmony.run(Side.Common);
 
         initialized = true;

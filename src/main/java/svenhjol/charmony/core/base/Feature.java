@@ -34,6 +34,10 @@ public final class Feature {
         return features.values().stream().anyMatch(SidedFeature::canBeDisabled);
     }
 
+    public boolean showInConfig() {
+        return features.values().stream().anyMatch(SidedFeature::showInConfig);
+    }
+
     public Mod mod() {
         return this.mod;
     }

@@ -69,6 +69,10 @@ public abstract class SidedFeature {
         return annotation().canBeDisabled();
     }
 
+    public boolean showInConfig() {
+        return annotation().showInConfig();
+    }
+
     public void run() {
         // no op
     }

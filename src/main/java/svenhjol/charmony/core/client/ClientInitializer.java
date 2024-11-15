@@ -4,6 +4,7 @@ import net.fabricmc.api.ClientModInitializer;
 import svenhjol.charmony.core.Charmony;
 import svenhjol.charmony.core.client.features.control_panel.ControlPanel;
 import svenhjol.charmony.core.client.features.core.Core;
+import svenhjol.charmony.core.client.features.test.TestFeature;
 import svenhjol.charmony.core.enums.Side;
 
 public final class ClientInitializer implements ClientModInitializer {
@@ -24,6 +25,7 @@ public final class ClientInitializer implements ClientModInitializer {
         var charmony = Charmony.instance();
         charmony.addFeature(Core.class);
         charmony.addFeature(ControlPanel.class);
+        charmony.addFeature(TestFeature.class);
         charmony.run(Side.Client);
 
         initialized = true;
