@@ -6,7 +6,7 @@ import net.minecraft.network.protocol.game.ClientboundLoginPacket;
 import svenhjol.charmony.core.base.Setup;
 import svenhjol.charmony.core.common.features.core.Networking.S2CUsingCharmonyServer;
 
-public class Handlers extends Setup<Core> {
+public final class Handlers extends Setup<Core> {
     private boolean usesCharmonyServer = false;
     private boolean hasCheckedCharmonyServer = false;
     private int ticksSinceLogin = 0;
@@ -29,6 +29,14 @@ public class Handlers extends Setup<Core> {
         hasCheckedCharmonyServer = false;
         usesCharmonyServer = false; // We have to receive the charmony server packet to set this to true.
         ticksSinceLogin = 0;
+    }
+
+    /**
+     * On client start we perform some deferred registrations.
+     */
+    public void clientStart(Minecraft minecraft) {
+        // Register deferred particles.
+        feature().registers.registerDeferredParticles(minecraft);
     }
 
     public boolean usesCharmonyServer() {

@@ -2,3 +2,7 @@ accessWidener v2 named
 
 accessible field net/minecraft/client/gui/components/SpriteIconButton sprite Lnet/minecraft/resources/ResourceLocation;
 accessible method net/minecraft/client/gui/screens/Screen addRenderableWidget (Lnet/minecraft/client/gui/components/events/GuiEventListener;)Lnet/minecraft/client/gui/components/events/GuiEventListener;
+
+# Expose particle register method and other related access so we can register custom particles.
+accessible method net/minecraft/client/particle/ParticleEngine register (Lnet/minecraft/core/particles/ParticleType;Lnet/minecraft/client/particle/ParticleEngine$SpriteParticleRegistration;)V
+accessible class net/minecraft/client/particle/ParticleEngine$SpriteParticleRegistration

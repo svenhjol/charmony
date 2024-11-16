@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.10.0
+
+- Add initial ClientRegistry and custom particle type.
+
 ## 1.9.6
 
 - Port ColorHelper.

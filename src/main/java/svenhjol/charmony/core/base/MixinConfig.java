@@ -20,8 +20,8 @@ import java.util.function.Predicate;
 @SuppressWarnings({"unused", "OptionalUsedAsFieldOrParameterType", "SameParameterValue"})
 public abstract class MixinConfig implements IMixinConfigPlugin {
     protected static final Logger LOGGER = LogManager.getLogger("MixinConfig");
-    protected static final String ACCESSORS = "accessors";
     protected static final String FEATURES = "features";
+    protected static final List<String> PROTECTED_BASE_NAMES = List.of("accessors", "registry");
 
     protected final List<String> blacklist = new ArrayList<>();
     protected Optional<Boolean> clientMode = Optional.empty();
@@ -59,8 +59,8 @@ public abstract class MixinConfig implements IMixinConfigPlugin {
             return false;
         }
 
-        // All mixins other than accessors are disabled when mixin disable mode is active.
-        if (isMixinDisableMode() && !baseName.equals(ACCESSORS)) {
+        // All mixins other than those with protected base names are disabled when mixin disable mode is active.
+        if (isMixinDisableMode() && !PROTECTED_BASE_NAMES.contains(baseName)) {
             LOGGER.warn("✖ Mixin disable mode is active, not loading {}", simpleClassPath);
             return false;
         }
