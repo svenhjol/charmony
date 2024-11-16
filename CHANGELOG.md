@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.10.1
+
+- When in debug mode show the original exception during mod init failure.
+- Sided test feature only shows in dev enrivonment.
+
 ## 1.10.0
 
 - Add initial ClientRegistry and custom particle type.

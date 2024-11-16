@@ -57,7 +57,12 @@ public abstract class Mod {
                 features.computeIfAbsent(sidedFeature.className(), c -> new Feature(this)).put(side, sidedFeature);
 
             } catch (Exception e) {
-                throw new RuntimeException("Failed to instantiate feature " + clazz + " for mod " + name() + ": " + e.getMessage());
+                String message = "Failed to instantiate feature " + clazz + " for mod " + name() + ": " + e.getMessage();
+                if (Environment.isDebugMode()) {
+                    throw new RuntimeException(message, e);
+                } else {
+                    throw new RuntimeException(message);
+                }
             }
         }
 

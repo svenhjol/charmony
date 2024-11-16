@@ -2,6 +2,7 @@ package svenhjol.charmony.core.common;
 
 import net.fabricmc.api.ModInitializer;
 import svenhjol.charmony.core.Charmony;
+import svenhjol.charmony.core.base.Environment;
 import svenhjol.charmony.core.common.features.advancements.Advancements;
 import svenhjol.charmony.core.common.features.core.Core;
 import svenhjol.charmony.core.common.features.test.TestFeature;
@@ -24,7 +25,11 @@ public class CommonInitializer implements ModInitializer {
         var charmony = Charmony.instance();
         charmony.addFeature(Core.class);
         charmony.addFeature(Advancements.class);
-        charmony.addFeature(TestFeature.class);
+
+        if (Environment.isDevEnvironment()) {
+            charmony.addFeature(TestFeature.class);
+        }
+
         charmony.run(Side.Common);
 
         initialized = true;
