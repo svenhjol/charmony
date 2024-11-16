@@ -34,6 +34,16 @@ public final class Core extends SidedFeature {
     )
     private static boolean mixinsDisableMode = false;
 
+    @Configurable(
+        name = "Custom anvil on-take behavior",
+        description = """
+            Enable custom on-take behavior for anvils.
+            This changes the vanilla anvil behavior to avoid destroying entire stacks.
+            There is a small chance that a mod depends on the default behavior, in which case you should
+            disable this config option."""
+    )
+    private static boolean customAnvilOnTakeBehavior = true;
+
     public Core(Mod mod) {
         super(mod);
         registers = new Registers(this);
@@ -55,6 +65,10 @@ public final class Core extends SidedFeature {
 
     public boolean mixinsDisabled() {
         return mixinsDisableMode;
+    }
+
+    public boolean customAnvilOnTakeBehavior() {
+        return customAnvilOnTakeBehavior;
     }
 
     @Override
