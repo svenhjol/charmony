@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.10.5
+
+- Add material for on-take (testing).
+
 ## 1.10.4
 
 - Separate behavior for on-take (testing).

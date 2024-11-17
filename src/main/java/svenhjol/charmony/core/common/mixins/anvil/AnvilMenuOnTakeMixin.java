@@ -26,7 +26,7 @@ public abstract class AnvilMenuOnTakeMixin extends ItemCombinerMenu {
         at = @At("HEAD")
     )
     private void hookOnTake(Player player, ItemStack taken, CallbackInfo ci) {
-        AnvilEvents.ON_TAKE.invoke(player, inputSlots.getItem(1).copy(), taken);
+        AnvilEvents.ON_TAKE.invoke(player, inputSlots.getItem(0).copy(), inputSlots.getItem(1).copy(), taken);
     }
 
     @Redirect(

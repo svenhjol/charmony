@@ -14,15 +14,15 @@ public final class AnvilEvents {
     public static class OnTakeEvent extends CharmonyEvent<OnTakeEvent.Handler> {
         private OnTakeEvent() {}
 
-        public void invoke(Player player, ItemStack original, ItemStack taken) {
+        public void invoke(Player player, ItemStack original, ItemStack material, ItemStack taken) {
             for (var handler : getHandlers()) {
-                handler.run(player, original, taken);
+                handler.run(player, original, material, taken);
             }
         }
 
         @FunctionalInterface
         public interface Handler {
-            void run(Player player, ItemStack original, ItemStack taken);
+            void run(Player player, ItemStack original, ItemStack material, ItemStack taken);
         }
     }
 
