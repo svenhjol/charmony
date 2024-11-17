@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.10.4
+
+- Separate behavior for on-take (testing).
+
 ## 1.10.3
 
 - Combine anvil events into single class like the grindstone events.
