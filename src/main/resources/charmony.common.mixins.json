@@ -8,8 +8,9 @@
     "defaultRequire": 1
   },
   "mixins": [
-    "anvil_repair.AnvilMenuMixin",
-    "anvil_update.AnvilMenuMixin",
+    "anvil.AnvilMenuOnTakeMixin",
+    "anvil.AnvilMenuRepairMixin",
+    "anvil.AnvilMenuUpdateMixin",
     "grindstone.GrindstoneMenuInputMixin",
     "grindstone.GrindstoneMenuMixin",
     "grindstone.GrindstoneMenuOutputMixin"

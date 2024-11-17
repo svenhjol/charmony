@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.10.3
+
+- Combine anvil events into single class like the grindstone events.
+- Add an on-take event (testing).
+
 ## 1.10.2
 
 - Port custom anvil events from Charm.

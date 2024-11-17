@@ -14,7 +14,7 @@ import java.util.UUID;
 import java.util.WeakHashMap;
 
 @SuppressWarnings("unused")
-public class GrindstoneEvents {
+public final class GrindstoneEvents {
     private static final Map<UUID, GrindstoneMenuInstance> SERVER_INSTANCES = new WeakHashMap<>();
     private static final Map<UUID, GrindstoneMenuInstance> CLIENT_INSTANCES = new WeakHashMap<>();
     public static final CalculateOutputEvent CALCULATE_OUTPUT = new CalculateOutputEvent();
