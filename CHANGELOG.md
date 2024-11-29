@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.11.2
+
+- Add EntityTickCallback and EntityKilledDropCallback events.
+
 ## 1.11.1
 
 - Add PlayerTickCallback event.
