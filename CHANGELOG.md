@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.11.0
+
+- Build for 1.21.4.
+- Update for new scrollbar code.
+
 ## 1.10.5
 
 - Add material for on-take (testing).

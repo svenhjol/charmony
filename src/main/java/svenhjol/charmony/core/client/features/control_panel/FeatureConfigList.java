@@ -47,8 +47,8 @@ public class FeatureConfigList extends AbstractSelectionList<FeatureConfigList.E
     }
 
     @Override
-    protected int getMaxPosition() {
-        return super.getMaxPosition() + extraScrollHeight + SettingsScreen.CONTENT_BOTTOM_MARGIN;
+    protected int contentHeight() {
+        return super.contentHeight() + extraScrollHeight + SettingsScreen.CONTENT_BOTTOM_MARGIN;
     }
 
     public void readConfig() {
@@ -162,7 +162,7 @@ public class FeatureConfigList extends AbstractSelectionList<FeatureConfigList.E
 
         @Override
         public void renderChild(GuiGraphics guiGraphics, int y, int offsetX, int l, int m, int mouseX, int mouseY, float tickDelta) {
-            var buttonX = FeatureConfigList.this.getScrollbarPosition() - enabledButton.getWidth() - 10;
+            var buttonX = FeatureConfigList.this.scrollBarX() - enabledButton.getWidth() - 10;
             var buttonY = y - 2;
 
             enabledButton.setPosition(buttonX, buttonY);
@@ -320,7 +320,7 @@ public class FeatureConfigList extends AbstractSelectionList<FeatureConfigList.E
 
         @Override
         public void renderChild(GuiGraphics guiGraphics, int y, int offsetX, int l, int m, int mouseX, int mouseY, float tickDelta) {
-            var boxX = FeatureConfigList.this.getScrollbarPosition() - inputBox.getWidth() - 10;
+            var boxX = FeatureConfigList.this.scrollBarX() - inputBox.getWidth() - 10;
             var boxY = y + (m / 2) - 10;
             inputBox.visible = true;
             inputBox.setPosition(boxX, boxY);
@@ -374,7 +374,7 @@ public class FeatureConfigList extends AbstractSelectionList<FeatureConfigList.E
         @Override
         public void renderChild(GuiGraphics guiGraphics, int y, int offsetX, int l, int m, int mouseX, int mouseY, float tickDelta) {
             var layout = FeatureConfigList.this.parent.layout();
-            var boxX = FeatureConfigList.this.getScrollbarPosition() - getRowWidth() - 4;
+            var boxX = FeatureConfigList.this.scrollBarX() - getRowWidth() - 4;
             var boxY = y + (m / 2) + 10;
             inputBox.visible = true;
             inputBox.setHeight(Mth.clamp(layout.getContentHeight() - y, 0, 60)); // Dumb z-index hack

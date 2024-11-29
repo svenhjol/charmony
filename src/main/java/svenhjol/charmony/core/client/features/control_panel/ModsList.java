@@ -39,8 +39,8 @@ public class ModsList extends AbstractSelectionList<ModsList.Entry> {
     }
 
     @Override
-    protected int getMaxPosition() {
-        return super.getMaxPosition() + SettingsScreen.CONTENT_BOTTOM_MARGIN;
+    protected int contentHeight() {
+        return super.contentHeight() + SettingsScreen.CONTENT_BOTTOM_MARGIN;
     }
 
     @Override

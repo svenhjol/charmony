@@ -52,8 +52,8 @@ public class FeaturesList extends AbstractSelectionList<FeaturesList.Entry> {
     }
 
     @Override
-    protected int getMaxPosition() {
-        return super.getMaxPosition() + SettingsScreen.CONTENT_BOTTOM_MARGIN;
+    protected int contentHeight() {
+        return super.contentHeight() + SettingsScreen.CONTENT_BOTTOM_MARGIN;
     }
 
     protected List<Feature> features() {
@@ -170,7 +170,7 @@ public class FeaturesList extends AbstractSelectionList<FeaturesList.Entry> {
         public void render(GuiGraphics guiGraphics, int i, int y, int offsetX, int l, int m, int mouseX, int mouseY, boolean bl, float tickDelta) {
             y += SettingsScreen.CONTENT_TOP_MARGIN;
 
-            int enableX = FeaturesList.this.getScrollbarPosition() - enableButton.getWidth() - 10;
+            int enableX = FeaturesList.this.scrollBarX() - enableButton.getWidth() - 10;
             int moreX = enableX - 4 - configureButton.getWidth();
             int buttonY = y - 2;
 
