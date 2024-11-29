@@ -13,6 +13,7 @@
     "anvil.AnvilMenuUpdateMixin",
     "grindstone.GrindstoneMenuInputMixin",
     "grindstone.GrindstoneMenuMixin",
-    "grindstone.GrindstoneMenuOutputMixin"
+    "grindstone.GrindstoneMenuOutputMixin",
+    "player_tick_callback.ServerPlayerMixin"
   ]
 }

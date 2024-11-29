@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.11.1
+
+- Add PlayerTickCallback event.
+
 ## 1.11.0
 
 - Build for 1.21.4.

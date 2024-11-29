@@ -13,6 +13,7 @@
     "client_tooltip_component.ClientTooltipComponentMixin",
     "hover_over_item_tooltip.ItemStackMixin",
     "play_sound.SoundEngineMixin",
+    "player_tick_callback.LocalPlayerMixin",
     "render_screen.AbstractContainerScreenMixin",
     "render_tooltip.GuiGraphicsMixin",
     "render_tooltip.ScreenMixin",
