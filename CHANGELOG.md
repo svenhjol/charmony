@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.11.5
+
+- Make AdvancementHelper trigger check more permissive.
+
 ## 1.11.4
 
 - Environment also checks client-mod.
