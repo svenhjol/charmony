@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.11.4
+
+- Environment also checks client-mod.
+
 ## 1.11.3
 
 - Mod side check for client-mode.

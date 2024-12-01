@@ -40,6 +40,10 @@ public final class Environment {
      */
     @net.fabricmc.api.Environment(EnvType.CLIENT)
     public static boolean usesCharmonyServer() {
+        if (Environment.isClientMode()) {
+            return false;
+        }
+
         return Charmony.instance().tryFeature(svenhjol.charmony.core.client.features.core.Core.class)
             .map(c -> c.handlers.usesCharmonyServer()).orElse(false);
     }
