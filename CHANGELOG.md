@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.11.3
+
+- Mod side check for client-mode.
+
 ## 1.11.2
 
 - Add EntityTickCallback and EntityKilledDropCallback events.
