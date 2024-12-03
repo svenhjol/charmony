@@ -78,7 +78,7 @@ public abstract class Mod {
         log().info("Checking " + name() + " " + sideName);
         var checks = this.checks.computeIfAbsent(side, m -> new HashMap<>());
         checks.forEach((feature, check) ->
-            feature.enabled(check.stream().allMatch(BooleanSupplier::getAsBoolean)));
+            feature.enabled(feature.enabled() && check.stream().allMatch(BooleanSupplier::getAsBoolean)));
 
         log().info("Booting up " + name() + " " + sideName);
         var boots = this.boots.computeIfAbsent(side, m -> new HashMap<>());
