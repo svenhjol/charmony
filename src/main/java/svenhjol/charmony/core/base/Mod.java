@@ -98,7 +98,7 @@ public abstract class Mod {
                 log().info("✔ Running " + sideName  + " feature " + featureName);
                 sided.run();
             } else {
-                log().info("✖ Not running " + sideName + " feature " + featureName);
+                log().warn("✖ Not running " + sideName + " feature " + featureName);
             }
         });
     }
