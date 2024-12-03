@@ -231,20 +231,28 @@ public abstract class MixinConfig implements IMixinConfigPlugin {
         }
 
         var niceName = getNiceFeatureName(baseName);
-        var configFile = getConfigFile(modId(), side());
 
-        if (configFile.exists()) {
-            // Read the value from the config file.
-            var handle = new Toml();
-            var toml = handle.read(configFile);
-            var enabledPath = niceName + ".Enabled";
+        // Check config file for all sides.
+        Optional<Boolean> configured = Optional.empty();
 
-            if (toml.contains(enabledPath)) {
-                return toml.getBoolean(enabledPath);
+        for (Side side : Side.values()) {
+            var configFile = getConfigFile(modId(), side);
+
+            if (configFile.exists()) {
+                // Read the value from the config file.
+                var handle = new Toml();
+                var toml = handle.read(configFile);
+                var enabledPath = niceName + ".Enabled";
+
+                if (toml.contains(enabledPath)) {
+                    if (configured.isEmpty() || configured.get()) {
+                        configured = Optional.of(toml.getBoolean(enabledPath));
+                    }
+                }
             }
         }
 
-        return feature.enabledByDefault();
+        return configured.orElseGet(feature::enabledByDefault);
     }
 
     /**

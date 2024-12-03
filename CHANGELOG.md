@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.11.6
+
+- Check feature is enabled in all configuration files before considering enabled.
+
 ## 1.11.5
 
 - Make AdvancementHelper trigger check more permissive.
