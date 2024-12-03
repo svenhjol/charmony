@@ -94,7 +94,7 @@ public abstract class Mod {
             var sided = feature.get(side).orElse(null);
             if (sided == null) return;
 
-            if (sided.enabled()) {
+            if (feature.enabled()) {
                 log().info("✔ Running " + sideName  + " feature " + featureName);
                 sided.run();
             } else {

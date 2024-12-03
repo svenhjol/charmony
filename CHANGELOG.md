@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.11.7
+
+- Check feature is enabled during side runtime.
+
 ## 1.11.6
 
 - Check feature is enabled in all configuration files before considering enabled.
