@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.11.8
+
+- Control panel shows when a disabled-by-default feature has been enabled.
+
 ## 1.11.7
 
 - Check feature is enabled during side runtime.

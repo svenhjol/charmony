@@ -20,6 +20,7 @@
   "gui.charmony.settings.false": "False",
   "gui.charmony.settings.feature.title": "%s configuration",
   "gui.charmony.settings.feature.disabled": "Feature is disabled.",
+  "gui.charmony.settings.feature.normally_disabled": "Feature is enabled.",
   "gui.charmony.settings.not_using_defaults": "Configuration has been modified.",
   "gui.charmony.settings.requires_restart": "Changing this value requires game restart.",
   "gui.charmony.settings.restart_later": "Restart later",

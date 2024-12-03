@@ -19,6 +19,7 @@ import java.util.Optional;
 
 public class FeaturesList extends AbstractSelectionList<FeaturesList.Entry> {
     private static final MutableComponent FEATURE_IS_DISABLED = Component.translatable("gui.charmony.settings.feature.disabled");
+    private static final MutableComponent FEATURE_NORMALLY_DISABLED = Component.translatable("gui.charmony.settings.feature.normally_disabled");
     private static final MutableComponent NOT_USING_DEFAULTS = Component.translatable("gui.charmony.settings.not_using_defaults");
     private final FeaturesScreen parent;
     private final Mod mod;
@@ -186,6 +187,11 @@ public class FeaturesList extends AbstractSelectionList<FeaturesList.Entry> {
             if (feature.enabled() && !hasDefaultValues) {
                 name = name.withStyle(ChatFormatting.YELLOW);
                 descriptionLines.add(NOT_USING_DEFAULTS.withStyle(ChatFormatting.YELLOW));
+            }
+
+            if (feature.enabled() && !feature.enabledByDefault()) {
+                name = name.withStyle(ChatFormatting.YELLOW);
+                descriptionLines.add(FEATURE_NORMALLY_DISABLED.withStyle(ChatFormatting.YELLOW));
             }
 
             // Add message to tooltip if feature is disabled.
