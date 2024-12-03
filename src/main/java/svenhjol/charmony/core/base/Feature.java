@@ -23,7 +23,7 @@ public final class Feature {
     }
 
     public boolean enabled() {
-        return features.values().stream().anyMatch(SidedFeature::enabled);
+        return features.values().stream().allMatch(SidedFeature::enabled);
     }
 
     public boolean enabledByDefault() {
