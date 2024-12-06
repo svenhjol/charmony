@@ -1,4 +1,4 @@
-package svenhjol.charmony.core.common.mixins.entity_killed_drop_events;
+package svenhjol.charmony.core.common.mixins.entity_killed_drop_callback;
 
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
