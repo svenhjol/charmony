@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.11.9
+
+- Add ItemDragDropCallback.
+
 ## 1.11.8
 
 - Control panel shows when a disabled-by-default feature has been enabled.
