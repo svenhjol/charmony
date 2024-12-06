@@ -11,11 +11,12 @@
     "anvil.AnvilMenuOnTakeMixin",
     "anvil.AnvilMenuRepairMixin",
     "anvil.AnvilMenuUpdateMixin",
-    "entity_killed_drop_events.LivingEntityMixin",
+    "entity_killed_drop_callback.LivingEntityMixin",
     "entity_tick_callback.LivingEntityMixin",
     "grindstone.GrindstoneMenuInputMixin",
     "grindstone.GrindstoneMenuMixin",
     "grindstone.GrindstoneMenuOutputMixin",
+    "item_drag_drop_callback.ItemMixin",
     "player_tick_callback.ServerPlayerMixin"
   ]
 }
