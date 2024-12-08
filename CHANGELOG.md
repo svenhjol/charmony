@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.11.11
+
+- Add ItemStackHelper and TagHelper.
+
 ## 1.11.10
 
 - Update icon.
