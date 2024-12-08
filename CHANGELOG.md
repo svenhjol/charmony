@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.11.10
+
+- Update icon.
+
 ## 1.11.9
 
 - Add ItemDragDropCallback.
