@@ -39,7 +39,7 @@ public interface ItemContainerTooltip extends TooltipComponent {
         return BACKGROUND_SPRITE;
     }
 
-    default void defaultRenderImage(GuiGraphics guiGraphics, Font font, Texture texture, int y, int x) {
+    default void defaultRenderImage(GuiGraphics guiGraphics, Font font, Texture texture, int x, int y) {
         var gx = this.gridSizeX();
         var gy = this.gridSizeY();
         guiGraphics.blitSprite(RenderType::guiTextured, backgroundSprite(), x, y, backgroundWidth(), backgroundHeight());

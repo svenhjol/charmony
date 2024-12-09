@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.12.1
+
+- Fix signature order issue.
+
 ## 1.12.0
 
 - Change signature of ItemContainerTooltip to make specifying slot texture more flexible.
