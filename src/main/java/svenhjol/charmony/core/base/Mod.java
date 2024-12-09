@@ -99,6 +99,7 @@ public abstract class Mod {
                 sided.run();
             } else {
                 log().warn("✖ Not running " + sideName + " feature " + featureName);
+                feature.enabled(false);
             }
         });
     }

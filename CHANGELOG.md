@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.12.3
+
+- Set all sided features enabled flag to false when an encompassing feature is disabled.
+
 ## 1.12.2
 
 - Add texture for custom selected_slot.
