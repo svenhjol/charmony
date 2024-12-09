@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.13.0
+
+- Remove client mode.
+- Change length of control panel config keys.
+
 ## 1.12.3
 
 - Set all sided features enabled flag to false when an encompassing feature is disabled.

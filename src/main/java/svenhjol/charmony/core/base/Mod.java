@@ -41,11 +41,6 @@ public abstract class Mod {
         var classes = this.classes.computeIfAbsent(side, l -> new LinkedList<>());
         var classCount = classes.size();
 
-        if (Environment.isClientMode() && !side.equals(Side.Client)) {
-            log.warn("Client mode is active, skipping " + sideName + " features");
-            return;
-        }
-
         if (classCount == 0) {
             log.info("No " + sideName + " features to set up for " + name() + ", skipping");
             return;

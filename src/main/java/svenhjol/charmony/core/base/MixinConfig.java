@@ -47,12 +47,6 @@ public abstract class MixinConfig implements IMixinConfigPlugin {
         var baseName = split[0]; // The first bit of the path. This is the subfolder that the mixin class lives in.
         var mixinPrefix = getNiceSideName() + " mixin"; // Logging prefix. "Client mixin", "Common mixin" etc.
 
-        // If client mode is enabled and the mixin isn't a client mixin, don't include this.
-        if (isClientMode() && !side().equals(Side.Client)) {
-            LOGGER.warn("✖ Client mode is active, not loading {}", simpleClassPath);
-            return false;
-        }
-
         // Allow the subclass to check if this mixin base is permitted.
         if (!allowBaseName(baseName, fullClassPath)) {
             LOGGER.warn("✖ {} {} is not allowed", mixinPrefix, simpleClassPath);
@@ -136,17 +130,6 @@ public abstract class MixinConfig implements IMixinConfigPlugin {
             mixinDisableMode = tryReadFromCoreConfig(Environment.MIXIN_DISABLE_MODE);
         }
         return mixinDisableMode.orElse(false);
-    }
-
-    /**
-     * Read the "client mode" value from the charmony config file as early as possible.
-     * @return The value of client mode.
-     */
-    protected boolean isClientMode() {
-        if (clientMode.isEmpty()) {
-            clientMode = tryReadFromCoreConfig(Environment.CLIENT_MODE);
-        }
-        return clientMode.orElse(false);
     }
 
     /**

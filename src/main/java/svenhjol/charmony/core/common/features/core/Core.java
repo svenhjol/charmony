@@ -15,12 +15,6 @@ public final class Core extends SidedFeature {
     public final Networking networking;
 
     @Configurable(
-        name = "Client mode",
-        description = "Force client mode. Disables all common and server mixins and features."
-    )
-    private static boolean clientMode = false;
-
-    @Configurable(
         name = "Debug mode",
         description = "Enable debugging mode. Produces more logging output and adds some testing code."
     )
@@ -37,10 +31,8 @@ public final class Core extends SidedFeature {
     @Configurable(
         name = "Custom anvil on-take behavior",
         description = """
-            Enable custom on-take behavior for anvils.
-            This changes the vanilla anvil behavior to avoid destroying entire stacks.
-            There is a small chance that a mod depends on the default behavior, in which case you should
-            disable this config option."""
+            Enable custom on-take behavior for anvils. This changes the vanilla anvil behavior to avoid destroying entire stacks.
+            There is a small chance that a mod depends on the default behavior, in which case you should disable this config option."""
     )
     private static boolean customAnvilOnTakeBehavior = true;
 
@@ -53,10 +45,6 @@ public final class Core extends SidedFeature {
 
     public static Core feature() {
         return Charmony.instance().feature(Core.class);
-    }
-
-    public boolean clientMode() {
-        return clientMode;
     }
 
     public boolean debugMode() {
