@@ -35,38 +35,43 @@ public interface ItemContainerTooltip extends TooltipComponent {
         return MARGIN_Y;
     }
 
-    default void defaultRenderImage(Font font, int x, int y, GuiGraphics guiGraphics) {
+    default ResourceLocation backgroundSprite() {
+        return BACKGROUND_SPRITE;
+    }
+
+    default void defaultRenderImage(GuiGraphics guiGraphics, Font font, Texture texture, int y, int x) {
         var gx = this.gridSizeX();
         var gy = this.gridSizeY();
-        guiGraphics.blitSprite(RenderType::guiTextured, BACKGROUND_SPRITE, x, y, backgroundWidth(), backgroundHeight());
+        guiGraphics.blitSprite(RenderType::guiTextured, backgroundSprite(), x, y, backgroundWidth(), backgroundHeight());
         int index = 0;
 
         for (int yy = 0; yy < gy; ++yy) {
             for (int xx = 0; xx < gx; ++xx) {
                 int slotX = x + xx * 18 + 1;
                 int slotY = y + yy * 20 + 1;
-                renderSlotWithIndex(guiGraphics, font, index++, slotX, slotY);
+                renderSlotWithIndex(guiGraphics, font, texture, index++, slotX, slotY);
             }
         }
     }
 
-    default void renderSlotWithIndex(GuiGraphics guiGraphics, Font font, int index, int x, int y) {
+    default void renderSlotWithIndex(GuiGraphics guiGraphics, Font font, Texture texture, int index, int x, int y) {
         if (index >= getItems().size()) {
-            renderSlot(guiGraphics, x, y);
+            renderSlot(guiGraphics, texture, x, y);
         } else {
             var itemStack = getItems().get(index);
-            renderSlot(guiGraphics, x, y);
+            renderSlot(guiGraphics, texture, x, y);
             guiGraphics.renderItem(itemStack, x + 1, y + 1, index);
             guiGraphics.renderItemDecorations(font, itemStack, x + 1, y + 1);
         }
     }
 
-    default void renderSlot(GuiGraphics guiGraphics, int x, int y) {
-        guiGraphics.blitSprite(RenderType::guiTextured, Texture.SLOT.sprite, x, y, Texture.SLOT.width, Texture.SLOT.height);
+    default void renderSlot(GuiGraphics guiGraphics, Texture texture, int x, int y) {
+        guiGraphics.blitSprite(RenderType::guiTextured, texture.sprite, x, y, texture.width, texture.height);
     }
 
     enum Texture {
-        SLOT(ResourceLocation.fromNamespaceAndPath(Charmony.ID, "item_container/slot"), SLOT_SIZE_X, SLOT_SIZE_Y);
+        Slot(ResourceLocation.fromNamespaceAndPath(Charmony.ID, "item_container/slot"), SLOT_SIZE_X, SLOT_SIZE_Y),
+        SelectedSlot(ResourceLocation.fromNamespaceAndPath(Charmony.ID, "item_container/selected_slot"), SLOT_SIZE_X, SLOT_SIZE_Y);
 
         public final ResourceLocation sprite;
         public final int width;

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.12.0
+
+- Change signature of ItemContainerTooltip to make specifying slot texture more flexible.
+
 ## 1.11.11
 
 - Add ItemStackHelper and TagHelper.
