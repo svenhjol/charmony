@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.12.2
+
+- Add texture for custom selected_slot.
+
 ## 1.12.1
 
 - Fix signature order issue.
