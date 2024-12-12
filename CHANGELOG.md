@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.13.1
+
+- Add CommonRegistry helper methods and VillagerHelper for handling trade registrations.
+
 ## 1.13.0
 
 - Remove client mode.
