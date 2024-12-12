@@ -24,11 +24,11 @@ public final class ClientInitializer implements ClientModInitializer {
 
         // Setup and run the mod.
         var charmony = Charmony.instance();
-        charmony.addFeature(Core.class);
-        charmony.addFeature(ControlPanel.class);
+        charmony.addSidedFeature(Core.class);
+        charmony.addSidedFeature(ControlPanel.class);
 
         if (Environment.isDevEnvironment()) {
-            charmony.addFeature(TestFeature.class);
+            charmony.addSidedFeature(TestFeature.class);
         }
 
         charmony.run(Side.Client);

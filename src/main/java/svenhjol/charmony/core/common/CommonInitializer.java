@@ -23,11 +23,11 @@ public class CommonInitializer implements ModInitializer {
         if (initialized) return;
 
         var charmony = Charmony.instance();
-        charmony.addFeature(Core.class);
-        charmony.addFeature(Advancements.class);
+        charmony.addSidedFeature(Core.class);
+        charmony.addSidedFeature(Advancements.class);
 
         if (Environment.isDevEnvironment()) {
-            charmony.addFeature(TestFeature.class);
+            charmony.addSidedFeature(TestFeature.class);
         }
 
         charmony.run(Side.Common);

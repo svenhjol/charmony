@@ -2,7 +2,8 @@
 
 ## 1.14.0
 
-- 
+- CommonRegistry helper methods now return a supplier.
+- Changed "feature" to "sidedFeature" where applicable in Mod class.
 
 ## 1.13.5
 

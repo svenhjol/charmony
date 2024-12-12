@@ -17,7 +17,7 @@ public abstract class Mod {
     private final Log log;
     private final Config config;
     private final Map<String, Feature> features = new HashMap<>();
-    private final Map<Class<? extends SidedFeature>, SidedFeature> classFeatures = new HashMap<>();
+    private final Map<Class<? extends SidedFeature>, SidedFeature> classSidedFeatures = new HashMap<>();
     private final Map<Side, LinkedList<Class<? extends SidedFeature>>> classes = new LinkedHashMap<>();
     private final Map<Side, Map<SidedFeature, List<Runnable>>> boots = new HashMap<>();
     private final Map<Side, Map<SidedFeature, List<BooleanSupplier>>> checks = new HashMap<>();
@@ -55,7 +55,7 @@ public abstract class Mod {
             SidedFeature sidedFeature;
             try {
                 sidedFeature = clazz.getDeclaredConstructor(Mod.class).newInstance(this);
-                classFeatures.put(clazz, sidedFeature);
+                classSidedFeatures.put(clazz, sidedFeature);
                 features.computeIfAbsent(sidedFeature.className(), c -> new Feature(this)).put(side, sidedFeature);
 
             } catch (Exception e) {
@@ -138,13 +138,13 @@ public abstract class Mod {
         return this.config;
     }
 
-    public <F extends SidedFeature> F feature(Class<F> clazz) {
-        return tryFeature(clazz).orElseThrow(() -> new RuntimeException("Could not resolve feature for class " + clazz));
+    public <F extends SidedFeature> F sidedFeature(Class<F> clazz) {
+        return trySidedFeature(clazz).orElseThrow(() -> new RuntimeException("Could not resolve feature for class " + clazz));
     }
 
     @SuppressWarnings("unchecked")
-    public <F extends SidedFeature> Optional<F> tryFeature(Class<F> clazz) {
-        F resolved = (F) classFeatures.get(clazz);
+    public <F extends SidedFeature> Optional<F> trySidedFeature(Class<F> clazz) {
+        F resolved = (F) classSidedFeatures.get(clazz);
         return Optional.ofNullable(resolved);
     }
 
@@ -154,7 +154,13 @@ public abstract class Mod {
         return get(mod).map(m -> m.features.get(name));
     }
 
-    public void addFeature(Class<? extends SidedFeature> clazz) {
+    public void addSidedFeatures(List<Class<? extends SidedFeature>> classes) {
+        for (var clazz : classes) {
+            addSidedFeature(clazz);
+        }
+    }
+
+    public void addSidedFeature(Class<? extends SidedFeature> clazz) {
         var side = clazz.getAnnotation(FeatureDefinition.class).side();
         classes.computeIfAbsent(side, a -> new LinkedList<>()).add(clazz);
     }
@@ -175,7 +181,7 @@ public abstract class Mod {
         return values;
     }
 
-    public LinkedList<SidedFeature> featuresForSide(Side side) {
+    public LinkedList<SidedFeature> sidedFeatures(Side side) {
         return features.values().stream()
             .map(c -> c.get(side))
             .filter(Optional::isPresent)
