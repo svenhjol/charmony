@@ -148,7 +148,7 @@ public abstract class Mod {
         return Optional.ofNullable(resolved);
     }
 
-    public Optional<Feature> tryFeature(ResourceLocation id) {
+    public static Optional<Feature> tryFeature(ResourceLocation id) {
         var mod = id.getNamespace();
         var name = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, id.getPath());
         return get(mod).map(m -> m.features.get(name));
