@@ -13,6 +13,7 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import svenhjol.charmony.core.base.SidedFeature;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,15 +21,15 @@ import java.util.function.Supplier;
 
 @SuppressWarnings("unused")
 public final class ClientRegistry {
-    private static final List<DeferredParticle> PARTICLES = new ArrayList<>();
+    public static final List<DeferredParticle> PARTICLES = new ArrayList<>();
+    private final SidedFeature feature;
 
-    private static ClientRegistry instance;
+    private ClientRegistry(SidedFeature feature) {
+        this.feature = feature;
+    }
 
-    public static ClientRegistry instance() {
-        if (instance == null) {
-            instance = new ClientRegistry();
-        }
-        return instance;
+    public static ClientRegistry forFeature(SidedFeature feature) {
+        return new ClientRegistry(feature);
     }
 
     public <T extends BlockEntity> void blockEntityRenderer(Supplier<BlockEntityType<T>> supplier, Supplier<BlockEntityRendererProvider<T>> provider) {
@@ -50,10 +51,6 @@ public final class ClientRegistry {
             ItemGroupEvents.modifyEntriesEvent(key)
                 .register(entries -> entries.accept(item));
         }
-    }
-
-    public List<DeferredParticle> particles() {
-        return PARTICLES;
     }
 
     public DeferredParticle particle(SimpleParticleType type, ParticleEngine.SpriteParticleRegistration<SimpleParticleType> registration) {

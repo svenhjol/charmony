@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.15.0
+
+- CommonRegistry and ClientRegistry now return a Registerable.
+- Mod loads registerables to resolve suppliers.
+
 ## 1.14.1
 
 - Add PlayerKilledDropCallback.

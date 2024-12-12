@@ -1,6 +1,7 @@
 package svenhjol.charmony.core.base;
 
 import com.google.common.base.CaseFormat;
+import net.minecraft.resources.ResourceLocation;
 import svenhjol.charmony.core.annotations.FeatureDefinition;
 import svenhjol.charmony.core.enums.Side;
 
@@ -19,6 +20,10 @@ public abstract class SidedFeature {
 
     public Mod mod() {
         return mod;
+    }
+
+    public ResourceLocation id(String path) {
+        return ResourceLocation.fromNamespaceAndPath(mod.id(), path);
     }
 
     /**

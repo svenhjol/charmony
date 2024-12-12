@@ -20,6 +20,7 @@ public abstract class Mod {
     private final Map<Class<? extends SidedFeature>, SidedFeature> classSidedFeatures = new HashMap<>();
     private final Map<Side, LinkedList<Class<? extends SidedFeature>>> classes = new LinkedHashMap<>();
     private final Map<Side, Map<SidedFeature, List<Runnable>>> boots = new HashMap<>();
+    private final Map<Side, Map<SidedFeature, List<Runnable>>> registers = new HashMap<>();
     private final Map<Side, Map<SidedFeature, List<BooleanSupplier>>> checks = new HashMap<>();
 
     public Mod() {
@@ -68,17 +69,24 @@ public abstract class Mod {
             }
         }
 
+        var checks = this.checks.computeIfAbsent(side, m -> new HashMap<>());
+        var registers = this.registers.computeIfAbsent(side, m -> new HashMap<>());
+        var boots = this.boots.computeIfAbsent(side, m -> new HashMap<>());
+
         log().info("Configuring " + name() + " " + sideName);
         config.populate();
         config.write();
 
         log().info("Checking " + name() + " " + sideName);
-        var checks = this.checks.computeIfAbsent(side, m -> new HashMap<>());
         checks.forEach((feature, check) ->
             feature.enabled(feature.enabled() && check.stream().allMatch(BooleanSupplier::getAsBoolean)));
 
+        log().info("Registering " + name() + " " + sideName);
+        registers.forEach((feature, register) -> {
+            register.forEach(Runnable::run);
+        });
+
         log().info("Booting up " + name() + " " + sideName);
-        var boots = this.boots.computeIfAbsent(side, m -> new HashMap<>());
         boots.forEach((feature, boot) -> {
             if (feature.enabled()) {
                 boot.forEach(Runnable::run);
@@ -112,7 +120,7 @@ public abstract class Mod {
     /**
      * Pretty-format mod name.
      * This is derived from the mod's annotation.
-     * @return Prett-format mod name.
+     * @return Pretty-format mod name.
      */
     public String name() {
         return annotation().name();
@@ -173,6 +181,11 @@ public abstract class Mod {
     public void addBootStep(SidedFeature feature, Runnable step) {
         boots.computeIfAbsent(feature.side(), m -> new HashMap<>())
             .computeIfAbsent(feature, a -> new ArrayList<>()).add(step);
+    }
+
+    public void addRegisterStep(SidedFeature feature, Runnable register) {
+        registers.computeIfAbsent(feature.side(), m -> new HashMap<>())
+            .computeIfAbsent(feature, a -> new ArrayList<>()).add(register);
     }
 
     public LinkedList<Feature> features() {

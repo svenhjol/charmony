@@ -15,8 +15,7 @@ public final class Registers extends Setup<Core> {
     }
 
     public void registerDeferredParticles(Minecraft minecraft) {
-        var particles = ClientRegistry.instance().particles();
-        for (var particle : particles) {
+        for (var particle : ClientRegistry.PARTICLES) {
             var type = particle.type();
             var registration = particle.registration();
             minecraft.particleEngine.register(type, registration);

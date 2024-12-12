@@ -1,5 +1,6 @@
 package svenhjol.charmony.core.base;
 
+import net.minecraft.resources.ResourceLocation;
 import svenhjol.charmony.core.enums.Side;
 
 import java.util.*;
@@ -48,6 +49,10 @@ public final class Feature {
 
     public Config config() {
         return mod().config();
+    }
+
+    public ResourceLocation id(String path) {
+        return ResourceLocation.fromNamespaceAndPath(mod.id(), path);
     }
 
     /**
