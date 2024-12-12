@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.13.2
+
+- Add WandererTrade helper method in registration.
+
 ## 1.13.1
 
 - Add CommonRegistry helper methods and VillagerHelper for handling trade registrations.
