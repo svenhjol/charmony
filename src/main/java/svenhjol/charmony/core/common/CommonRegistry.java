@@ -57,8 +57,8 @@ public final class CommonRegistry {
         return new Registerable<>(feature, () -> DataComponents.register(feature.id(id).toString(), dataComponent.get()));
     }
 
-    public <I extends Item> Registerable<I> item(String id, I supplier) {
-        return new Registerable<>(feature, () -> Registry.register(BuiltInRegistries.ITEM, feature.id(id), supplier));
+    public <I extends Item> Registerable<I> item(String id, Supplier<I> supplier) {
+        return new Registerable<>(feature, () -> Registry.register(BuiltInRegistries.ITEM, feature.id(id), supplier.get()));
     }
 
     public Registerable<SoundEvent> sound(String id) {
