@@ -6,6 +6,8 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
@@ -19,6 +21,7 @@ import svenhjol.charmony.core.helper.VillagerHelper;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
@@ -36,8 +39,12 @@ public final class CommonRegistry {
         return new CommonRegistry(feature);
     }
 
-    public <B extends Block> Registerable<B> block(String id, Supplier<B> supplier) {
-        return new Registerable<>(feature, () -> Registry.register(BuiltInRegistries.BLOCK, feature.id(id), supplier.get()));
+    public <B extends Block> Registerable<B> block(String id, Function<ResourceKey<Block>, B> funcSupplier) {
+        return new Registerable<>(feature, () -> {
+            var res = feature.id(id);
+            var key = ResourceKey.create(Registries.BLOCK, res);
+            return Registry.register(BuiltInRegistries.BLOCK, res, funcSupplier.apply(key));
+        });
     }
 
     public <BE extends BlockEntity, B extends Block> Registerable<BlockEntityType<BE>> blockEntity(String id,
@@ -58,8 +65,12 @@ public final class CommonRegistry {
         return new Registerable<>(feature, () -> DataComponents.register(feature.id(id).toString(), dataComponent.get()));
     }
 
-    public <I extends Item> Registerable<I> item(String id, Supplier<I> supplier) {
-        return new Registerable<>(feature, () -> Registry.register(BuiltInRegistries.ITEM, feature.id(id), supplier.get()));
+    public <I extends Item> Registerable<I> item(String id, Function<ResourceKey<Item>, I> funcSupplier) {
+        return new Registerable<>(feature, () -> {
+            var res = feature.id(id);
+            var key = ResourceKey.create(Registries.ITEM, res);
+            return Registry.register(BuiltInRegistries.ITEM, feature.id(id), funcSupplier.apply(key));
+        });
     }
 
     public Registerable<SoundEvent> sound(String id) {
