@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.13.4
+
+- Add tryFeature to fetch from another charmony mod.
+
 ## 1.13.3
 
 - Port GenericTrades from Charm.

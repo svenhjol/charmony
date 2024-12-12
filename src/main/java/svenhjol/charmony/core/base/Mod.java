@@ -1,5 +1,7 @@
 package svenhjol.charmony.core.base;
 
+import com.google.common.base.CaseFormat;
+import net.minecraft.resources.ResourceLocation;
 import svenhjol.charmony.core.annotations.FeatureDefinition;
 import svenhjol.charmony.core.annotations.ModDefinition;
 import svenhjol.charmony.core.enums.Side;
@@ -144,6 +146,12 @@ public abstract class Mod {
     public <F extends SidedFeature> Optional<F> tryFeature(Class<F> clazz) {
         F resolved = (F) classFeatures.get(clazz);
         return Optional.ofNullable(resolved);
+    }
+
+    public Optional<Feature> tryFeature(ResourceLocation id) {
+        var mod = id.getNamespace();
+        var name = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, id.getPath());
+        return get(mod).map(m -> m.features.get(name));
     }
 
     public void addFeature(Class<? extends SidedFeature> clazz) {
