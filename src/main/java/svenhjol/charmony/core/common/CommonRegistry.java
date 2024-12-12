@@ -43,10 +43,11 @@ public final class CommonRegistry {
     public <BE extends BlockEntity, B extends Block> Registerable<BlockEntityType<BE>> blockEntity(String id,
                                                                                                FabricBlockEntityTypeBuilder.Factory<BE> builder,
                                                                                                List<Supplier<B>> blocks) {
-        var blocksToAdd = blocks.stream().map(Supplier::get).toArray(Block[]::new);
-
-        return new Registerable<>(feature, () -> Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, feature.id(id),
-            FabricBlockEntityTypeBuilder.create(builder, blocksToAdd).build()));
+        return new Registerable<>(feature, () -> {
+            var blocksToAdd = blocks.stream().map(Supplier::get).toArray(Block[]::new);
+            return Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, feature.id(id),
+                FabricBlockEntityTypeBuilder.create(builder, blocksToAdd).build());
+        });
     }
 
     public <BE extends BlockEntity> Registerable<BlockEntityType<BE>> blockEntity(String id, FabricBlockEntityTypeBuilder.Factory<BE> builder) {
