@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.13.3
+
+- Port GenericTrades from Charm.
+
 ## 1.13.2
 
 - Add WandererTrade helper method in registration.
