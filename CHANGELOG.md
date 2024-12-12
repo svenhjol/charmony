@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.14.1
+
+- Add PlayerKilledDropCallback.
+- Add helper methods for ClientRegistry.
+
 ## 1.14.0
 
 - CommonRegistry helper methods now return a supplier.
