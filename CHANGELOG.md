@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.15.2
+
+- Inverse boolean check in mixin config.
+
 ## 1.15.1
 
 - Trying to get blocks and items to register in 1.21.4

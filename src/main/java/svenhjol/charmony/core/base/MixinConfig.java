@@ -210,7 +210,7 @@ public abstract class MixinConfig implements IMixinConfigPlugin {
         }
 
         if (!feature.canBeDisabled()) {
-            return false;
+            return true;
         }
 
         var niceName = getNiceFeatureName(baseName);
