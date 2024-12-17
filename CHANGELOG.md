@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.15.3
+
+- Add entity, biome and mob spawning registry helper methods.
+
 ## 1.15.2
 
 - Inverse boolean check in mixin config.

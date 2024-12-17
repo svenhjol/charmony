@@ -1,6 +1,10 @@
 package svenhjol.charmony.core.common;
 
+import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
+import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
+import net.minecraft.core.Holder;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
@@ -9,12 +13,16 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.levelgen.Heightmap;
 import svenhjol.charmony.core.base.Registerable;
 import svenhjol.charmony.core.base.SidedFeature;
 import svenhjol.charmony.core.helper.VillagerHelper;
@@ -22,6 +30,7 @@ import svenhjol.charmony.core.helper.VillagerHelper;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
@@ -37,6 +46,15 @@ public final class CommonRegistry {
 
     public static CommonRegistry forFeature(SidedFeature feature) {
         return new CommonRegistry(feature);
+    }
+
+    public <E extends Entity> Registerable<Void> biomeSpawn(Predicate<Holder<Biome>> predicate, MobCategory category,
+                                                            Supplier<EntityType<E>> entity, int weight, int minGroupSize, int maxGroupSize) {
+        return new Registerable<>(feature, () -> {
+            Predicate<BiomeSelectionContext> biomeSelectionContext = c -> predicate.test(c.getBiomeRegistryEntry());
+            BiomeModifications.addSpawn(biomeSelectionContext, category, entity.get(), weight, minGroupSize, maxGroupSize);
+            return null;
+        });
     }
 
     public <B extends Block> Registerable<B> block(String id, Function<ResourceKey<Block>, B> funcSupplier) {
@@ -65,11 +83,38 @@ public final class CommonRegistry {
         return new Registerable<>(feature, () -> DataComponents.register(feature.id(id).toString(), dataComponent.get()));
     }
 
+    public <E extends Entity> Registerable<EntityType<E>> entity(String id, Function<ResourceKey<EntityType<?>>, Supplier<EntityType.Builder<E>>> funcSupplier) {
+        return new Registerable<>(feature, () -> {
+            var res = feature.id(id);
+            var key = ResourceKey.create(Registries.ENTITY_TYPE, res);
+            return Registry.register(BuiltInRegistries.ENTITY_TYPE, feature.id(id), funcSupplier.apply(key).get().build(key));
+        });
+    }
+
     public <I extends Item> Registerable<I> item(String id, Function<ResourceKey<Item>, I> funcSupplier) {
         return new Registerable<>(feature, () -> {
             var res = feature.id(id);
             var key = ResourceKey.create(Registries.ITEM, res);
             return Registry.register(BuiltInRegistries.ITEM, feature.id(id), funcSupplier.apply(key));
+        });
+    }
+
+    /**
+     * This sets all the attributes for a mob. Use it when creating custom mobs.
+     * Don't do this for vanilla mobs; use mobAttribute() to add new attributes.
+     */
+    public <M extends Mob> Registerable<Void> mobAttributes(Supplier<EntityType<M>> mob, Supplier<AttributeSupplier.Builder> builder) {
+        return new Registerable<>(feature, () -> {
+            FabricDefaultAttributeRegistry.register(mob.get(), builder.get());
+            return null;
+        });
+    }
+
+    public <M extends Mob> Registerable<Void> mobSpawnPlacement(Supplier<EntityType<M>> mob, SpawnPlacementType placementType,
+                                                                Heightmap.Types heightmapType, SpawnPlacements.SpawnPredicate<M> predicate) {
+        return new Registerable<>(feature, () -> {
+            SpawnPlacements.register(mob.get(), placementType, heightmapType, predicate);
+            return null;
         });
     }
 
