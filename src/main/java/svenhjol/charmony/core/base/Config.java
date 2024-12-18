@@ -7,6 +7,7 @@ import com.moandjiezana.toml.Toml;
 import net.fabricmc.loader.api.FabricLoader;
 import svenhjol.charmony.core.annotations.Configurable;
 import svenhjol.charmony.core.enums.Side;
+import svenhjol.charmony.core.helper.ConfigHelper;
 
 import java.lang.reflect.Field;
 import java.nio.file.Files;
@@ -97,7 +98,7 @@ public final class Config {
 
                                 // Set the class property.
                                 log.debug("In feature " + sided.className() + ": setting `" + fieldName + "` to `" + configValue + "`");
-                                field.set(null, configValue);
+                                ConfigHelper.setField(field, configValue);
                             }
                         }
 
@@ -204,17 +205,7 @@ public final class Config {
                     if (opt.isPresent()) {
                         var defaultVal = opt.get();
 
-                        if (val instanceof List<?> listVal && defaultVal instanceof List<?> defaultListVal) {
-                            // Compare size and items in list
-                            if (listVal.size() != defaultListVal.size()) {
-                                return false;
-                            }
-                            for (var index = 0; index < listVal.size(); index++) {
-                                if (defaultListVal.size() > index + 1 && !listVal.get(index).equals(defaultListVal.get(index))) {
-                                    return false;
-                                }
-                            }
-                        } else if (!val.equals(defaultVal)) {
+                        if (!val.equals(defaultVal)) {
                             return false;
                         }
                     }

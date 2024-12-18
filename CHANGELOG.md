@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.15.5
+
+- Further string emptiness checking in control panel.
+
 ## 1.15.4
 
 - Tighten up side launching to match a mod's definition.

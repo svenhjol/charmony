@@ -10,6 +10,7 @@ import net.minecraft.util.Mth;
 import svenhjol.charmony.core.annotations.Configurable;
 import svenhjol.charmony.core.base.Feature;
 import svenhjol.charmony.core.base.Log;
+import svenhjol.charmony.core.helper.ConfigHelper;
 import svenhjol.charmony.core.helper.TextHelper;
 
 import java.lang.reflect.Field;
@@ -95,12 +96,7 @@ public class FeatureConfigList extends AbstractSelectionList<FeatureConfigList.E
         for (var entry : newValues.entrySet()) {
             var field = entry.getKey();
             var val = entry.getValue();
-
-            try {
-                field.set(null, val);
-            } catch (Exception e) {
-                LOGGER.error("Could not set field value for " + field + ": " + e.getMessage());
-            }
+            ConfigHelper.setField(field, val);
         }
 
         var mod = feature.mod();
@@ -274,7 +270,7 @@ public class FeatureConfigList extends AbstractSelectionList<FeatureConfigList.E
             List<String> parsed;
             try {
                 var asString = String.valueOf(newVal);
-                parsed = Arrays.asList(asString.split("\n"));
+                parsed = Arrays.stream(asString.split("\n")).filter(s -> !s.isEmpty()).toList();
             } catch (NumberFormatException e) {
                 if (defaultVal == null) {
                     LOGGER.error("Could not get default value for field " + field);
@@ -401,12 +397,7 @@ public class FeatureConfigList extends AbstractSelectionList<FeatureConfigList.E
 
             // Try and get the default value for this config item.
             defaultVal = FeatureConfigList.this.feature.mod().config().defaultValue(field).orElse(null);
-
-            try {
-                val = field.get(null);
-            } catch (Exception e) {
-                LOGGER.error("Could not get field value for " + field + ": " + e.getMessage());
-            }
+            val = ConfigHelper.getField(field);
 
             tooltip.addFirst(Component.literal(label).withStyle(ChatFormatting.BOLD).withStyle(ChatFormatting.GOLD));
 
