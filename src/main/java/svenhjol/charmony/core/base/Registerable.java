@@ -2,7 +2,7 @@ package svenhjol.charmony.core.base;
 
 import java.util.function.Supplier;
 
-public class Registerable<R> implements Supplier<R> {
+public final class Registerable<R> implements Supplier<R> {
     private final Supplier<R> supplier;
     private R instance;
 

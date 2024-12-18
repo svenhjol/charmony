@@ -12,6 +12,7 @@
     "client_respawn_player.login_client.ClientPacketListenerMixin",
     "client_tooltip_component.ClientTooltipComponentMixin",
     "hover_over_item_tooltip.ItemStackMixin",
+    "hud_item_scaling.GuiGraphicsMixin",
     "play_sound.SoundEngineMixin",
     "player_tick_callback.LocalPlayerMixin",
     "render_screen.AbstractContainerScreenMixin",

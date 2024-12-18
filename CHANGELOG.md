@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.15.6
+
+- Add BaseHudRenderer and client mixin.
+- Registerable is now final.
+
 ## 1.15.5
 
 - Further string emptiness checking in control panel.
