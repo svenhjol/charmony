@@ -200,9 +200,23 @@ public final class Config {
 
                     field.setAccessible(true);
                     var val = field.get(null);
-                    var defaultVal = defaultValue(field);
-                    if (defaultVal.isPresent() && !val.equals(defaultVal.get())) {
-                        return false;
+                    var opt = defaultValue(field);
+                    if (opt.isPresent()) {
+                        var defaultVal = opt.get();
+
+                        if (val instanceof List<?> listVal && defaultVal instanceof List<?> defaultListVal) {
+                            // Compare size and items in list
+                            if (listVal.size() != defaultListVal.size()) {
+                                return false;
+                            }
+                            for (var index = 0; index < listVal.size(); index++) {
+                                if (defaultListVal.size() > index + 1 && !listVal.get(index).equals(defaultListVal.get(index))) {
+                                    return false;
+                                }
+                            }
+                        } else if (!val.equals(defaultVal)) {
+                            return false;
+                        }
                     }
                 } catch (Exception e) {
                     log.warn("Failed to read config field in feature " + sided.className() + ": " + e.getMessage());

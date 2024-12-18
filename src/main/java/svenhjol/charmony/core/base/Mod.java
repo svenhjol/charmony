@@ -44,6 +44,11 @@ public abstract class Mod {
         var classes = this.classes.computeIfAbsent(side, l -> new LinkedList<>());
         var classCount = classes.size();
 
+        if (!sides().contains(side)) {
+            log.warn("Trying to run side " + sideName + " on a mod that does not support it, skipping");
+            return;
+        }
+
         if (classCount == 0) {
             log.info("No " + sideName + " features to set up for " + name() + ", skipping");
             return;

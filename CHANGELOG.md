@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.15.4
+
+- Tighten up side launching to match a mod's definition.
+- Compare all values of a list when checking if config has been changed from default.
+
 ## 1.15.3
 
 - Add entity, biome and mob spawning registry helper methods.
