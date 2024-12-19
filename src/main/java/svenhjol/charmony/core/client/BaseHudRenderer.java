@@ -23,8 +23,7 @@ public abstract class BaseHudRenderer {
     protected int ticksBackoff = MIN_BACKOFF_TICKS;
     protected float scaleX = 1.0f;
     protected float scaleY = 1.0f;
-
-    private boolean isValid = false;
+    protected boolean isValid = false;
 
     public BaseHudRenderer() {
         this.fadeInSpeed = 3;

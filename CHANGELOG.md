@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.15.9
+
+- Expose the isValid property of the base hud renderer.
+
 ## 1.15.8
 
 - Add registration helper method to add blocks to block entities.
