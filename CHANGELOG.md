@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.15.10
+
+- Add SyncedBlockEntity.
+
 ## 1.15.9
 
 - Expose the isValid property of the base hud renderer.
