@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.15.7
+
+- Add BaseToast to client.
+
 ## 1.15.6
 
 - Add BaseHudRenderer and client mixin.
