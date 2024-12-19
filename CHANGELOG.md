@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.15.8
+
+- Add registration helper method to add blocks to block entities.
+
 ## 1.15.7
 
 - Add BaseToast to client.

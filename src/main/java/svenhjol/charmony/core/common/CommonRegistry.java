@@ -27,7 +27,9 @@ import svenhjol.charmony.core.base.Registerable;
 import svenhjol.charmony.core.base.SidedFeature;
 import svenhjol.charmony.core.helper.VillagerHelper;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -77,6 +79,24 @@ public final class CommonRegistry {
 
     public <BE extends BlockEntity> Registerable<BlockEntityType<BE>> blockEntity(String id, FabricBlockEntityTypeBuilder.Factory<BE> builder) {
         return blockEntity(id, builder, List.of());
+    }
+
+    /**
+     * May be run late. Use this to conditionally add blocks to a block entity if the feature is enabled.
+     */
+    public <BE extends BlockEntity> void blocksForBlockEntity(Supplier<BlockEntityType<BE>> supplier, List<Supplier<? extends Block>> blocks) {
+        var blockEntity = supplier.get();
+        var blockEntityBlocks = blockEntity.validBlocks;
+        List<Block> mutable = new ArrayList<>(blockEntityBlocks);
+
+        for (Supplier<? extends Block> blockSupplier : blocks) {
+            var block = blockSupplier.get();
+            if (!mutable.contains(block)) {
+                mutable.add(block);
+            }
+        }
+
+        blockEntity.validBlocks = new HashSet<>(mutable);
     }
 
     public <D> Registerable<DataComponentType<D>> dataComponent(String id, Supplier<UnaryOperator<DataComponentType.Builder<D>>> dataComponent) {
