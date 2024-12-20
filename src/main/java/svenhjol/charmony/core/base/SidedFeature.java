@@ -5,6 +5,8 @@ import net.minecraft.resources.ResourceLocation;
 import svenhjol.charmony.core.annotations.FeatureDefinition;
 import svenhjol.charmony.core.enums.Side;
 
+import java.util.function.BooleanSupplier;
+
 @SuppressWarnings("unused")
 public abstract class SidedFeature {
     private final Mod mod;
@@ -16,6 +18,7 @@ public abstract class SidedFeature {
         this.mod = mod;
         this.log = new Log(mod.id(), className());
         this.enabled = enabledByDefault();
+        this.mod.addCheckStep(this, check());
     }
 
     public Mod mod() {
@@ -80,6 +83,10 @@ public abstract class SidedFeature {
 
     public void run() {
         // no op
+    }
+
+    public BooleanSupplier check() {
+        return () -> true;
     }
 
     public Side side() {

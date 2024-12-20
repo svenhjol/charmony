@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.15.11
+
+- Add check step to feature.
+
 ## 1.15.10
 
 - Add SyncedBlockEntity.
