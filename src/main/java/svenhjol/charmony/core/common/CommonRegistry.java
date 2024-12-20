@@ -1,5 +1,6 @@
 package svenhjol.charmony.core.common;
 
+import com.mojang.serialization.MapCodec;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
@@ -23,6 +24,9 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.StructureType;
+import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceType;
 import svenhjol.charmony.core.base.Registerable;
 import svenhjol.charmony.core.base.SidedFeature;
 import svenhjol.charmony.core.helper.VillagerHelper;
@@ -68,16 +72,16 @@ public final class CommonRegistry {
     }
 
     public <BE extends BlockEntity, B extends Block> Registerable<BlockEntityType<BE>> blockEntity(String id,
-                                                                                               FabricBlockEntityTypeBuilder.Factory<BE> builder,
+                                                                                               Supplier<FabricBlockEntityTypeBuilder.Factory<BE>> builder,
                                                                                                List<Supplier<B>> blocks) {
         return new Registerable<>(feature, () -> {
             var blocksToAdd = blocks.stream().map(Supplier::get).toArray(Block[]::new);
             return Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, feature.id(id),
-                FabricBlockEntityTypeBuilder.create(builder, blocksToAdd).build());
+                FabricBlockEntityTypeBuilder.create(builder.get(), blocksToAdd).build());
         });
     }
 
-    public <BE extends BlockEntity> Registerable<BlockEntityType<BE>> blockEntity(String id, FabricBlockEntityTypeBuilder.Factory<BE> builder) {
+    public <BE extends BlockEntity> Registerable<BlockEntityType<BE>> blockEntity(String id, Supplier<FabricBlockEntityTypeBuilder.Factory<BE>> builder) {
         return blockEntity(id, builder, List.of());
     }
 
@@ -143,25 +147,46 @@ public final class CommonRegistry {
         return new Registerable<>(feature, () -> Registry.register(BuiltInRegistries.SOUND_EVENT, res, SoundEvent.createVariableRangeEvent(res)));
     }
 
+
+    public <S extends Structure> Supplier<StructureType<S>> structure(String id, Supplier<MapCodec<S>> codec) {
+        return new Registerable<>(feature, () -> {
+            var res = feature.id(id);
+            return Registry.register(BuiltInRegistries.STRUCTURE_TYPE, res.toString(), codec::get);
+        });
+    }
+
+    public Supplier<StructurePieceType> structurePiece(String id, Supplier<StructurePieceType> piece) {
+        return new Registerable<>(feature, () -> {
+            var res = feature.id(id);
+            return Registry.register(BuiltInRegistries.STRUCTURE_PIECE, res, piece.get());
+        });
+    }
+
     /**
      * May be run late. Use this to conditionally add villager trades if the feature is enabled.
      */
-    public void villagerTrade(VillagerProfession profession, int tier, VillagerTrades.ItemListing trade) {
-        var trades = VillagerHelper.getMutableTrades(profession);
-        trades.get(tier).add(trade);
-        VillagerHelper.reassembleTrades(profession, trades);
+    public Registerable<Void> villagerTrade(Supplier<VillagerProfession> profession, int tier, Supplier<VillagerTrades.ItemListing> trade) {
+        return new Registerable<>(feature, () -> {
+            var trades = VillagerHelper.getMutableTrades(profession.get());
+            trades.get(tier).add(trade.get());
+            VillagerHelper.reassembleTrades(profession.get(), trades);
+            return null;
+        });
     }
 
     /**
      * May be run late. Use this to conditionally add trades to a wandering trade if the feature is enabled.
      */
-    public void wandererTrade(VillagerTrades.ItemListing trade, boolean isRare) {
-        List<VillagerTrades.ItemListing> trades = NonNullList.create();
-        int index = isRare ? 2 : 1;
+    public Registerable<Void> wandererTrade(Supplier<VillagerTrades.ItemListing> trade, boolean isRare) {
+        return new Registerable<>(feature, () -> {
+            List<VillagerTrades.ItemListing> trades = NonNullList.create();
+            int index = isRare ? 2 : 1;
 
-        trades.addAll(Arrays.asList(WANDERING_TRADER_TRADES.get(index)));
-        trades.add(trade);
+            trades.addAll(Arrays.asList(WANDERING_TRADER_TRADES.get(index)));
+            trades.add(trade.get());
 
-        WANDERING_TRADER_TRADES.put(index, trades.toArray(new VillagerTrades.ItemListing[0]));
+            WANDERING_TRADER_TRADES.put(index, trades.toArray(new VillagerTrades.ItemListing[0]));
+            return null;
+        });
     }
 }

@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.16.0
+
+- Change some registry helper methods to use suppliers to avoid nulls during registration.
+- Add structure and structure piece registry helper methods.
+
 ## 1.15.11
 
 - Add check step to feature.
