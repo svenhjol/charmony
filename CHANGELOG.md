@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.16.1
+
+- Move register step after boot step. This allows conditional registering to work properly.
+
 ## 1.16.0
 
 - Change some registry helper methods to use suppliers to avoid nulls during registration.

@@ -86,16 +86,16 @@ public abstract class Mod {
         checks.forEach((feature, check) ->
             feature.enabled(feature.enabled() && check.stream().allMatch(BooleanSupplier::getAsBoolean)));
 
-        log().info("Registering " + name() + " " + sideName);
-        registers.forEach((feature, register) -> {
-            register.forEach(Runnable::run);
-        });
-
         log().info("Booting up " + name() + " " + sideName);
         boots.forEach((feature, boot) -> {
             if (feature.enabled()) {
                 boot.forEach(Runnable::run);
             }
+        });
+
+        log().info("Registering " + name() + " " + sideName);
+        registers.forEach((feature, register) -> {
+            register.forEach(Runnable::run);
         });
 
         log().info("Running " + sideName + " features for " + name());
