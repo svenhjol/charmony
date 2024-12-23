@@ -107,11 +107,11 @@ public final class CommonRegistry {
         return new Registerable<>(feature, () -> DataComponents.register(feature.id(id).toString(), dataComponent.get()));
     }
 
-    public <E extends Entity> Registerable<EntityType<E>> entity(String id, Function<ResourceKey<EntityType<?>>, Supplier<EntityType.Builder<E>>> funcSupplier) {
+    public <E extends Entity> Registerable<EntityType<E>> entity(String id, Supplier<EntityType.Builder<E>> supplier) {
         return new Registerable<>(feature, () -> {
             var res = feature.id(id);
             var key = ResourceKey.create(Registries.ENTITY_TYPE, res);
-            return Registry.register(BuiltInRegistries.ENTITY_TYPE, feature.id(id), funcSupplier.apply(key).get().build(key));
+            return Registry.register(BuiltInRegistries.ENTITY_TYPE, feature.id(id), supplier.get().build(key));
         });
     }
 

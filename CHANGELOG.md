@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.17.0
+
+- Simplify entity registration.
+
 ## 1.16.1
 
 - Move register step after boot step. This allows conditional registering to work properly.
