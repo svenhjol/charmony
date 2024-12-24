@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.17.1
+
+- Add helpers and registerables for client registry.
+
 ## 1.17.0
 
 - Simplify entity registration.

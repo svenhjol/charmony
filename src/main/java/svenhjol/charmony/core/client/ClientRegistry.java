@@ -1,18 +1,26 @@
 package svenhjol.charmony.core.client;
 
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import svenhjol.charmony.core.base.Registerable;
 import svenhjol.charmony.core.base.SidedFeature;
 
 import java.util.ArrayList;
@@ -32,12 +40,25 @@ public final class ClientRegistry {
         return new ClientRegistry(feature);
     }
 
-    public <T extends BlockEntity> void blockEntityRenderer(Supplier<BlockEntityType<T>> supplier, Supplier<BlockEntityRendererProvider<T>> provider) {
-        BlockEntityRenderers.register(supplier.get(), provider.get());
+    public <BE extends BlockEntity> Registerable<Void> blockEntityRenderer(Supplier<BlockEntityType<BE>> supplier, Supplier<BlockEntityRendererProvider<BE>> provider) {
+        return new Registerable<>(feature, () -> {
+            BlockEntityRenderers.register(supplier.get(), provider.get());
+            return null;
+        });
     }
 
-    public <T extends Block> void blockRenderType(Supplier<T> block, Supplier<RenderType> renderType) {
-        BlockRenderLayerMap.INSTANCE.putBlock(block.get(), renderType.get());
+    public <B extends Block> Registerable<Void> blockRenderType(Supplier<B> block, Supplier<RenderType> renderType) {
+        return new Registerable<>(feature, () -> {
+            BlockRenderLayerMap.INSTANCE.putBlock(block.get(), renderType.get());
+            return null;
+        });
+    }
+
+    public <E extends Entity> Registerable<Void> entityRenderer(Supplier<EntityType<E>> entity, Supplier<EntityRendererProvider<E>> provider) {
+        return new Registerable<>(feature, () -> {
+            EntityRendererRegistry.register(entity.get(), provider.get());
+            return null;
+        });
     }
 
     /**
@@ -51,6 +72,13 @@ public final class ClientRegistry {
             ItemGroupEvents.modifyEntriesEvent(key)
                 .register(entries -> entries.accept(item));
         }
+    }
+
+    public Registerable<ModelLayerLocation> modelLayer(Supplier<ModelLayerLocation> location, Supplier<LayerDefinition> definition) {
+        return new Registerable<>(feature, () -> {
+            EntityModelLayerRegistry.registerModelLayer(location.get(), definition::get);
+            return location.get();
+        });
     }
 
     public DeferredParticle particle(SimpleParticleType type, ParticleEngine.SpriteParticleRegistration<SimpleParticleType> registration) {
