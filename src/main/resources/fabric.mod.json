@@ -5,37 +5,46 @@
 
   "name": "Charmony",
   "description": "Core library for Charmony mods.",
+
   "authors": [
     "svenhjol"
   ],
   "icon": "assets/charmony/textures/gui/sprites/icon.png",
-
   "license": "MIT",
   "environment": "*",
+  "accessWidener": "charmony.accesswidener",
+  "entrypoints": {
+    "main": [
+        "svenhjol.charmony.core.common.CommonInitializer"
+    ],
+    "client": [
+        "svenhjol.charmony.core.client.ClientInitializer"
+    ]
+  },
+
   "mixins": [
     "charmony.client.mixins.json",
     "charmony.common.mixins.json"
   ],
-  "accessWidener": "charmony.accesswidener",
-
-  "entrypoints": {
-    "main": [
-      "svenhjol.charmony.core.common.CommonInitializer"
-    ],
-    "client": [
-      "svenhjol.charmony.core.client.ClientInitializer"
-    ]
-  },
 
   "depends": {
     "fabricloader": ">=${loader_version}",
     "minecraft": "*",
-    "fabric-api": "*",
-    "java": ">=21"
+    "java": ">=${java_version}",
+    "fabric-api": "*"
   },
 
   "contact": {
-    "homepage": "https://charmony.work",
-    "sources": "https://github.com/svenhjol/charmony"
+    "homepage": "${homepage_link}",
+    "sources": "https://github.com/svenhjol/${mod_id}"
+  },
+
+  "custom": {
+    "modmenu": {
+      "links": {
+        "modmenu.discord": "${discord_link}"
+      },
+      "update_checker": true
+    }
   }
 }
