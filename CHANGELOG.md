@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.18.0
+
+- API now bundled.
+
 ## 1.17.7
 
 - Add smithing table events.
