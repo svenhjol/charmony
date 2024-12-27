@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.17.7
+
+- Add smithing table events.
+
 ## 1.17.1
 
 - Add helpers and registerables for client registry.

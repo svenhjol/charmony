@@ -18,6 +18,7 @@
     "grindstone.GrindstoneMenuOutputMixin",
     "item_drag_drop_callback.ItemMixin",
     "player_killed_drop_callback.PlayerMixin",
-    "player_tick_callback.ServerPlayerMixin"
+    "player_tick_callback.ServerPlayerMixin",
+    "smithing_table.SmithingMenuMixin"
   ]
 }
