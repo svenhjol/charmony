@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.18.1
+
+- Wire up to modmenu API
+
 ## 1.18.0
 
 - API now bundled.
