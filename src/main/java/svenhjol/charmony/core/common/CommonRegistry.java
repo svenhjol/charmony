@@ -19,6 +19,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -29,12 +30,10 @@ import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceType;
 import svenhjol.charmony.core.base.Registerable;
 import svenhjol.charmony.core.base.SidedFeature;
+import svenhjol.charmony.core.common.dispenser.ConditionalDispenseItemBehavior;
 import svenhjol.charmony.core.helper.VillagerHelper;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -45,6 +44,7 @@ import static net.minecraft.world.entity.npc.VillagerTrades.WANDERING_TRADER_TRA
 @SuppressWarnings("unused")
 public final class CommonRegistry {
     private final SidedFeature feature;
+    public static final Map<ItemLike, List<ConditionalDispenseItemBehavior>> CONDITIONAL_DISPENSER_BEHAVIORS = new HashMap<>();
 
     private CommonRegistry(SidedFeature feature) {
         this.feature = feature;
@@ -101,6 +101,15 @@ public final class CommonRegistry {
         }
 
         blockEntity.validBlocks = new HashSet<>(mutable);
+    }
+
+    public <I extends ItemLike, C extends ConditionalDispenseItemBehavior> Registerable<Void> conditionalDispenserBehavior(Supplier<I> itemSupplier, Supplier<C> behaviorSupplier) {
+        return new Registerable<>(feature, () -> {
+            var item = itemSupplier.get();
+            var behavior = behaviorSupplier.get();
+            CONDITIONAL_DISPENSER_BEHAVIORS.computeIfAbsent(item, a -> new ArrayList<>()).add(behavior);
+            return null;
+        });
     }
 
     public <D> Registerable<DataComponentType<D>> dataComponent(String id, Supplier<UnaryOperator<DataComponentType.Builder<D>>> dataComponent) {

@@ -11,6 +11,7 @@
     "anvil.AnvilMenuOnTakeMixin",
     "anvil.AnvilMenuRepairMixin",
     "anvil.AnvilMenuUpdateMixin",
+    "dispenser_behavior.DispenserBlockMixin",
     "entity_killed_drop_callback.LivingEntityMixin",
     "entity_tick_callback.LivingEntityMixin",
     "grindstone.GrindstoneMenuInputMixin",

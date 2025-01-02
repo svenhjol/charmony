@@ -1,8 +1,12 @@
 # Changelog
 
+## 1.18.2
+
+- Port conditional dispenser behavior.
+
 ## 1.18.1
 
-- Wire up to modmenu API
+- Wire up to modmenu API.
 
 ## 1.18.0
 
