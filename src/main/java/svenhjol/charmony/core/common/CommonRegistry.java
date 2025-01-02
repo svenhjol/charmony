@@ -31,7 +31,7 @@ import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceType;
 import svenhjol.charmony.core.base.Registerable;
 import svenhjol.charmony.core.base.SidedFeature;
 import svenhjol.charmony.core.common.dispenser.ConditionalDispenseItemBehavior;
-import svenhjol.charmony.core.helper.VillagerHelper;
+import svenhjol.charmony.core.helpers.VillagerHelper;
 
 import java.util.*;
 import java.util.function.Function;

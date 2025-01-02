@@ -10,8 +10,8 @@ import net.minecraft.util.Mth;
 import svenhjol.charmony.core.annotations.Configurable;
 import svenhjol.charmony.core.base.Feature;
 import svenhjol.charmony.core.base.Log;
-import svenhjol.charmony.core.helper.ConfigHelper;
-import svenhjol.charmony.core.helper.TextHelper;
+import svenhjol.charmony.core.helpers.ConfigHelper;
+import svenhjol.charmony.core.helpers.TextHelper;
 
 import java.lang.reflect.Field;
 import java.util.*;

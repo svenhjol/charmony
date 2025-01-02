@@ -1,4 +1,4 @@
-package svenhjol.charmony.core.helper;
+package svenhjol.charmony.core.helpers;
 
 import net.minecraft.util.ARGB;
 import net.minecraft.world.item.DyeColor;

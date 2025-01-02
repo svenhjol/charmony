@@ -1,4 +1,4 @@
-package svenhjol.charmony.core.helper;
+package svenhjol.charmony.core.helpers;
 
 import svenhjol.charmony.core.Charmony;
 import svenhjol.charmony.core.base.Log;

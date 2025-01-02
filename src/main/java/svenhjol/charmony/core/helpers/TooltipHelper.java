@@ -1,4 +1,4 @@
-package svenhjol.charmony.core.helper;
+package svenhjol.charmony.core.helpers;
 
 import net.minecraft.world.item.ItemStack;
 

@@ -11,7 +11,7 @@ import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.ItemLike;
 import svenhjol.charmony.core.Charmony;
 import svenhjol.charmony.core.base.Log;
-import svenhjol.charmony.core.helper.TagHelper;
+import svenhjol.charmony.core.helpers.TagHelper;
 
 import javax.annotation.Nullable;
 import java.util.List;

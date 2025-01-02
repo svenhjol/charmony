@@ -7,7 +7,7 @@ import com.moandjiezana.toml.Toml;
 import net.fabricmc.loader.api.FabricLoader;
 import svenhjol.charmony.core.annotations.Configurable;
 import svenhjol.charmony.core.enums.Side;
-import svenhjol.charmony.core.helper.ConfigHelper;
+import svenhjol.charmony.core.helpers.ConfigHelper;
 
 import java.lang.reflect.Field;
 import java.nio.file.Files;

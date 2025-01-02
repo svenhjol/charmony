@@ -11,7 +11,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import svenhjol.charmony.core.base.Feature;
 import svenhjol.charmony.core.base.Mod;
-import svenhjol.charmony.core.helper.TextHelper;
+import svenhjol.charmony.core.helpers.TextHelper;
 
 import java.util.ArrayList;
 import java.util.List;

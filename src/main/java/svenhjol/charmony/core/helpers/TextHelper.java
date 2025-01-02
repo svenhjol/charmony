@@ -1,4 +1,4 @@
-package svenhjol.charmony.core.helper;
+package svenhjol.charmony.core.helpers;
 
 import com.google.common.base.Function;
 import net.minecraft.network.chat.Component;

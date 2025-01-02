@@ -1,4 +1,4 @@
-package svenhjol.charmony.core.helper;
+package svenhjol.charmony.core.helpers;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
