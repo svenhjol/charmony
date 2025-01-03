@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.19.1
+
+- Server/client packet register helpers.
+- Block color register helper.
+
 ## 1.19.0
 
 - Rename helper to helpers.

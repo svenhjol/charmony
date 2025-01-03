@@ -1,9 +1,12 @@
 package svenhjol.charmony.core.client;
 
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.particle.ParticleEngine;
@@ -12,9 +15,11 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
@@ -25,6 +30,7 @@ import svenhjol.charmony.core.base.SidedFeature;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
 @SuppressWarnings("unused")
@@ -54,6 +60,10 @@ public final class ClientRegistry {
         });
     }
 
+    public void blockColor(BlockColor blockColor, List<Supplier<? extends Block>> blocks) {
+        ColorProviderRegistry.BLOCK.register(blockColor, blocks.stream().map(Supplier::get).toList().toArray(Block[]::new));
+    }
+
     public <E extends Entity> Registerable<Void> entityRenderer(Supplier<EntityType<E>> entity, Supplier<EntityRendererProvider<E>> provider) {
         return new Registerable<>(feature, () -> {
             EntityRendererRegistry.register(entity.get(), provider.get());
@@ -78,6 +88,22 @@ public final class ClientRegistry {
         return new Registerable<>(feature, () -> {
             EntityModelLayerRegistry.registerModelLayer(location.get(), definition::get);
             return location.get();
+        });
+    }
+
+    /**
+     * Register a callback when the client receives a packet from the server.
+     * @param type Packet type.
+     * @param handler Callback.
+     * @return Empty registerable.
+     * @param <P> Payload class.
+     */
+    public <P extends CustomPacketPayload> Registerable<Void> packetReceiver(CustomPacketPayload.Type<P> type, Supplier<BiConsumer<Player, P>> handler) {
+        return new Registerable<>(feature, () -> {
+            ClientPlayNetworking.registerGlobalReceiver(type,
+                (payload, context) -> context.client().execute(
+                    () -> handler.get().accept(context.player(), payload)));
+            return null;
         });
     }
 

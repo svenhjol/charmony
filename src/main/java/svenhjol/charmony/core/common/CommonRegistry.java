@@ -1,8 +1,11 @@
 package svenhjol.charmony.core.common;
 
 import com.mojang.serialization.MapCodec;
+import io.netty.buffer.ByteBuf;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.core.Holder;
@@ -12,12 +15,15 @@ import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.biome.Biome;
@@ -31,13 +37,11 @@ import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceType;
 import svenhjol.charmony.core.base.Registerable;
 import svenhjol.charmony.core.base.SidedFeature;
 import svenhjol.charmony.core.common.dispenser.ConditionalDispenseItemBehavior;
+import svenhjol.charmony.core.enums.Side;
 import svenhjol.charmony.core.helpers.VillagerHelper;
 
 import java.util.*;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
-import java.util.function.UnaryOperator;
+import java.util.function.*;
 
 import static net.minecraft.world.entity.npc.VillagerTrades.WANDERING_TRADER_TRADES;
 
@@ -147,6 +151,41 @@ public final class CommonRegistry {
                                                                 Heightmap.Types heightmapType, SpawnPlacements.SpawnPredicate<M> predicate) {
         return new Registerable<>(feature, () -> {
             SpawnPlacements.register(mob.get(), placementType, heightmapType, predicate);
+            return null;
+        });
+    }
+
+    /**
+     * Register a callback when the server receives a packet from the client.
+     * @param type Packet type.
+     * @param handler Callback.
+     * @return Empty registerable.
+     * @param <P> Payload class.
+     */
+    public <P extends CustomPacketPayload> Registerable<Void> packetReceiver(CustomPacketPayload.Type<P> type, Supplier<BiConsumer<Player, P>> handler) {
+        return new Registerable<>(feature, () -> {
+            ServerPlayNetworking.registerGlobalReceiver(type,
+                (payload, context) -> context.player().server.execute(
+                    () -> handler.get().accept(context.player(), payload)));
+            return null;
+        });
+    }
+
+    /**
+     * Register packet to send from the specified side.
+     * @param side Side to send the packet from.
+     * @param type Packet type.
+     * @param codec Packet codec.
+     * @return Empty registerable.
+     * @param <P> Payload class.
+     */
+    @SuppressWarnings("unchecked")
+    public <P extends CustomPacketPayload> Registerable<Void> packetSender(Side side, CustomPacketPayload.Type<P> type, StreamCodec<? extends ByteBuf, P> codec) {
+        return new Registerable<>(feature, () -> {
+            switch (side) {
+                case Common -> PayloadTypeRegistry.playS2C().register(type, (StreamCodec<? super ByteBuf, P>)codec);
+                case Client -> PayloadTypeRegistry.playC2S().register(type, (StreamCodec<? super ByteBuf, P>)codec);
+            }
             return null;
         });
     }

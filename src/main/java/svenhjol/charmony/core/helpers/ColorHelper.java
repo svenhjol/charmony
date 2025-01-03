@@ -1,7 +1,11 @@
 package svenhjol.charmony.core.helpers;
 
+import net.minecraft.client.renderer.BiomeColors;
+import net.minecraft.core.BlockPos;
 import net.minecraft.util.ARGB;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.level.BlockAndTintGetter;
+import net.minecraft.world.level.block.state.BlockState;
 
 @SuppressWarnings("unused")
 public final class ColorHelper {
@@ -27,5 +31,10 @@ public final class ColorHelper {
         public float getBlue() {
             return (float) ARGB.blue(this.color) / 255.0f;
         }
+    }
+
+    public static int leavesColorFromBiome(BlockState state, BlockAndTintGetter level, BlockPos pos, int tintIndex) {
+        var defaultColor = -12012264; // See BlockColors.java
+        return level != null && pos != null ? BiomeColors.getAverageFoliageColor(level, pos) : defaultColor;
     }
 }
