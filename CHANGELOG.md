@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.19.2
+
+- Port conditional slot, container menu and container screen.
+- Add entity jump callback and beacon effects callback.
+- Deprecate next and previous page buttons.
+
 ## 1.19.1
 
 - Server/client packet register helpers.

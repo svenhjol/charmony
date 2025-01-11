@@ -70,8 +70,11 @@ public final class CoreButtons {
             super(x, y, width, HEIGHT, text, onPress, DEFAULT_NARRATION);
         }
     }
-    
-    public static class NextPageButton extends ImageButton {
+
+    /**
+     * @deprecated
+     */
+    @Deprecated public static class NextPageButton extends ImageButton {
         public static int WIDTH = 20;
         public static int HEIGHT = 19;
         static WidgetSprites SPRITES = NEXT_PAGE_BUTTON;
@@ -83,7 +86,10 @@ public final class CoreButtons {
         }
     }
 
-    public static class PreviousPageButton extends ImageButton {
+    /**
+     * @deprecated
+     */
+    @Deprecated public static class PreviousPageButton extends ImageButton {
         public static int WIDTH = 20;
         public static int HEIGHT = 19;
         static WidgetSprites SPRITES = PREVIOUS_PAGE_BUTTON;

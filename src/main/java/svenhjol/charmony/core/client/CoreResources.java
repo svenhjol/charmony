@@ -8,6 +8,10 @@ public final class CoreResources {
     public static final Component SAVE = Component.translatable("gui.charmony.labels.save");
     public static final Component CANCEL = Component.translatable("gui.charmony.labels.cancel");
     public static final Component DELETE = Component.translatable("gui.charmony.labels.delete");
-    public static final Component NEXT_PAGE = Component.translatable("gui.charmony.labels.nextPage");
-    public static final Component PREVIOUS_PAGE = Component.translatable("gui.charmony.labels.previousPage");
+
+    /** @deprecated */
+    @Deprecated public static final Component NEXT_PAGE = Component.translatable("gui.charmony.labels.nextPage");
+
+    /** @deprecated */
+    @Deprecated public static final Component PREVIOUS_PAGE = Component.translatable("gui.charmony.labels.previousPage");
 }
