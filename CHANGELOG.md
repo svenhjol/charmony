@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.19.3
+
+- Add menu and menuScreen to registration helper methods.
+
 ## 1.19.2
 
 - Port conditional slot, container menu and container screen.

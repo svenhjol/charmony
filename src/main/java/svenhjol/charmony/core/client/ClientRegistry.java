@@ -7,6 +7,9 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.client.color.block.BlockColor;
+import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.inventory.MenuAccess;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.particle.ParticleEngine;
@@ -20,6 +23,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
@@ -27,6 +31,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import svenhjol.charmony.core.base.Registerable;
 import svenhjol.charmony.core.base.SidedFeature;
+import svenhjol.charmony.core.common.ContainerMenu;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,7 +79,7 @@ public final class ClientRegistry {
     /**
      * May be run late. Use this to conditionally add and item to the creative menu if the feature is enabled.
      */
-    public <T extends ItemLike> void itemTab(T item, ResourceKey<CreativeModeTab> key, ItemLike showAfter) {
+    public <I extends ItemLike> void itemTab(I item, ResourceKey<CreativeModeTab> key, ItemLike showAfter) {
         if (showAfter != null) {
             ItemGroupEvents.modifyEntriesEvent(key)
                 .register(entries -> entries.addAfter(showAfter, item));
@@ -82,6 +87,14 @@ public final class ClientRegistry {
             ItemGroupEvents.modifyEntriesEvent(key)
                 .register(entries -> entries.accept(item));
         }
+    }
+
+    public <M extends ContainerMenu, S extends Screen & MenuAccess<M>> Registerable<?> menuScreen(Supplier<MenuType<M>> menu,
+                                                                                                  Supplier<MenuScreens.ScreenConstructor<M, S>> screen) {
+        return new Registerable<>(feature, () -> {
+            MenuScreens.register(menu.get(), screen.get());
+            return null;
+        });
     }
 
     public Registerable<ModelLayerLocation> modelLayer(Supplier<ModelLayerLocation> location, Supplier<LayerDefinition> definition) {

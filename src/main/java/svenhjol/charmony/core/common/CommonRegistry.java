@@ -24,6 +24,8 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.biome.Biome;
@@ -134,6 +136,11 @@ public final class CommonRegistry {
             var key = ResourceKey.create(Registries.ITEM, res);
             return Registry.register(BuiltInRegistries.ITEM, feature.id(id), funcSupplier.apply(key));
         });
+    }
+
+    public <T extends MenuType<M>, M extends AbstractContainerMenu> Registerable<T> menuType(String id, Supplier<T> menuSupplier) {
+        return new Registerable<>(feature,
+            () -> Registry.register(BuiltInRegistries.MENU, feature.id(id), menuSupplier.get()));
     }
 
     /**
