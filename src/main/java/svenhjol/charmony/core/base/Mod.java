@@ -4,6 +4,7 @@ import com.google.common.base.CaseFormat;
 import net.minecraft.resources.ResourceLocation;
 import svenhjol.charmony.core.annotations.FeatureDefinition;
 import svenhjol.charmony.core.annotations.ModDefinition;
+import svenhjol.charmony.core.common.CommonRegistry;
 import svenhjol.charmony.core.enums.Side;
 
 import java.util.*;
@@ -97,6 +98,10 @@ public abstract class Mod {
         registers.forEach((feature, register) -> {
             register.forEach(Runnable::run);
         });
+
+        switch (side) {
+            case Common -> CommonRegistry.finishModRegistration(this);
+        }
 
         log().info("Running " + sideName + " features for " + name());
         features.forEach((name, feature) -> {

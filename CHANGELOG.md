@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.19.4
+
+- Add potions to registration helper methods.
+
 ## 1.19.3
 
 - Add menu and menuScreen to registration helper methods.

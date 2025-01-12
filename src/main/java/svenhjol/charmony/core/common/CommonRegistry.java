@@ -8,6 +8,7 @@ import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
+import net.fabricmc.fabric.api.registry.FabricBrewingRecipeRegistryBuilder;
 import net.minecraft.core.Holder;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.Registry;
@@ -27,6 +28,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
@@ -36,6 +38,7 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceType;
+import svenhjol.charmony.core.base.Mod;
 import svenhjol.charmony.core.base.Registerable;
 import svenhjol.charmony.core.base.SidedFeature;
 import svenhjol.charmony.core.common.dispenser.ConditionalDispenseItemBehavior;
@@ -50,10 +53,23 @@ import static net.minecraft.world.entity.npc.VillagerTrades.WANDERING_TRADER_TRA
 @SuppressWarnings("unused")
 public final class CommonRegistry {
     private final SidedFeature feature;
+
+    public static final Map<Mod, List<PotionRecipe>> POTION_RECIPES = new HashMap<>();
     public static final Map<ItemLike, List<ConditionalDispenseItemBehavior>> CONDITIONAL_DISPENSER_BEHAVIORS = new HashMap<>();
 
     private CommonRegistry(SidedFeature feature) {
         this.feature = feature;
+    }
+
+    /**
+     * Call this after mod feature registration has been completed so that registry events can be handled for the mod.
+     */
+    public static void finishModRegistration(Mod mod) {
+        // Register all the potion recipes for the mod.
+        var potionRecipes = POTION_RECIPES.getOrDefault(mod, List.of());
+        FabricBrewingRecipeRegistryBuilder.BUILD.register(
+            builder -> potionRecipes.forEach(
+                recipe -> builder.addMix(recipe.input(), recipe.reagent().get(), recipe.output())));
     }
 
     public static CommonRegistry forFeature(SidedFeature feature) {
@@ -195,6 +211,15 @@ public final class CommonRegistry {
             }
             return null;
         });
+    }
+
+    public Registerable<Holder<Potion>> potion(String id, Supplier<Potion> supplier) {
+        return new Registerable<>(feature,
+            () -> Registry.registerForHolder(BuiltInRegistries.POTION, feature.id(id), supplier.get()));
+    }
+
+    public void potionRecipe(Holder<Potion> input, Supplier<Item> reagent, Holder<Potion> output) {
+        POTION_RECIPES.computeIfAbsent(feature.mod(), l -> new ArrayList<>()).add(new PotionRecipe(input, reagent, output));
     }
 
     public Registerable<SoundEvent> sound(String id) {
