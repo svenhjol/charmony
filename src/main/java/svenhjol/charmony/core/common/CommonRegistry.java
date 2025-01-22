@@ -21,7 +21,10 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.DefaultAttributes;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.entity.player.Player;
@@ -29,6 +32,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.alchemy.Potion;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
@@ -74,6 +78,11 @@ public final class CommonRegistry {
 
     public static CommonRegistry forFeature(SidedFeature feature) {
         return new CommonRegistry(feature);
+    }
+
+    public Registerable<Holder<Attribute>> attribute(String id, Supplier<Attribute> supplier) {
+        return new Registerable<>(feature,
+            () -> Registry.registerForHolder(BuiltInRegistries.ATTRIBUTE, feature.id(id), supplier.get()));
     }
 
     public <E extends Entity> Registerable<Void> biomeSpawn(Predicate<Holder<Biome>> predicate, MobCategory category,
@@ -138,11 +147,35 @@ public final class CommonRegistry {
         return new Registerable<>(feature, () -> DataComponents.register(feature.id(id).toString(), dataComponent.get()));
     }
 
+    public ResourceKey<Enchantment> enchantment(String name) {
+        return ResourceKey.create(Registries.ENCHANTMENT, feature.id(name));
+    }
+
     public <E extends Entity> Registerable<EntityType<E>> entity(String id, Supplier<EntityType.Builder<E>> supplier) {
         return new Registerable<>(feature, () -> {
             var res = feature.id(id);
             var key = ResourceKey.create(Registries.ENTITY_TYPE, res);
             return Registry.register(BuiltInRegistries.ENTITY_TYPE, feature.id(id), supplier.get().build(key));
+        });
+    }
+
+    public <T extends LivingEntity> Registerable<Void> entityAttribute(Supplier<EntityType<T>> entitySupplier, Supplier<Holder<Attribute>> attributeSupplier) {
+        return new Registerable<>(feature, () -> {
+            // Unwrap suppliers
+            var entity = entitySupplier.get();
+            var attribute = attributeSupplier.get();
+
+            var attributes = DefaultAttributes.getSupplier(entity);
+            if (!(attributes.instances instanceof LinkedHashMap<Holder<Attribute>, AttributeInstance>)) {
+                // Make mutable so we can add the new one.
+                attributes.instances = new LinkedHashMap<>(attributes.instances);
+            }
+
+            if (!attributes.hasAttribute(attribute)) {
+                var instance = new AttributeInstance(attribute, x -> {});
+                attributes.instances.put(attribute, instance);
+            }
+            return null;
         });
     }
 

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.19.5
+
+- Add registry methods for enchantments and attributes.
+
 ## 1.19.4
 
 - Add potions to registration helper methods.
