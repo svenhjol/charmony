@@ -44,7 +44,7 @@ public final class Core extends SidedFeature {
     }
 
     public static Core feature() {
-        return Charmony.instance().sidedFeature(Core.class);
+        return Mod.getSidedFeature(Core.class);
     }
 
     public boolean debugMode() {

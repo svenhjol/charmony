@@ -5,6 +5,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import svenhjol.charmony.core.base.Setup;
 
+@SuppressWarnings("unused")
 public class Handlers extends Setup<Advancements> {
     public Handlers(Advancements feature) {
         super(feature);

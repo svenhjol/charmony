@@ -9,19 +9,16 @@ import svenhjol.charmony.core.enums.Side;
 import java.util.ArrayList;
 import java.util.List;
 
-@FeatureDefinition(side = Side.Common, showInConfig = true)
+@FeatureDefinition(side = Side.Common)
 public class TestFeature extends SidedFeature {
     @Configurable(
-        name = "Test string list",
+        name = "Common-side string list",
+        description = "A common-side string list",
         requireRestart = false
     )
     private static List<String> strings = new ArrayList<>();
 
     public TestFeature(Mod mod) {
         super(mod);
-    }
-
-    public List<String> strings() {
-        return strings;
     }
 }

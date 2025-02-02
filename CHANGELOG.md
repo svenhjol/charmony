@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.20.0
+
+- Add new sided feature annotation `canBeDisabledInConfig` for better control over toggle in config files.
+- Add mod-agnostic way to fetch sided feature implementations from the Mod class.
+- Deprecated sided feature annotation `showInConfig`.
+- Deprecated instance-based `sidedFeature` and `trySidedFeature` methods in the Mod class.
+
 ## 1.19.5
 
 - Add registry methods for enchantments and attributes.

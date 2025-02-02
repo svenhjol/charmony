@@ -11,9 +11,10 @@ import java.util.*;
 import java.util.function.BooleanSupplier;
 import java.util.stream.Collectors;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "DeprecatedIsStillUsed", "SwitchStatementWithTooFewBranches"})
 public abstract class Mod {
     private static final Map<String, Mod> REGISTERED = new HashMap<>();
+    private static final Map<Class<? extends SidedFeature>, SidedFeature> CLASS_SIDED_FEATURES = new HashMap<>();
 
     private final Log log;
     private final Config config;
@@ -40,6 +41,40 @@ public abstract class Mod {
         return values;
     }
 
+    /**
+     * Deprecated. Use the static tryGetFeature method.
+     */
+    @Deprecated(since = "1.20.0")
+    public static Optional<Feature> tryFeature(ResourceLocation id) {
+        return tryGetFeature(id);
+    }
+
+    /**
+     * Resolve a mod feature using a resource location, e.g. charmony:control_panel
+     */
+    public static Optional<Feature> tryGetFeature(ResourceLocation id) {
+        var mod = id.getNamespace();
+        var name = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, id.getPath());
+        return get(mod).map(m -> m.features.get(name));
+    }
+
+    /**
+     * Directly get a sided feature's implementation from its class.
+     * If the sided feature hasn't been instantiated this method will throw a runtime exception.
+     */
+    public static <F extends SidedFeature> F getSidedFeature(Class<F> clazz) {
+        return tryGetSidedFeature(clazz).orElseThrow(() -> new RuntimeException("Could not resolve feature for class " + clazz));
+    }
+
+    /**
+     * Get a sided feature's implementation from its class.
+     */
+    @SuppressWarnings("unchecked")
+    public static <F extends SidedFeature> Optional<F> tryGetSidedFeature(Class<F> clazz) {
+        F resolved = (F) CLASS_SIDED_FEATURES.get(clazz);
+        return Optional.ofNullable(resolved);
+    }
+
     public void run(Side side) {
         var sideName = side.getSerializedName();
         var classes = this.classes.computeIfAbsent(side, l -> new LinkedList<>());
@@ -63,6 +98,7 @@ public abstract class Mod {
             try {
                 sidedFeature = clazz.getDeclaredConstructor(Mod.class).newInstance(this);
                 classSidedFeatures.put(clazz, sidedFeature);
+                CLASS_SIDED_FEATURES.put(clazz, sidedFeature);
                 features.computeIfAbsent(sidedFeature.className(), c -> new Feature(this)).put(side, sidedFeature);
 
             } catch (Exception e) {
@@ -95,9 +131,8 @@ public abstract class Mod {
         });
 
         log().info("Registering " + name() + " " + sideName);
-        registers.forEach((feature, register) -> {
-            register.forEach(Runnable::run);
-        });
+        registers.forEach((feature, register)
+            -> register.forEach(Runnable::run));
 
         switch (side) {
             case Common -> CommonRegistry.finishModRegistration(this);
@@ -156,20 +191,22 @@ public abstract class Mod {
         return this.config;
     }
 
+    /**
+     * Deprecated. Use the static getSidedFeature method.
+     */
+    @Deprecated(since = "1.20.0")
     public <F extends SidedFeature> F sidedFeature(Class<F> clazz) {
         return trySidedFeature(clazz).orElseThrow(() -> new RuntimeException("Could not resolve feature for class " + clazz));
     }
 
+    /**
+     * Deprecated. Use the static tryGetSidedFeature method.
+     */
+    @Deprecated(since = "1.20.0")
     @SuppressWarnings("unchecked")
     public <F extends SidedFeature> Optional<F> trySidedFeature(Class<F> clazz) {
         F resolved = (F) classSidedFeatures.get(clazz);
         return Optional.ofNullable(resolved);
-    }
-
-    public static Optional<Feature> tryFeature(ResourceLocation id) {
-        var mod = id.getNamespace();
-        var name = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, id.getPath());
-        return get(mod).map(m -> m.features.get(name));
     }
 
     public void addSidedFeatures(List<Class<? extends SidedFeature>> classes) {

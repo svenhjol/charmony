@@ -7,7 +7,7 @@ import svenhjol.charmony.core.enums.Side;
 
 import java.util.function.BooleanSupplier;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "DeprecatedIsStillUsed"})
 public abstract class SidedFeature {
     private final Mod mod;
     private final Log log;
@@ -77,6 +77,11 @@ public abstract class SidedFeature {
         return annotation().canBeDisabled();
     }
 
+    public boolean canBeDisabledInConfig() {
+        return annotation().canBeDisabledInConfig();
+    }
+
+    @Deprecated(since = "1.20.0")
     public boolean showInConfig() {
         return annotation().showInConfig();
     }
