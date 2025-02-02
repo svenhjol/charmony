@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.20.1
+- 
+- Fix some deprecated API use.
+
 ## 1.20.0
 
 - Add new sided feature annotation `canBeDisabledInConfig` for better control over toggle in config files.

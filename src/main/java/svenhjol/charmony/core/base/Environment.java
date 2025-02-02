@@ -20,12 +20,12 @@ public final class Environment {
     }
 
     public static boolean isDebugMode() {
-        return Charmony.instance().trySidedFeature(Core.class)
+        return Mod.tryGetSidedFeature(Core.class)
             .map(Core::debugMode).orElse(false);
     }
 
     public static boolean isMixinDisableMode() {
-        return Charmony.instance().trySidedFeature(Core.class)
+        return Mod.tryGetSidedFeature(Core.class)
             .map(Core::mixinsDisabled).orElse(false);
     }
 
@@ -35,7 +35,7 @@ public final class Environment {
      */
     @net.fabricmc.api.Environment(EnvType.CLIENT)
     public static boolean usesCharmonyServer() {
-        return Charmony.instance().trySidedFeature(svenhjol.charmony.core.client.features.core.Core.class)
+        return Mod.tryGetSidedFeature(svenhjol.charmony.core.client.features.core.Core.class)
             .map(c -> c.handlers.usesCharmonyServer()).orElse(false);
     }
 }
