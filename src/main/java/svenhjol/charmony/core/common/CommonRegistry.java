@@ -278,7 +278,7 @@ public final class CommonRegistry {
     /**
      * May be run late. Use this to conditionally add villager trades if the feature is enabled.
      */
-    public Registerable<Void> villagerTrade(Supplier<VillagerProfession> profession, int tier, Supplier<VillagerTrades.ItemListing> trade) {
+    public Registerable<Void> villagerTrade(Supplier<ResourceKey<VillagerProfession>> profession, int tier, Supplier<VillagerTrades.ItemListing> trade) {
         return new Registerable<>(feature, () -> {
             var trades = VillagerHelper.getMutableTrades(profession.get());
             trades.get(tier).add(trade.get());

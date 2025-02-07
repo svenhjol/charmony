@@ -3,6 +3,7 @@ package svenhjol.charmony.core.helpers;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.core.NonNullList;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import svenhjol.charmony.core.base.Log;
@@ -18,7 +19,7 @@ public final class VillagerHelper {
     /**
      * Helper method for the registry to add new trades to a villager profession.
      */
-    public static Int2ObjectMap<List<VillagerTrades.ItemListing>> getMutableTrades(VillagerProfession profession) {
+    public static Int2ObjectMap<List<VillagerTrades.ItemListing>> getMutableTrades(ResourceKey<VillagerProfession> profession) {
         var fixedTrades = TRADES.get(profession);
         Int2ObjectMap<List<VillagerTrades.ItemListing>> mutable = new Int2ObjectOpenHashMap<>();
 
@@ -36,12 +37,12 @@ public final class VillagerHelper {
     /**
      * Helper method for the registry to reassemble trades after adding a custom trade to a profession.
      */
-    public static void reassembleTrades(VillagerProfession profession, Int2ObjectMap<List<VillagerTrades.ItemListing>> trades) {
+    public static void reassembleTrades(ResourceKey<VillagerProfession> profession, Int2ObjectMap<List<VillagerTrades.ItemListing>> trades) {
         Int2ObjectMap<VillagerTrades.ItemListing[]> mappedTrades = new Int2ObjectOpenHashMap<>();
         trades.int2ObjectEntrySet().forEach(e
             -> mappedTrades.put(e.getIntKey(), e.getValue().toArray(new VillagerTrades.ItemListing[0])));
 
-        LOGGER.warnIfDebug("Reassembling trades for profession " + profession.name());
+        LOGGER.warnIfDebug("Reassembling trades for profession " + profession.location());
         TRADES.put(profession, mappedTrades);
     }
 }

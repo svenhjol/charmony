@@ -15,6 +15,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
+@SuppressWarnings("deprecation")
 public final class Config {
     private final Mod mod;
     private final Log log;
@@ -125,7 +126,6 @@ public final class Config {
             for (var sided : feature.sides()) {
                 var config = configs.get(sided.side());
 
-                //noinspection deprecation
                 if (!sided.showInConfig()) {
                     continue; // TODO: This is deprecated behavior and mods need to move away from using it.
                 }
