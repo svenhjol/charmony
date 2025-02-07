@@ -23,7 +23,7 @@ public final class Advancements extends SidedFeature {
     }
 
     public static void trigger(String id, Player player) {
-        var advancements = Charmony.instance().sidedFeature(Advancements.class);
+        var advancements = Mod.getSidedFeature(Advancements.class);
         var res = Charmony.id(id);
 
         // Only trigger advancements if on the server-side, advancements is enabled and client-mode is disabled.

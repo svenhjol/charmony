@@ -60,7 +60,7 @@ public class FeaturesList extends AbstractSelectionList<FeaturesList.Entry> {
     protected List<Feature> features() {
         if (features.isEmpty()) {
             features.addAll(mod.features().stream()
-                .filter(Feature::showInConfig)
+                .filter(Feature::canBeDisabledInConfig)
                 .toList());
         }
         return features;

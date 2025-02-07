@@ -6,6 +6,7 @@ import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import svenhjol.charmony.core.base.Setup;
 import svenhjol.charmony.core.common.features.core.Networking.S2CUsingCharmonyServer;
 
+@SuppressWarnings("unused")
 public class Handlers extends Setup<Core> {
     public Handlers(Core feature) {
         super(feature);

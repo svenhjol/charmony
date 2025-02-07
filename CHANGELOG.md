@@ -1,5 +1,34 @@
 # Changelog
 
+## 1.20.1
+- 
+- Fix some deprecated API use.
+
+## 1.20.0
+
+- Add new sided feature annotation `canBeDisabledInConfig` for better control over toggle in config files.
+- Add mod-agnostic way to fetch sided feature implementations from the Mod class.
+- Deprecated sided feature annotation `showInConfig`.
+- Deprecated instance-based `sidedFeature` and `trySidedFeature` methods in the Mod class.
+
+## 1.19.5
+
+- Add registry methods for enchantments and attributes.
+
+## 1.19.4
+
+- Add potions to registration helper methods.
+
+## 1.19.3
+
+- Add menu and menuScreen to registration helper methods.
+
+## 1.19.2
+
+- Port conditional slot, container menu and container screen.
+- Add entity jump callback and beacon effects callback.
+- Deprecate next and previous page buttons.
+
 ## 1.19.1
 
 - Server/client packet register helpers.

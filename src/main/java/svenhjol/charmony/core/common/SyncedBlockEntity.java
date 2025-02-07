@@ -14,6 +14,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nullable;
 
+@SuppressWarnings("unused")
 public abstract class SyncedBlockEntity extends BlockEntity {
     public SyncedBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);

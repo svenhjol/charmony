@@ -14,8 +14,6 @@ public class Registers extends Setup<Advancements> {
 
     @Override
     public Runnable boot() {
-        return () -> {
-            ServerPlayConnectionEvents.JOIN.register(feature().handlers::playerJoin);
-        };
+        return () -> ServerPlayConnectionEvents.JOIN.register(feature().handlers::playerJoin);
     }
 }

@@ -8,6 +8,7 @@ import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
+import net.fabricmc.fabric.api.registry.FabricBrewingRecipeRegistryBuilder;
 import net.minecraft.core.Holder;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.Registry;
@@ -20,11 +21,18 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.DefaultAttributes;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.alchemy.Potion;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
@@ -34,6 +42,7 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceType;
+import svenhjol.charmony.core.base.Mod;
 import svenhjol.charmony.core.base.Registerable;
 import svenhjol.charmony.core.base.SidedFeature;
 import svenhjol.charmony.core.common.dispenser.ConditionalDispenseItemBehavior;
@@ -48,14 +57,32 @@ import static net.minecraft.world.entity.npc.VillagerTrades.WANDERING_TRADER_TRA
 @SuppressWarnings("unused")
 public final class CommonRegistry {
     private final SidedFeature feature;
+
+    public static final Map<Mod, List<PotionRecipe>> POTION_RECIPES = new HashMap<>();
     public static final Map<ItemLike, List<ConditionalDispenseItemBehavior>> CONDITIONAL_DISPENSER_BEHAVIORS = new HashMap<>();
 
     private CommonRegistry(SidedFeature feature) {
         this.feature = feature;
     }
 
+    /**
+     * Call this after mod feature registration has been completed so that registry events can be handled for the mod.
+     */
+    public static void finishModRegistration(Mod mod) {
+        // Register all the potion recipes for the mod.
+        var potionRecipes = POTION_RECIPES.getOrDefault(mod, List.of());
+        FabricBrewingRecipeRegistryBuilder.BUILD.register(
+            builder -> potionRecipes.forEach(
+                recipe -> builder.addMix(recipe.input(), recipe.reagent().get(), recipe.output())));
+    }
+
     public static CommonRegistry forFeature(SidedFeature feature) {
         return new CommonRegistry(feature);
+    }
+
+    public Registerable<Holder<Attribute>> attribute(String id, Supplier<Attribute> supplier) {
+        return new Registerable<>(feature,
+            () -> Registry.registerForHolder(BuiltInRegistries.ATTRIBUTE, feature.id(id), supplier.get()));
     }
 
     public <E extends Entity> Registerable<Void> biomeSpawn(Predicate<Holder<Biome>> predicate, MobCategory category,
@@ -120,11 +147,35 @@ public final class CommonRegistry {
         return new Registerable<>(feature, () -> DataComponents.register(feature.id(id).toString(), dataComponent.get()));
     }
 
+    public ResourceKey<Enchantment> enchantment(String name) {
+        return ResourceKey.create(Registries.ENCHANTMENT, feature.id(name));
+    }
+
     public <E extends Entity> Registerable<EntityType<E>> entity(String id, Supplier<EntityType.Builder<E>> supplier) {
         return new Registerable<>(feature, () -> {
             var res = feature.id(id);
             var key = ResourceKey.create(Registries.ENTITY_TYPE, res);
             return Registry.register(BuiltInRegistries.ENTITY_TYPE, feature.id(id), supplier.get().build(key));
+        });
+    }
+
+    public <T extends LivingEntity> Registerable<Void> entityAttribute(Supplier<EntityType<T>> entitySupplier, Supplier<Holder<Attribute>> attributeSupplier) {
+        return new Registerable<>(feature, () -> {
+            // Unwrap suppliers
+            var entity = entitySupplier.get();
+            var attribute = attributeSupplier.get();
+
+            var attributes = DefaultAttributes.getSupplier(entity);
+            if (!(attributes.instances instanceof LinkedHashMap<Holder<Attribute>, AttributeInstance>)) {
+                // Make mutable so we can add the new one.
+                attributes.instances = new LinkedHashMap<>(attributes.instances);
+            }
+
+            if (!attributes.hasAttribute(attribute)) {
+                var instance = new AttributeInstance(attribute, x -> {});
+                attributes.instances.put(attribute, instance);
+            }
+            return null;
         });
     }
 
@@ -134,6 +185,11 @@ public final class CommonRegistry {
             var key = ResourceKey.create(Registries.ITEM, res);
             return Registry.register(BuiltInRegistries.ITEM, feature.id(id), funcSupplier.apply(key));
         });
+    }
+
+    public <T extends MenuType<M>, M extends AbstractContainerMenu> Registerable<T> menuType(String id, Supplier<T> menuSupplier) {
+        return new Registerable<>(feature,
+            () -> Registry.register(BuiltInRegistries.MENU, feature.id(id), menuSupplier.get()));
     }
 
     /**
@@ -188,6 +244,15 @@ public final class CommonRegistry {
             }
             return null;
         });
+    }
+
+    public Registerable<Holder<Potion>> potion(String id, Supplier<Potion> supplier) {
+        return new Registerable<>(feature,
+            () -> Registry.registerForHolder(BuiltInRegistries.POTION, feature.id(id), supplier.get()));
+    }
+
+    public void potionRecipe(Holder<Potion> input, Supplier<Item> reagent, Holder<Potion> output) {
+        POTION_RECIPES.computeIfAbsent(feature.mod(), l -> new ArrayList<>()).add(new PotionRecipe(input, reagent, output));
     }
 
     public Registerable<SoundEvent> sound(String id) {
