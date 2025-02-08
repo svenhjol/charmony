@@ -126,10 +126,6 @@ public final class Config {
             for (var sided : feature.sides()) {
                 var config = configs.get(sided.side());
 
-                if (!sided.showInConfig()) {
-                    continue; // TODO: This is deprecated behavior and mods need to move away from using it.
-                }
-
                 if (sided.canBeDisabled() && sided.canBeDisabledInConfig()) {
                     var field = "Enabled";
                     var description = sided.description();

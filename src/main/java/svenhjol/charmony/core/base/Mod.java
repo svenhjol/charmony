@@ -11,7 +11,7 @@ import java.util.*;
 import java.util.function.BooleanSupplier;
 import java.util.stream.Collectors;
 
-@SuppressWarnings({"unused", "DeprecatedIsStillUsed", "SwitchStatementWithTooFewBranches"})
+@SuppressWarnings({"unused", "SwitchStatementWithTooFewBranches"})
 public abstract class Mod {
     private static final Map<String, Mod> REGISTERED = new HashMap<>();
     private static final Map<Class<? extends SidedFeature>, SidedFeature> CLASS_SIDED_FEATURES = new HashMap<>();
@@ -19,7 +19,6 @@ public abstract class Mod {
     private final Log log;
     private final Config config;
     private final Map<String, Feature> features = new HashMap<>();
-    private final Map<Class<? extends SidedFeature>, SidedFeature> classSidedFeatures = new HashMap<>();
     private final Map<Side, LinkedList<Class<? extends SidedFeature>>> classes = new LinkedHashMap<>();
     private final Map<Side, Map<SidedFeature, List<Runnable>>> boots = new HashMap<>();
     private final Map<Side, Map<SidedFeature, List<Runnable>>> registers = new HashMap<>();
@@ -39,14 +38,6 @@ public abstract class Mod {
         var values = new LinkedList<>(REGISTERED.values());
         values.sort(Comparator.comparing(Mod::name));
         return values;
-    }
-
-    /**
-     * Deprecated. Use the static tryGetFeature method.
-     */
-    @Deprecated(since = "1.20.0")
-    public static Optional<Feature> tryFeature(ResourceLocation id) {
-        return tryGetFeature(id);
     }
 
     /**
@@ -97,7 +88,6 @@ public abstract class Mod {
             SidedFeature sidedFeature;
             try {
                 sidedFeature = clazz.getDeclaredConstructor(Mod.class).newInstance(this);
-                classSidedFeatures.put(clazz, sidedFeature);
                 CLASS_SIDED_FEATURES.put(clazz, sidedFeature);
                 features.computeIfAbsent(sidedFeature.className(), c -> new Feature(this)).put(side, sidedFeature);
 
@@ -189,24 +179,6 @@ public abstract class Mod {
 
     public Config config() {
         return this.config;
-    }
-
-    /**
-     * Deprecated. Use the static getSidedFeature method.
-     */
-    @Deprecated(since = "1.20.0")
-    public <F extends SidedFeature> F sidedFeature(Class<F> clazz) {
-        return trySidedFeature(clazz).orElseThrow(() -> new RuntimeException("Could not resolve feature for class " + clazz));
-    }
-
-    /**
-     * Deprecated. Use the static tryGetSidedFeature method.
-     */
-    @Deprecated(since = "1.20.0")
-    @SuppressWarnings("unchecked")
-    public <F extends SidedFeature> Optional<F> trySidedFeature(Class<F> clazz) {
-        F resolved = (F) classSidedFeatures.get(clazz);
-        return Optional.ofNullable(resolved);
     }
 
     public void addSidedFeatures(List<Class<? extends SidedFeature>> classes) {

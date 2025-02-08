@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
  * This annotation decorates a SidedFeature.
  * A SidedFeature is one "side" of a charmony-feature and gets instantiated when the mod side is set up.
  */
-@SuppressWarnings({"unused", "DeprecatedIsStillUsed"})
+@SuppressWarnings({"unused"})
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface FeatureDefinition {
@@ -43,13 +43,6 @@ public @interface FeatureDefinition {
      * The ability to enable/disable the feature is not affected UNLESS canBeDisabled() is false.
      */
     boolean enabledByDefault() default true;
-
-    /**
-     * If true, this sided feature's configuration will be shown in the corresponding sided config file.
-     * E.g. a SidedFeature that targets client side will have an entry in the mod-client.toml.
-     */
-    @Deprecated(since = "1.20.0")
-    boolean showInConfig() default true;
 
     /**
      * If true, this sided feature can be enabled or disabled by the side's config file.

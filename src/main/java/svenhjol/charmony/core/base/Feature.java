@@ -9,7 +9,7 @@ import java.util.*;
  * Holder for sidedFeature instances.
  * Use get(side) to get a specific sided feature and sides() for all sided features.
  */
-@SuppressWarnings({"DeprecatedIsStillUsed", "unused"})
+@SuppressWarnings({"unused"})
 public final class Feature {
     private final Log log;
     private final Mod mod;
@@ -38,11 +38,6 @@ public final class Feature {
 
     public boolean canBeDisabledInConfig() {
         return features.values().stream().anyMatch(SidedFeature::canBeDisabledInConfig);
-    }
-
-    @Deprecated(since = "1.20.0")
-    public boolean showInConfig() {
-        return features.values().stream().anyMatch(SidedFeature::showInConfig);
     }
 
     public Mod mod() {
