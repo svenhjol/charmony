@@ -1,18 +1,10 @@
 package svenhjol.charmony.core.client;
 
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.ImageButton;
-import net.minecraft.client.gui.components.Tooltip;
-import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.network.chat.Component;
-import svenhjol.charmony.core.Charmony;
 
 @SuppressWarnings("unused")
 public final class CoreButtons {
-    public static final WidgetSprites NEXT_PAGE_BUTTON = makeButton("next_page");
-    public static final WidgetSprites PREVIOUS_PAGE_BUTTON = makeButton("previous_page");
-
-
     public static class CloseButton extends Button {
         public static int WIDTH = 110;
         public static int HEIGHT = 20;
@@ -69,41 +61,5 @@ public final class CoreButtons {
         public EditButton(int x, int y, int width, OnPress onPress, Component text) {
             super(x, y, width, HEIGHT, text, onPress, DEFAULT_NARRATION);
         }
-    }
-
-    /**
-     * @deprecated
-     */
-    @Deprecated public static class NextPageButton extends ImageButton {
-        public static int WIDTH = 20;
-        public static int HEIGHT = 19;
-        static WidgetSprites SPRITES = NEXT_PAGE_BUTTON;
-        static Component TEXT = CoreResources.NEXT_PAGE;
-
-        public NextPageButton(int x, int y, OnPress onPress) {
-            super(x, y, WIDTH, HEIGHT, SPRITES, onPress);
-            setTooltip(Tooltip.create(TEXT));
-        }
-    }
-
-    /**
-     * @deprecated
-     */
-    @Deprecated public static class PreviousPageButton extends ImageButton {
-        public static int WIDTH = 20;
-        public static int HEIGHT = 19;
-        static WidgetSprites SPRITES = PREVIOUS_PAGE_BUTTON;
-        static Component TEXT = CoreResources.PREVIOUS_PAGE;
-
-        public PreviousPageButton(int x, int y, OnPress onPress) {
-            super(x, y, WIDTH, HEIGHT, SPRITES, onPress);
-            setTooltip(Tooltip.create(TEXT));
-        }
-    }
-
-    static WidgetSprites makeButton(String name) {
-        return new WidgetSprites(
-            Charmony.id("widget/buttons/" + name + "_button"),
-            Charmony.id("widget/buttons/" + name + "_button_highlighted"));
     }
 }
