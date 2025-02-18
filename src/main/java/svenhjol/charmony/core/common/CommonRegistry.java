@@ -42,6 +42,7 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceType;
+import org.apache.commons.lang3.tuple.Pair;
 import svenhjol.charmony.core.base.Mod;
 import svenhjol.charmony.core.base.Registerable;
 import svenhjol.charmony.core.base.SidedFeature;
@@ -292,13 +293,11 @@ public final class CommonRegistry {
      */
     public Registerable<Void> wandererTrade(Supplier<VillagerTrades.ItemListing> trade, boolean isRare) {
         return new Registerable<>(feature, () -> {
-            List<VillagerTrades.ItemListing> trades = NonNullList.create();
-            int index = isRare ? 2 : 1;
+            VillagerTrades.ItemListing[] trades = Arrays.asList(trade.get()).toArray(new VillagerTrades.ItemListing[0]);
+            int index = isRare ? 2 : 5;
 
-            trades.addAll(Arrays.asList(WANDERING_TRADER_TRADES.get(index)));
-            trades.add(trade.get());
-
-            WANDERING_TRADER_TRADES.put(index, trades.toArray(new VillagerTrades.ItemListing[0]));
+            WANDERING_TRADER_TRADES = new ArrayList<>(WANDERING_TRADER_TRADES);
+            WANDERING_TRADER_TRADES.add(Pair.of(trades, index));
             return null;
         });
     }

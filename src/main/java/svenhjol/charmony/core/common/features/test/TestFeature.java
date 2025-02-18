@@ -11,6 +11,8 @@ import java.util.List;
 
 @FeatureDefinition(side = Side.Common)
 public class TestFeature extends SidedFeature {
+    public final Registers registers;
+
     @Configurable(
         name = "Common-side string list",
         description = "A common-side string list",
@@ -20,5 +22,6 @@ public class TestFeature extends SidedFeature {
 
     public TestFeature(Mod mod) {
         super(mod);
+        registers = new Registers(this);
     }
 }
