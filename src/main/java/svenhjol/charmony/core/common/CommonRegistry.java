@@ -10,7 +10,6 @@ import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityT
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.registry.FabricBrewingRecipeRegistryBuilder;
 import net.minecraft.core.Holder;
-import net.minecraft.core.NonNullList;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
@@ -32,6 +31,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.alchemy.Potion;
+import net.minecraft.world.item.component.TooltipProvider;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.biome.Biome;
@@ -61,6 +61,7 @@ public final class CommonRegistry {
 
     public static final Map<Mod, List<PotionRecipe>> POTION_RECIPES = new HashMap<>();
     public static final Map<ItemLike, List<ConditionalDispenseItemBehavior>> CONDITIONAL_DISPENSER_BEHAVIORS = new HashMap<>();
+    public static final List<DataComponentType<? extends TooltipProvider>> DATA_COMPONENT_TOOLTIP_PROVIDERS = new ArrayList<>();
 
     private CommonRegistry(SidedFeature feature) {
         this.feature = feature;
@@ -144,8 +145,15 @@ public final class CommonRegistry {
         });
     }
 
+    @SuppressWarnings("unchecked")
     public <D> Registerable<DataComponentType<D>> dataComponent(String id, Supplier<UnaryOperator<DataComponentType.Builder<D>>> dataComponent) {
-        return new Registerable<>(feature, () -> DataComponents.register(feature.id(id).toString(), dataComponent.get()));
+        return new Registerable<>(feature, () -> {
+            var registered = DataComponents.register(feature.id(id).toString(), dataComponent.get());
+            if (registered instanceof TooltipProvider provider) {
+                DATA_COMPONENT_TOOLTIP_PROVIDERS.add((DataComponentType<? extends TooltipProvider>) provider);
+            }
+            return registered;
+        });
     }
 
     public ResourceKey<Enchantment> enchantment(String name) {

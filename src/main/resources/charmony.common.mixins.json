@@ -12,6 +12,7 @@
     "anvil.AnvilMenuRepairMixin",
     "anvil.AnvilMenuUpdateMixin",
     "apply_beacon_effects_callback.BeaconBlockEntityMixin",
+    "data_component.ItemStackMixin",
     "dispenser_behavior.DispenserBlockMixin",
     "entity_jump_callback.LivingEntityMixin",
     "entity_killed_drop_callback.LivingEntityMixin",
