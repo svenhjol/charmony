@@ -145,14 +145,14 @@ public final class CommonRegistry {
         });
     }
 
-    @SuppressWarnings("unchecked")
     public <D> Registerable<DataComponentType<D>> dataComponent(String id, Supplier<UnaryOperator<DataComponentType.Builder<D>>> dataComponent) {
+        return new Registerable<>(feature, () -> DataComponents.register(feature.id(id).toString(), dataComponent.get()));
+    }
+
+    public <T extends TooltipProvider> Registerable<Void> dataComponentTooltipProvider(DataComponentType<T> dataComponentType) {
         return new Registerable<>(feature, () -> {
-            var registered = DataComponents.register(feature.id(id).toString(), dataComponent.get());
-            if (registered instanceof TooltipProvider provider) {
-                DATA_COMPONENT_TOOLTIP_PROVIDERS.add((DataComponentType<? extends TooltipProvider>) provider);
-            }
-            return registered;
+            DATA_COMPONENT_TOOLTIP_PROVIDERS.add(dataComponentType);
+            return null;
         });
     }
 
