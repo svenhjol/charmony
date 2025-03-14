@@ -149,9 +149,9 @@ public final class CommonRegistry {
         return new Registerable<>(feature, () -> DataComponents.register(feature.id(id).toString(), dataComponent.get()));
     }
 
-    public <T extends TooltipProvider> Registerable<Void> dataComponentTooltipProvider(DataComponentType<T> dataComponentType) {
+    public <T extends TooltipProvider> Registerable<Void> dataComponentTooltipProvider(Supplier<DataComponentType<T>> dataComponentType) {
         return new Registerable<>(feature, () -> {
-            DATA_COMPONENT_TOOLTIP_PROVIDERS.add(dataComponentType);
+            DATA_COMPONENT_TOOLTIP_PROVIDERS.add(dataComponentType.get());
             return null;
         });
     }
