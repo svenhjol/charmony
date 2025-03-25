@@ -1,7 +1,11 @@
 # Changelog
 
+## 1.23.1
+
+- Update for Minecraft 1.21.5.
+
 ## 1.20.1
-- 
+
 - Fix some deprecated API use.
 
 ## 1.20.0
