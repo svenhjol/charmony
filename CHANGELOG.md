@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.24.0
+
+- Fix issue with embedded API version.
+
 ## 1.23.1
 
 - Update for Minecraft 1.21.5.
