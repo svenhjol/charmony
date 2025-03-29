@@ -17,3 +17,5 @@ mutable    field net/minecraft/world/level/block/entity/BlockEntityType validBlo
 accessible field net/minecraft/world/entity/ai/attributes/AttributeSupplier instances Ljava/util/Map;
 mutable    field net/minecraft/world/entity/ai/attributes/AttributeSupplier instances Ljava/util/Map;
 mutable    field net/minecraft/world/entity/npc/VillagerTrades WANDERING_TRADER_TRADES Ljava/util/List;
+accessible field net/minecraft/world/entity/ai/village/poi/PoiTypes TYPE_BY_STATE Ljava/util/Map;
+mutable    field net/minecraft/world/entity/ai/village/poi/PoiTypes TYPE_BY_STATE Ljava/util/Map;

@@ -9,6 +9,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.registry.FabricBrewingRecipeRegistryBuilder;
+import net.fabricmc.fabric.api.registry.FuelRegistryEvents;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
@@ -24,6 +25,8 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.DefaultAttributes;
+import net.minecraft.world.entity.ai.village.poi.PoiType;
+import net.minecraft.world.entity.ai.village.poi.PoiTypes;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.entity.player.Player;
@@ -36,8 +39,11 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.FireBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
@@ -47,6 +53,8 @@ import svenhjol.charmony.core.base.Mod;
 import svenhjol.charmony.core.base.Registerable;
 import svenhjol.charmony.core.base.SidedFeature;
 import svenhjol.charmony.core.common.dispenser.ConditionalDispenseItemBehavior;
+import svenhjol.charmony.core.common.material.FuelProvider;
+import svenhjol.charmony.core.common.material.IgniteProvider;
 import svenhjol.charmony.core.enums.Side;
 import svenhjol.charmony.core.helpers.VillagerHelper;
 
@@ -55,7 +63,7 @@ import java.util.function.*;
 
 import static net.minecraft.world.entity.npc.VillagerTrades.WANDERING_TRADER_TRADES;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "UnusedReturnValue"})
 public final class CommonRegistry {
     private final SidedFeature feature;
 
@@ -188,6 +196,27 @@ public final class CommonRegistry {
         });
     }
 
+    public SidedFeature feature() {
+        return feature;
+    }
+
+    public <T extends FuelProvider> Registerable<Void> fuel(Supplier<T> provider) {
+        return new Registerable<>(feature, () -> {
+            var item = provider.get();
+            FuelRegistryEvents.BUILD.register(
+                (builder, ctx) -> builder.add((ItemLike)item, item.fuelTime()));
+            return null;
+        });
+    }
+
+    public <T extends IgniteProvider> Registerable<Void> ignite(Supplier<T> provider) {
+        return new Registerable<>(feature, () -> {
+            var block = provider.get();
+            ((FireBlock) Blocks.FIRE).setFlammable((Block)block, block.igniteChance(), block.burnChance());
+            return null;
+        });
+    }
+
     public <I extends Item> Registerable<I> item(String id, Function<ResourceKey<Item>, I> funcSupplier) {
         return new Registerable<>(feature, () -> {
             var res = feature.id(id);
@@ -251,6 +280,17 @@ public final class CommonRegistry {
                 case Common -> PayloadTypeRegistry.playS2C().register(type, (StreamCodec<? super ByteBuf, P>)codec);
                 case Client -> PayloadTypeRegistry.playC2S().register(type, (StreamCodec<? super ByteBuf, P>)codec);
             }
+            return null;
+        });
+    }
+
+    public Registerable<Void> pointOfInterestBlockStates(Supplier<Holder<PoiType>> poiType, Supplier<List<BlockState>> states) {
+        return new Registerable<>(feature, () -> {
+            var resourceKey = BuiltInRegistries.POINT_OF_INTEREST_TYPE.getResourceKey(poiType.get().value()).orElseThrow();
+            var holder = BuiltInRegistries.POINT_OF_INTEREST_TYPE.getOrThrow(resourceKey);
+            var blockStates = new ArrayList<>(holder.value().matchingStates());
+            blockStates.addAll(states.get());
+            blockStates.forEach(state -> PoiTypes.TYPE_BY_STATE.put(state, holder));
             return null;
         });
     }
