@@ -2,7 +2,7 @@ package svenhjol.charmony.core.common.wood;
 
 import java.util.List;
 
-public enum WoodType {
+public enum CustomWoodType {
     BARREL,
     BOAT,
     BOOKSHELF,
@@ -29,7 +29,7 @@ public enum WoodType {
     TRAPPED_CHEST,
     WOOD;
 
-    public static final List<WoodType> BUILDING_BLOCKS = List.of(
+    public static final List<CustomWoodType> BUILDING_BLOCKS = List.of(
         BUTTON, DOOR, FENCE, GATE, LOG, PLANKS, PRESSURE_PLATE,
         SLAB, STAIRS, STRIPPED_LOG, STRIPPED_WOOD, TRAPDOOR, WOOD
     );

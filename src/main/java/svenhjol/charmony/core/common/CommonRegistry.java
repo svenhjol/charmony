@@ -32,6 +32,7 @@ import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.component.TooltipProvider;
@@ -309,6 +310,13 @@ public final class CommonRegistry {
         return new Registerable<>(feature, () -> Registry.register(BuiltInRegistries.SOUND_EVENT, res, SoundEvent.createVariableRangeEvent(res)));
     }
 
+    public <B extends Block, S extends Block> Registerable<Void> strippable(Supplier<B> block, Supplier<S> strippedBlock) {
+        return new Registerable<>(feature, () -> {
+            AxeItem.STRIPPABLES = new HashMap<>(AxeItem.STRIPPABLES);
+            AxeItem.STRIPPABLES.put(block.get(), strippedBlock.get());
+            return null;
+        });
+    }
 
     public <S extends Structure> Supplier<StructureType<S>> structure(String id, Supplier<MapCodec<S>> codec) {
         return new Registerable<>(feature, () -> {

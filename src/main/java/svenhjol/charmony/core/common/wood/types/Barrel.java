@@ -1,4 +1,4 @@
-package svenhjol.charmony.core.common.wood.holders;
+package svenhjol.charmony.core.common.wood.types;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.ai.village.poi.PoiTypes;
@@ -6,21 +6,21 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import svenhjol.charmony.core.common.wood.CustomWood;
 import svenhjol.charmony.core.common.wood.WoodMaterial;
 import svenhjol.charmony.core.common.wood.WoodRegistry;
-import svenhjol.charmony.core.common.wood.WoodType;
+import svenhjol.charmony.core.common.wood.CustomWoodType;
 import svenhjol.charmony.core.common.wood.blocks.CustomBarrelBlock;
 
 import java.util.List;
 import java.util.function.Supplier;
 
-public class CustomBarrel extends CustomWood {
+public class Barrel extends CustomWood {
     public final Supplier<CustomBarrelBlock> block;
     public final Supplier<CustomBarrelBlock.BarrelBlockItem> item;
 
-    public CustomBarrel(WoodRegistry registry, WoodMaterial material) {
-        super(registry, material);
+    public Barrel(WoodRegistry woodRegistry, WoodMaterial material) {
+        super(woodRegistry, material);
 
+        var commonRegistry = woodRegistry.commonRegistry();
         var id = material.getSerializedName() + "_barrel";
-        var commonRegistry = registry.commonRegistry();
 
         block = commonRegistry.block(id, key -> new CustomBarrelBlock(key, material));
         item = commonRegistry.item(id, key -> new CustomBarrelBlock.BarrelBlockItem(key, block));
@@ -37,6 +37,6 @@ public class CustomBarrel extends CustomWood {
             () -> block.get().getStateDefinition().getPossibleStates());
 
         // Add to creative menu.
-        registry.addItemToCreativeTab(item, material, WoodType.BARREL);
+        woodRegistry.addItemToCreativeTab(item, material, CustomWoodType.BARREL);
     }
 }

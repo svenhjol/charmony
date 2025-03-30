@@ -19,3 +19,5 @@ mutable    field net/minecraft/world/entity/ai/attributes/AttributeSupplier inst
 mutable    field net/minecraft/world/entity/npc/VillagerTrades WANDERING_TRADER_TRADES Ljava/util/List;
 accessible field net/minecraft/world/entity/ai/village/poi/PoiTypes TYPE_BY_STATE Ljava/util/Map;
 mutable    field net/minecraft/world/entity/ai/village/poi/PoiTypes TYPE_BY_STATE Ljava/util/Map;
+accessible field net/minecraft/world/item/AxeItem STRIPPABLES Ljava/util/Map;
+mutable    field net/minecraft/world/item/AxeItem STRIPPABLES Ljava/util/Map;
