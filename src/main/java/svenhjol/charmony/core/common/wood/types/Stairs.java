@@ -2,14 +2,14 @@ package svenhjol.charmony.core.common.wood.types;
 
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.StairBlock;
-import svenhjol.charmony.core.common.wood.CustomWood;
+import svenhjol.charmony.core.common.wood.CustomWoodType;
 import svenhjol.charmony.core.common.wood.WoodMaterial;
 import svenhjol.charmony.core.common.wood.WoodRegistry;
-import svenhjol.charmony.core.common.wood.CustomWoodType;
+import svenhjol.charmony.core.common.wood.CustomWood;
 
 import java.util.function.Supplier;
 
-public class Stairs extends CustomWood {
+public class Stairs extends CustomWoodType {
     public final Supplier<? extends StairBlock> block;
     public final Supplier<? extends BlockItem> item;
 
@@ -29,6 +29,6 @@ public class Stairs extends CustomWood {
         block = stairs.getFirst();
         item = stairs.getSecond();
 
-        woodRegistry.addItemToCreativeTab(item, material, CustomWoodType.STAIRS);
+        woodRegistry.addItemToCreativeTab(item, material, CustomWood.STAIRS);
     }
 }

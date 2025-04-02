@@ -1,11 +1,36 @@
 package svenhjol.charmony.core.common.wood;
 
-public abstract class CustomWood {
-    protected final WoodRegistry registry;
-    protected final WoodMaterial material;
+import java.util.List;
 
-    public CustomWood(WoodRegistry registry, WoodMaterial material) {
-        this.registry = registry;
-        this.material = material;
-    }
+public enum CustomWood {
+    BARREL,
+    BOAT,
+    BOOKSHELF,
+    BUTTON,
+    CHEST,
+    CHEST_BOAT,
+    CHISELED_BOOKSHELF,
+    DOOR,
+    FENCE,
+    GATE,
+    HANGING_SIGN,
+    LADDER,
+    LEAVES,
+    LOG,
+    PLANKS,
+    PRESSURE_PLATE,
+    SAPLING,
+    SIGN,
+    SLAB,
+    STAIRS,
+    STRIPPED_LOG,
+    STRIPPED_WOOD,
+    TRAPDOOR,
+    TRAPPED_CHEST,
+    WOOD;
+
+    public static final List<CustomWood> BUILDING_BLOCKS = List.of(
+        BUTTON, DOOR, FENCE, GATE, LOG, PLANKS, PRESSURE_PLATE,
+        SLAB, STAIRS, STRIPPED_LOG, STRIPPED_WOOD, TRAPDOOR, WOOD
+    );
 }

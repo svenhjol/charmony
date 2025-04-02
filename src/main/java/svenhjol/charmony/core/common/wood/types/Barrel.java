@@ -3,16 +3,16 @@ package svenhjol.charmony.core.common.wood.types;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.ai.village.poi.PoiTypes;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import svenhjol.charmony.core.common.wood.CustomWood;
+import svenhjol.charmony.core.common.wood.CustomWoodType;
 import svenhjol.charmony.core.common.wood.WoodMaterial;
 import svenhjol.charmony.core.common.wood.WoodRegistry;
-import svenhjol.charmony.core.common.wood.CustomWoodType;
+import svenhjol.charmony.core.common.wood.CustomWood;
 import svenhjol.charmony.core.common.wood.blocks.CustomBarrelBlock;
 
 import java.util.List;
 import java.util.function.Supplier;
 
-public class Barrel extends CustomWood {
+public class Barrel extends CustomWoodType {
     public final Supplier<CustomBarrelBlock> block;
     public final Supplier<CustomBarrelBlock.BarrelBlockItem> item;
 
@@ -37,6 +37,6 @@ public class Barrel extends CustomWood {
             () -> block.get().getStateDefinition().getPossibleStates());
 
         // Add to creative menu.
-        woodRegistry.addItemToCreativeTab(item, material, CustomWoodType.BARREL);
+        woodRegistry.addItemToCreativeTab(item, material, CustomWood.BARREL);
     }
 }

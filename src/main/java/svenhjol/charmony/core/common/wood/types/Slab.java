@@ -1,14 +1,14 @@
 package svenhjol.charmony.core.common.wood.types;
 
-import svenhjol.charmony.core.common.wood.CustomWood;
+import svenhjol.charmony.core.common.wood.CustomWoodType;
 import svenhjol.charmony.core.common.wood.WoodMaterial;
 import svenhjol.charmony.core.common.wood.WoodRegistry;
-import svenhjol.charmony.core.common.wood.CustomWoodType;
+import svenhjol.charmony.core.common.wood.CustomWood;
 import svenhjol.charmony.core.common.wood.blocks.CustomSlabBlock;
 
 import java.util.function.Supplier;
 
-public class Slab extends CustomWood {
+public class Slab extends CustomWoodType {
     public final Supplier<CustomSlabBlock> block;
     public final Supplier<CustomSlabBlock.SlabBlockItem> item;
 
@@ -22,6 +22,6 @@ public class Slab extends CustomWood {
         item = commonRegistry.item(id, key -> new CustomSlabBlock.SlabBlockItem(key, block));
 
         commonRegistry.ignite(block); // Slabs can set on fire.
-        woodRegistry.addItemToCreativeTab(item, material, CustomWoodType.SLAB);
+        woodRegistry.addItemToCreativeTab(item, material, CustomWood.SLAB);
     }
 }

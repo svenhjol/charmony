@@ -14,6 +14,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.dispenser.DispenseItemBehavior;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.codec.StreamCodec;
@@ -41,6 +42,7 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.FireBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -161,6 +163,14 @@ public final class CommonRegistry {
     public <T extends TooltipProvider> Registerable<Void> dataComponentTooltipProvider(Supplier<DataComponentType<T>> dataComponentType) {
         return new Registerable<>(feature, () -> {
             DATA_COMPONENT_TOOLTIP_PROVIDERS.add(dataComponentType.get());
+            return null;
+        });
+    }
+
+    public <I extends ItemLike, D extends DispenseItemBehavior> Registerable<Void> dispenserBehavior(Supplier<I> item, Supplier<D> dispenserBehavior) {
+        return new Registerable<>(feature, () -> {
+            var behavior = dispenserBehavior.get();
+            DispenserBlock.registerBehavior(item.get(), behavior);
             return null;
         });
     }

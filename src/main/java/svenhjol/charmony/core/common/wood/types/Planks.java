@@ -1,14 +1,14 @@
 package svenhjol.charmony.core.common.wood.types;
 
-import svenhjol.charmony.core.common.wood.CustomWood;
+import svenhjol.charmony.core.common.wood.CustomWoodType;
 import svenhjol.charmony.core.common.wood.WoodMaterial;
 import svenhjol.charmony.core.common.wood.WoodRegistry;
-import svenhjol.charmony.core.common.wood.CustomWoodType;
+import svenhjol.charmony.core.common.wood.CustomWood;
 import svenhjol.charmony.core.common.wood.blocks.CustomPlanksBlock;
 
 import java.util.function.Supplier;
 
-public class Planks extends CustomWood {
+public class Planks extends CustomWoodType {
     public final Supplier<CustomPlanksBlock> block;
     public final Supplier<CustomPlanksBlock.PlanksBlockItem> item;
 
@@ -22,6 +22,6 @@ public class Planks extends CustomWood {
         item = commonRegistry.item(id, key -> new CustomPlanksBlock.PlanksBlockItem(key, block));
 
         commonRegistry.ignite(block); // Planks can set on fire.
-        woodRegistry.addItemToCreativeTab(item, material, CustomWoodType.PLANKS);
+        woodRegistry.addItemToCreativeTab(item, material, CustomWood.PLANKS);
     }
 }

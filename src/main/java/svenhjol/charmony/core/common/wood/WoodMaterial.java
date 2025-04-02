@@ -1,12 +1,11 @@
 package svenhjol.charmony.core.common.wood;
 
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.grower.TreeGrower;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.block.state.properties.WoodType;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import svenhjol.charmony.core.common.material.Material;
 
 import java.util.LinkedHashMap;
@@ -27,39 +26,48 @@ public interface WoodMaterial extends Material {
 
     BlockSetType blockSetType();
 
-    WoodType woodType();
+    default float leafParticleChance() {
+        return 0.01f; // Vanilla default
+    }
 
-    default Map<CustomWoodType, Supplier<ItemLike>> creativeMenuPosition() {
-        Map<CustomWoodType, Supplier<ItemLike>> map = new LinkedHashMap<>();
-        map.put(CustomWoodType.BARREL, () -> Items.BARREL);
-        map.put(CustomWoodType.CHEST_BOAT, () -> Items.ACACIA_CHEST_BOAT);
-        map.put(CustomWoodType.BOAT, () -> Items.ACACIA_CHEST_BOAT);
-        map.put(CustomWoodType.BOOKSHELF, () -> Items.BOOKSHELF);
-        map.put(CustomWoodType.BUTTON, () -> Items.ACACIA_BUTTON);
-        map.put(CustomWoodType.CHEST, () -> Items.CHEST);
-        map.put(CustomWoodType.CHISELED_BOOKSHELF,   () -> Items.CHISELED_BOOKSHELF);
-        map.put(CustomWoodType.DOOR, () -> Items.ACACIA_BUTTON);
-        map.put(CustomWoodType.FENCE, () -> Items.ACACIA_BUTTON);
-        map.put(CustomWoodType.GATE, () -> Items.ACACIA_BUTTON);
-        map.put(CustomWoodType.HANGING_SIGN, () -> Items.ACACIA_HANGING_SIGN);
-        map.put(CustomWoodType.LADDER, () -> Items.LADDER);
-        map.put(CustomWoodType.LEAVES, () -> Items.ACACIA_LEAVES);
-        map.put(CustomWoodType.LOG, () -> Items.ACACIA_BUTTON);
-        map.put(CustomWoodType.PLANKS, () -> Items.ACACIA_BUTTON);
-        map.put(CustomWoodType.PRESSURE_PLATE, () -> Items.ACACIA_BUTTON);
-        map.put(CustomWoodType.SAPLING, () -> Items.ACACIA_SAPLING);
-        map.put(CustomWoodType.SIGN, () -> Items.ACACIA_HANGING_SIGN);
-        map.put(CustomWoodType.SLAB, () -> Items.ACACIA_BUTTON);
-        map.put(CustomWoodType.STAIRS, () -> Items.ACACIA_BUTTON);
-        map.put(CustomWoodType.STRIPPED_LOG, () -> Items.ACACIA_BUTTON);
-        map.put(CustomWoodType.STRIPPED_WOOD, () -> Items.ACACIA_BUTTON);
-        map.put(CustomWoodType.TRAPDOOR, () -> Items.ACACIA_BUTTON);
-        map.put(CustomWoodType.TRAPPED_CHEST, () -> Items.TRAPPED_CHEST);
-        map.put(CustomWoodType.WOOD, () -> Items.ACACIA_BUTTON);
+    default Map<CustomWood, Supplier<ItemLike>> creativeMenuPosition() {
+        Map<CustomWood, Supplier<ItemLike>> map = new LinkedHashMap<>();
+        map.put(CustomWood.BARREL, () -> Items.BARREL);
+        map.put(CustomWood.CHEST_BOAT, () -> Items.ACACIA_CHEST_BOAT);
+        map.put(CustomWood.BOAT, () -> Items.ACACIA_CHEST_BOAT);
+        map.put(CustomWood.BOOKSHELF, () -> Items.BOOKSHELF);
+        map.put(CustomWood.BUTTON, () -> Items.ACACIA_BUTTON);
+        map.put(CustomWood.CHEST, () -> Items.CHEST);
+        map.put(CustomWood.CHISELED_BOOKSHELF,   () -> Items.CHISELED_BOOKSHELF);
+        map.put(CustomWood.DOOR, () -> Items.ACACIA_BUTTON);
+        map.put(CustomWood.FENCE, () -> Items.ACACIA_BUTTON);
+        map.put(CustomWood.GATE, () -> Items.ACACIA_BUTTON);
+        map.put(CustomWood.HANGING_SIGN, () -> Items.ACACIA_HANGING_SIGN);
+        map.put(CustomWood.LADDER, () -> Items.LADDER);
+        map.put(CustomWood.LEAVES, () -> Items.ACACIA_LEAVES);
+        map.put(CustomWood.LOG, () -> Items.ACACIA_BUTTON);
+        map.put(CustomWood.PLANKS, () -> Items.ACACIA_BUTTON);
+        map.put(CustomWood.PRESSURE_PLATE, () -> Items.ACACIA_BUTTON);
+        map.put(CustomWood.SAPLING, () -> Items.ACACIA_SAPLING);
+        map.put(CustomWood.SIGN, () -> Items.ACACIA_HANGING_SIGN);
+        map.put(CustomWood.SLAB, () -> Items.ACACIA_BUTTON);
+        map.put(CustomWood.STAIRS, () -> Items.ACACIA_BUTTON);
+        map.put(CustomWood.STRIPPED_LOG, () -> Items.ACACIA_BUTTON);
+        map.put(CustomWood.STRIPPED_WOOD, () -> Items.ACACIA_BUTTON);
+        map.put(CustomWood.TRAPDOOR, () -> Items.ACACIA_BUTTON);
+        map.put(CustomWood.TRAPPED_CHEST, () -> Items.TRAPPED_CHEST);
+        map.put(CustomWood.WOOD, () -> Items.ACACIA_BUTTON);
         return map;
     }
 
-    default Optional<ResourceKey<ConfiguredFeature<?, ?>>> tree() {
+    /**
+     * Define TreeGrower configuration for a custom sapling.
+     *
+     * @see TreeGrower
+     */
+    default Optional<TreeGrower> tree() {
         return Optional.empty();
     }
+
+    WoodType woodType();
 }

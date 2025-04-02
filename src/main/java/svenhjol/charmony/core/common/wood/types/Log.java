@@ -1,14 +1,14 @@
 package svenhjol.charmony.core.common.wood.types;
 
-import svenhjol.charmony.core.common.wood.CustomWood;
+import svenhjol.charmony.core.common.wood.CustomWoodType;
 import svenhjol.charmony.core.common.wood.WoodMaterial;
 import svenhjol.charmony.core.common.wood.WoodRegistry;
-import svenhjol.charmony.core.common.wood.CustomWoodType;
+import svenhjol.charmony.core.common.wood.CustomWood;
 import svenhjol.charmony.core.common.wood.blocks.CustomLogBlock;
 
 import java.util.function.Supplier;
 
-public class Log extends CustomWood {
+public class Log extends CustomWoodType {
     public final Supplier<CustomLogBlock> block;
     public final Supplier<CustomLogBlock.LogBlockItem> item;
     public final Supplier<CustomLogBlock> strippedBlock;
@@ -33,7 +33,7 @@ public class Log extends CustomWood {
         // Logs can be stripped.
         commonRegistry.strippable(block, strippedBlock);
 
-        woodRegistry.addItemToCreativeTab(item, material, CustomWoodType.LOG);
-        woodRegistry.addItemToCreativeTab(strippedItem, material, CustomWoodType.STRIPPED_LOG);
+        woodRegistry.addItemToCreativeTab(item, material, CustomWood.LOG);
+        woodRegistry.addItemToCreativeTab(strippedItem, material, CustomWood.STRIPPED_LOG);
     }
 }
