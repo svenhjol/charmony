@@ -61,16 +61,14 @@ public final class WoodRegistry {
         }
     }
 
-    public Registerable<Barrel> barrel(WoodMaterial material) {
-        return new Registerable<>(feature, () -> new Barrel(this, material));
+    public Barrel barrel(WoodMaterial material) {
+        return new Barrel(this, material);
     }
 
-    public Registerable<Boat> boat(WoodMaterial material) {
-        return new Registerable<>(feature, () -> {
-            var boat = new Boat(this, material);
-            BOATS.add(() -> boat);
-            return boat;
-        });
+    public Boat boat(WoodMaterial material) {
+        var boat = new Boat(this, material);
+        BOATS.add(() -> boat);
+        return boat;
     }
 
     public Registerable<EntityType<net.minecraft.world.entity.vehicle.Boat>> boatEntity(WoodMaterial material, Supplier<Item> boatItem) {
@@ -88,8 +86,8 @@ public final class WoodRegistry {
         return commonRegistry.entity(id, () -> boatBuilder);
     }
 
-    public Registerable<Button> button(WoodMaterial material) {
-        return new Registerable<>(feature, () -> new Button(this, material));
+    public Button button(WoodMaterial material) {
+        return new Button(this, material);
     }
 
     public Registerable<EntityType<net.minecraft.world.entity.vehicle.ChestBoat>> chestBoatEntity(WoodMaterial material, Supplier<Item> chestBoatItem) {
@@ -111,60 +109,58 @@ public final class WoodRegistry {
         return commonRegistry;
     }
 
-    public Registerable<Door> door(WoodMaterial material) {
-        return new Registerable<>(feature, () -> new Door(this, material));
+    public Door door(WoodMaterial material) {
+        return new Door(this, material);
     }
 
     public SidedFeature feature() {
         return feature;
     }
 
-    public Registerable<Fence> fence(WoodMaterial material) {
-        return new Registerable<>(feature, () -> new Fence(this, material));
+    public Fence fence(WoodMaterial material) {
+        return new Fence(this, material);
     }
 
-    public Registerable<Gate> gate(WoodMaterial material) {
-        return new Registerable<>(feature, () -> new Gate(this, material));
+    public Gate gate(WoodMaterial material) {
+        return new Gate(this, material);
     }
 
-    public Registerable<HangingSign> hangingSign(WoodMaterial material) {
-        return new Registerable<>(feature, () -> new HangingSign(this, material));
+    public HangingSign hangingSign(WoodMaterial material) {
+        return new HangingSign(this, material);
     }
 
-    public Registerable<Leaves> leaves(WoodMaterial material) {
-        return new Registerable<>(feature, () -> new Leaves(this, material));
+    public Leaves leaves(WoodMaterial material) {
+        return new Leaves(this, material);
     }
 
-    public Registerable<Log> log(WoodMaterial material) {
-        return new Registerable<>(feature, () -> new Log(this, material));
+    public Log log(WoodMaterial material) {
+        return new Log(this, material);
     }
 
-    public Registerable<Planks> planks(WoodMaterial material) {
-        return new Registerable<>(feature, () -> new Planks(this, material));
+    public Planks planks(WoodMaterial material) {
+        return new Planks(this, material);
     }
 
-    public Registerable<PressurePlate> pressurePlate(WoodMaterial material) {
-        return new Registerable<>(feature, () -> new PressurePlate(this, material));
+    public PressurePlate pressurePlate(WoodMaterial material) {
+        return new PressurePlate(this, material);
     }
 
-    public Registerable<Sapling> sapling(WoodMaterial material) {
-        return new Registerable<>(feature, () -> new Sapling(this, material));
+    public Sapling sapling(WoodMaterial material) {
+        return new Sapling(this, material);
     }
 
-    public Registerable<Sign> sign(WoodMaterial material) {
-        return new Registerable<>(feature, () -> {
-            var sign = new Sign(this, material);
-            SIGNS.add(() -> sign);
-            return sign;
-        });
+    public Sign sign(WoodMaterial material) {
+        var sign = new Sign(this, material);
+        SIGNS.add(() -> sign);
+        return sign;
     }
 
-    public Registerable<Slab> slab(WoodMaterial material) {
-        return new Registerable<>(feature, () -> new Slab(this, material));
+    public Slab slab(WoodMaterial material) {
+        return new Slab(this, material);
     }
 
-    public Registerable<Stairs> stairs(WoodMaterial material, Supplier<Planks> planks) {
-        return new Registerable<>(feature, () -> new Stairs(this, material, planks));
+    public Stairs stairs(WoodMaterial material, Planks planks) {
+        return new Stairs(this, material, () -> planks);
     }
 
     public Pair<Registerable<CustomStairBlock>, Registerable<CustomStairBlock.StairBlockItem>> stairsBlockHelper(String id, Supplier<WoodMaterial> material, Supplier<BlockState> state) {
@@ -173,8 +169,8 @@ public final class WoodRegistry {
         return Pair.of(block, item);
     }
 
-    public Registerable<Trapdoor> trapdoor(WoodMaterial material) {
-        return new Registerable<>(feature, () -> new Trapdoor(this, material));
+    public Trapdoor trapdoor(WoodMaterial material) {
+        return new Trapdoor(this, material);
     }
 
     public Registerable<CustomWallHangingSignBlock> wallHangingSignBlock(String id, WoodMaterial material) {
@@ -185,7 +181,7 @@ public final class WoodRegistry {
         return commonRegistry.block(id, key -> new CustomWallSignBlock(key, material));
     }
 
-    public Registerable<svenhjol.charmony.core.common.features.wood.types.Wood> wood(WoodMaterial material) {
-        return new Registerable<>(feature, () -> new svenhjol.charmony.core.common.features.wood.types.Wood(this, material));
+    public svenhjol.charmony.core.common.features.wood.types.Wood wood(WoodMaterial material) {
+        return new svenhjol.charmony.core.common.features.wood.types.Wood(this, material);
     }
 }

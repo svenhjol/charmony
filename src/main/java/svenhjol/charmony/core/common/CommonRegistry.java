@@ -47,6 +47,8 @@ import net.minecraft.world.level.block.FireBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
+import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
@@ -56,6 +58,7 @@ import svenhjol.charmony.core.base.Mod;
 import svenhjol.charmony.core.base.Registerable;
 import svenhjol.charmony.core.base.SidedFeature;
 import svenhjol.charmony.core.common.dispenser.ConditionalDispenseItemBehavior;
+import svenhjol.charmony.core.common.features.wood.WoodMaterial;
 import svenhjol.charmony.core.common.material.FuelProvider;
 import svenhjol.charmony.core.common.material.IgniteProvider;
 import svenhjol.charmony.core.enums.Side;
@@ -127,6 +130,13 @@ public final class CommonRegistry {
 
     public <BE extends BlockEntity> Registerable<BlockEntityType<BE>> blockEntity(String id, Supplier<FabricBlockEntityTypeBuilder.Factory<BE>> builder) {
         return blockEntity(id, builder, List.of());
+    }
+
+    public Registerable<BlockSetType> blockSetType(Supplier<WoodMaterial> material) {
+        return new Registerable<>(feature, () -> {
+            var materialName = material.get().getSerializedName();
+            return BlockSetType.register(new BlockSetType(materialName));
+        });
     }
 
     /**
@@ -365,6 +375,14 @@ public final class CommonRegistry {
             WANDERING_TRADER_TRADES = new ArrayList<>(WANDERING_TRADER_TRADES);
             WANDERING_TRADER_TRADES.add(Pair.of(trades, index));
             return null;
+        });
+    }
+
+    public Registerable<WoodType> woodType(String id, Supplier<BlockSetType> blockSetType) {
+        return new Registerable<>(feature, () -> {
+            return WoodType.register(new WoodType(
+                feature.id(id).toString().replace(":", "_"),
+                blockSetType.get()));
         });
     }
 }

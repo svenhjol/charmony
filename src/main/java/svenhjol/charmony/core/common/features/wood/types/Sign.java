@@ -1,6 +1,7 @@
 package svenhjol.charmony.core.common.features.wood.types;
 
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import svenhjol.charmony.core.base.Registerable;
 import svenhjol.charmony.core.common.features.wood.CustomWood;
 import svenhjol.charmony.core.common.features.wood.CustomWoodType;
 import svenhjol.charmony.core.common.features.wood.WoodMaterial;
@@ -32,7 +33,11 @@ public class Sign extends CustomWoodType {
         woodRegistry.addSignItem(item);
 
         // Associate with the sign block entity.
-        commonRegistry.blocksForBlockEntity(() -> BlockEntityType.SIGN, List.of(standingBlock, wallBlock));
+        new Registerable<Void>(commonRegistry.feature(), () -> {
+            commonRegistry.blocksForBlockEntity(() -> BlockEntityType.SIGN, List.of(standingBlock, wallBlock));
+            return null;
+        });
+
         woodRegistry.addItemToCreativeTab(item, material, CustomWood.SIGN);
     }
 }

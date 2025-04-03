@@ -26,3 +26,5 @@ mutable    field net/minecraft/world/item/StandingAndWallBlockItem wallBlock Lne
 accessible field net/minecraft/world/item/BlockItem block Lnet/minecraft/world/level/block/Block;
 mutable    field net/minecraft/world/item/BlockItem block Lnet/minecraft/world/level/block/Block;
 accessible field net/minecraft/world/level/block/Block item Lnet/minecraft/world/item/Item;
+accessible method net/minecraft/world/level/block/state/properties/BlockSetType register (Lnet/minecraft/world/level/block/state/properties/BlockSetType;)Lnet/minecraft/world/level/block/state/properties/BlockSetType;
+accessible method net/minecraft/world/level/block/state/properties/WoodType register (Lnet/minecraft/world/level/block/state/properties/WoodType;)Lnet/minecraft/world/level/block/state/properties/WoodType;

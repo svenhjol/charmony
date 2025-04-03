@@ -1,6 +1,7 @@
 package svenhjol.charmony.core.common.features.wood.types;
 
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import svenhjol.charmony.core.base.Registerable;
 import svenhjol.charmony.core.common.features.wood.CustomWoodType;
 import svenhjol.charmony.core.common.features.wood.CustomWood;
 import svenhjol.charmony.core.common.features.wood.WoodMaterial;
@@ -32,7 +33,10 @@ public class HangingSign extends CustomWoodType {
         woodRegistry.addHangingSignItem(item);
 
         // Associate with the hanging sign block entity.
-        commonRegistry.blocksForBlockEntity(() -> BlockEntityType.HANGING_SIGN, List.of(hangingBlock, wallBlock));
+        new Registerable<Void>(commonRegistry.feature(), () -> {
+            commonRegistry.blocksForBlockEntity(() -> BlockEntityType.HANGING_SIGN, List.of(hangingBlock, wallBlock));
+            return null;
+        });
 
         woodRegistry.addItemToCreativeTab(item, material, CustomWood.HANGING_SIGN);
     }
