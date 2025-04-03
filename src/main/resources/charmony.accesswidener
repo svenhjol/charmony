@@ -21,3 +21,8 @@ accessible field net/minecraft/world/entity/ai/village/poi/PoiTypes TYPE_BY_STAT
 mutable    field net/minecraft/world/entity/ai/village/poi/PoiTypes TYPE_BY_STATE Ljava/util/Map;
 accessible field net/minecraft/world/item/AxeItem STRIPPABLES Ljava/util/Map;
 mutable    field net/minecraft/world/item/AxeItem STRIPPABLES Ljava/util/Map;
+accessible field net/minecraft/world/item/StandingAndWallBlockItem wallBlock Lnet/minecraft/world/level/block/Block;
+mutable    field net/minecraft/world/item/StandingAndWallBlockItem wallBlock Lnet/minecraft/world/level/block/Block;
+accessible field net/minecraft/world/item/BlockItem block Lnet/minecraft/world/level/block/Block;
+mutable    field net/minecraft/world/item/BlockItem block Lnet/minecraft/world/level/block/Block;
+accessible field net/minecraft/world/level/block/Block item Lnet/minecraft/world/item/Item;

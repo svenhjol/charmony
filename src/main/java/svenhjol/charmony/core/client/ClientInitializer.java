@@ -6,6 +6,7 @@ import svenhjol.charmony.core.base.Environment;
 import svenhjol.charmony.core.client.features.control_panel.ControlPanel;
 import svenhjol.charmony.core.client.features.core.Core;
 import svenhjol.charmony.core.client.features.test.TestFeature;
+import svenhjol.charmony.core.common.features.wood.Wood;
 import svenhjol.charmony.core.enums.Side;
 
 public final class ClientInitializer implements ClientModInitializer {
@@ -26,6 +27,7 @@ public final class ClientInitializer implements ClientModInitializer {
         var charmony = Charmony.instance();
         charmony.addSidedFeature(Core.class);
         charmony.addSidedFeature(ControlPanel.class);
+        charmony.addSidedFeature(Wood.class);
 
         if (Environment.isDevEnvironment()) {
             charmony.addSidedFeature(TestFeature.class);

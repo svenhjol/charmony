@@ -14,12 +14,15 @@ import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
@@ -29,6 +32,7 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.properties.WoodType;
 import svenhjol.charmony.core.base.Registerable;
 import svenhjol.charmony.core.base.SidedFeature;
 import svenhjol.charmony.core.common.ContainerMenu;
@@ -124,5 +128,13 @@ public final class ClientRegistry {
         var deferred = new DeferredParticle(type, registration);
         PARTICLES.add(deferred);
         return deferred;
+    }
+
+    public Registerable<Void> signMaterial(Supplier<WoodType> woodType) {
+        return new Registerable<>(feature, () -> {
+            Sheets.SIGN_MATERIALS.put(woodType.get(), new Material(Sheets.SIGN_SHEET, ResourceLocation.withDefaultNamespace("entity/signs/" + woodType.get().name())));
+            Sheets.HANGING_SIGN_MATERIALS.put(woodType.get(), new Material(Sheets.SIGN_SHEET, ResourceLocation.withDefaultNamespace("entity/signs/hanging/" + woodType.get().name())));
+            return null;
+        });
     }
 }
