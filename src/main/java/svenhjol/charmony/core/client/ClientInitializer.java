@@ -6,7 +6,7 @@ import svenhjol.charmony.core.base.Environment;
 import svenhjol.charmony.core.client.features.control_panel.ControlPanel;
 import svenhjol.charmony.core.client.features.core.Core;
 import svenhjol.charmony.core.client.features.test.TestFeature;
-import svenhjol.charmony.core.common.features.wood.Wood;
+import svenhjol.charmony.core.client.features.wood.Wood;
 import svenhjol.charmony.core.enums.Side;
 
 public final class ClientInitializer implements ClientModInitializer {
