@@ -379,10 +379,6 @@ public final class CommonRegistry {
     }
 
     public Registerable<WoodType> woodType(String id, Supplier<BlockSetType> blockSetType) {
-        return new Registerable<>(feature, () -> {
-            return WoodType.register(new WoodType(
-                feature.id(id).toString().replace(":", "_"),
-                blockSetType.get()));
-        });
+        return new Registerable<>(feature, () -> WoodType.register(new WoodType(id, blockSetType.get())));
     }
 }

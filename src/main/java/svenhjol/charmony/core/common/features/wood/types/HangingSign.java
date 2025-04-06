@@ -22,15 +22,15 @@ public class HangingSign extends CustomWoodType {
         super(woodRegistry, material);
 
         var commonRegistry = woodRegistry.commonRegistry();
+        var feature = commonRegistry.feature();
         var hangingId = material.getSerializedName() + "_hanging_sign";
         var wallId = material.getSerializedName() + "_wall_hanging_sign";
 
-        hangingBlock = commonRegistry.block(hangingId, key -> new CustomCeilingHangingSignBlock(key, material));
-        wallBlock = woodRegistry.wallHangingSignBlock(wallId, material);
-        item = commonRegistry.item(hangingId, key -> new CustomHangingSignItem(key, material, hangingBlock, wallBlock));
-
-        // This is needed so we can set the correct blocks to hanging signs later on in the registration.
-        woodRegistry.addHangingSignItem(item);
+        hangingBlock = commonRegistry.block(hangingId,
+            key -> new CustomCeilingHangingSignBlock(key, feature, material));
+        wallBlock = woodRegistry.wallHangingSignBlock(wallId, feature, material, hangingBlock);
+        item = commonRegistry.item(hangingId,
+            key -> new CustomHangingSignItem(key, material, hangingBlock, wallBlock));
 
         // Associate with the hanging sign block entity.
         new Registerable<Void>(commonRegistry.feature(), () -> {

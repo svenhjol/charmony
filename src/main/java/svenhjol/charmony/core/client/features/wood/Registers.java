@@ -2,6 +2,9 @@ package svenhjol.charmony.core.client.features.wood;
 
 import net.minecraft.client.model.BoatModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.renderer.Sheets;
+import net.minecraft.client.renderer.entity.BoatRenderer;
+import net.minecraft.client.resources.model.Material;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -26,21 +29,28 @@ public class Registers extends Setup<Wood> {
             // Register models for custom boats.
             for (var boat : WoodRegistry.BOATS) {
                 var materialName = boat.get().material().getSerializedName();
+                var feature = boat.get().feature();
 
-                clientRegistry.modelLayer(
-                    () -> new ModelLayerLocation(feature().id("boat/" + materialName), "main"),
-                    BoatModel::createBoatModel);
+                var boatEntity = boat.get().boat.get();
+                var chestBoatEntity = boat.get().chestBoat.get();
 
-                clientRegistry.modelLayer(
-                    () -> new ModelLayerLocation(feature().id("chest_boat/" + materialName), "main"),
-                    BoatModel::createChestBoatModel);
+                var boatLayer = new ModelLayerLocation(feature.id("boat/" + materialName), "main");
+                var chestBoatLayer = new ModelLayerLocation(feature.id("chest_boat/" + materialName), "main");
+
+                clientRegistry.modelLayer(() -> boatLayer, BoatModel::createBoatModel);
+                clientRegistry.modelLayer(() -> chestBoatLayer, BoatModel::createChestBoatModel);
+
+                clientRegistry.entityRenderer(boatEntity, context -> new BoatRenderer(context, boatLayer));
+                clientRegistry.entityRenderer(chestBoatEntity, context -> new BoatRenderer(context, chestBoatLayer));
             }
 
             // Register the woodtype for custom signs.
             for (var sign : WoodRegistry.SIGNS) {
+                var feature = sign.get().feature();
                 var woodType = sign.get().material().woodType();
 
-                clientRegistry.signMaterial(() -> woodType);
+                Sheets.SIGN_MATERIALS.put(woodType, new Material(Sheets.SIGN_SHEET, feature.id("entity/signs/" + woodType.name())));
+                Sheets.HANGING_SIGN_MATERIALS.put(woodType, new Material(Sheets.SIGN_SHEET, feature.id("entity/signs/hanging/" + woodType.name())));
             }
 
             // Add all custom items to creative tabs.

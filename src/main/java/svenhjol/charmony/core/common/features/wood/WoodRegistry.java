@@ -8,6 +8,9 @@ import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.vehicle.ChestBoat;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.CeilingHangingSignBlock;
+import net.minecraft.world.level.block.StandingSignBlock;
+import net.minecraft.world.level.block.WallHangingSignBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import svenhjol.charmony.core.base.Registerable;
 import svenhjol.charmony.core.base.SidedFeature;
@@ -47,18 +50,6 @@ public final class WoodRegistry {
     public void addItemToCreativeTab(Supplier<? extends Item> item, WoodMaterial material, CustomWood woodType) {
         var after = material.creativeMenuPosition().get(woodType);
         ITEM_CREATIVE_TABS.put(item, after, woodType);
-    }
-
-    public void addSignItem(Supplier<CustomSignItem> item) {
-        if (!SIGN_ITEMS.contains(item)) {
-            SIGN_ITEMS.add(item);
-        }
-    }
-
-    public void addHangingSignItem(Supplier<CustomHangingSignItem> item) {
-        if (!HANGING_SIGN_ITEMS.contains(item)) {
-            HANGING_SIGN_ITEMS.add(item);
-        }
     }
 
     public Barrel barrel(WoodMaterial material) {
@@ -173,12 +164,12 @@ public final class WoodRegistry {
         return new Trapdoor(this, material);
     }
 
-    public Registerable<CustomWallHangingSignBlock> wallHangingSignBlock(String id, WoodMaterial material) {
-        return commonRegistry.block(id, key -> new CustomWallHangingSignBlock(key, material));
+    public Registerable<CustomWallHangingSignBlock> wallHangingSignBlock(String id, SidedFeature feature, WoodMaterial material, Supplier<? extends CeilingHangingSignBlock> hangingSign) {
+        return commonRegistry.block(id, key -> new CustomWallHangingSignBlock(key, feature, material, hangingSign.get()));
     }
 
-    public Registerable<CustomWallSignBlock> wallSignBlock(String id, WoodMaterial material) {
-        return commonRegistry.block(id, key -> new CustomWallSignBlock(key, material));
+    public Registerable<CustomWallSignBlock> wallSignBlock(String id, WoodMaterial material, Supplier<? extends StandingSignBlock> standingSign) {
+        return commonRegistry.block(id, key -> new CustomWallSignBlock(key, material, standingSign.get()));
     }
 
     public svenhjol.charmony.core.common.features.wood.types.Wood wood(WoodMaterial material) {

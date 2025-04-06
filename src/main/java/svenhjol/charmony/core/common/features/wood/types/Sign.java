@@ -26,11 +26,12 @@ public class Sign extends CustomWoodType {
         var wallSignId = material.getSerializedName() + "_wall_sign";
 
         standingBlock = commonRegistry.block(signId, key -> new CustomStandingSignBlock(key, material));
-        wallBlock = woodRegistry.wallSignBlock(wallSignId, material);
-        item = commonRegistry.item(signId, key -> new CustomSignItem(key, material, standingBlock, wallBlock));
-
-        // This is needed so we can set the correct blocks to signs later on in the registration.
-        woodRegistry.addSignItem(item);
+        wallBlock = woodRegistry.wallSignBlock(wallSignId, material, standingBlock);
+        item = commonRegistry.item(signId, key -> {
+            var item = new CustomSignItem(key, material, standingBlock, wallBlock);
+            wallBlock.get().item = item;
+            return item;
+        });
 
         // Associate with the sign block entity.
         new Registerable<Void>(commonRegistry.feature(), () -> {

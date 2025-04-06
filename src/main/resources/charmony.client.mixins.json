@@ -19,6 +19,7 @@
     "render_tooltip.GuiGraphicsMixin",
     "render_tooltip.ScreenMixin",
     "render_tooltip_component.ItemMixin",
-    "setup_screen.ScreenMixin"
+    "setup_screen.ScreenMixin",
+    "wood.HangingSignEditScreenMixin"
   ]
 }

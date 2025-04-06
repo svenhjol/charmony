@@ -22,7 +22,6 @@ import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
@@ -73,9 +72,9 @@ public final class ClientRegistry {
         ColorProviderRegistry.BLOCK.register(blockColor, blocks.stream().map(Supplier::get).toList().toArray(Block[]::new));
     }
 
-    public <E extends Entity> Registerable<Void> entityRenderer(Supplier<EntityType<E>> entity, Supplier<EntityRendererProvider<E>> provider) {
+    public <E extends Entity> Registerable<Void> entityRenderer(EntityType<? extends E> entity, EntityRendererProvider<E> provider) {
         return new Registerable<>(feature, () -> {
-            EntityRendererRegistry.register(entity.get(), provider.get());
+            EntityRendererRegistry.register(entity, provider);
             return null;
         });
     }
@@ -128,13 +127,5 @@ public final class ClientRegistry {
         var deferred = new DeferredParticle(type, registration);
         PARTICLES.add(deferred);
         return deferred;
-    }
-
-    public Registerable<Void> signMaterial(Supplier<WoodType> woodType) {
-        return new Registerable<>(feature, () -> {
-            Sheets.SIGN_MATERIALS.put(woodType.get(), new Material(Sheets.SIGN_SHEET, ResourceLocation.withDefaultNamespace("entity/signs/" + woodType.get().name())));
-            Sheets.HANGING_SIGN_MATERIALS.put(woodType.get(), new Material(Sheets.SIGN_SHEET, ResourceLocation.withDefaultNamespace("entity/signs/hanging/" + woodType.get().name())));
-            return null;
-        });
     }
 }
