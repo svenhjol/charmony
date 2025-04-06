@@ -7,6 +7,7 @@ import svenhjol.charmony.core.common.features.advancements.Advancements;
 import svenhjol.charmony.core.common.features.core.Core;
 import svenhjol.charmony.core.common.features.conditional_recipes.ConditionalRecipes;
 import svenhjol.charmony.core.common.features.test_feature.TestFeature;
+import svenhjol.charmony.core.common.features.wandering_trader_tiers.WanderingTraderTiers;
 import svenhjol.charmony.core.common.features.wood.Wood;
 import svenhjol.charmony.core.enums.Side;
 
@@ -28,6 +29,7 @@ public class CommonInitializer implements ModInitializer {
         charmony.addSidedFeature(Core.class);
         charmony.addSidedFeature(Advancements.class);
         charmony.addSidedFeature(ConditionalRecipes.class);
+        charmony.addSidedFeature(WanderingTraderTiers.class);
         charmony.addSidedFeature(Wood.class);
 
         if (Environment.isDevEnvironment()) {

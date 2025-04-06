@@ -74,11 +74,11 @@ import static net.minecraft.world.entity.npc.VillagerTrades.WANDERING_TRADER_TRA
 public final class CommonRegistry {
     private final SidedFeature feature;
 
-    private static final List<String> REGISTERED_WANDERING_TRADER_TIERS = new ArrayList<>();
     public static final Map<Mod, List<PotionRecipe>> POTION_RECIPES = new HashMap<>();
     public static final List<ConditionalRecipe> CONDITIONAL_RECIPES = new ArrayList<>();
     public static final Map<ItemLike, List<ConditionalDispenseItemBehavior>> CONDITIONAL_DISPENSER_BEHAVIORS = new HashMap<>();
     public static final List<DataComponentType<? extends TooltipProvider>> DATA_COMPONENT_TOOLTIP_PROVIDERS = new ArrayList<>();
+    public static final Map<String, List<VillagerTrades.ItemListing>> WANDERING_TRADER_TIERS = new HashMap<>();
 
     private CommonRegistry(SidedFeature feature) {
         this.feature = feature;
@@ -409,18 +409,13 @@ public final class CommonRegistry {
     /**
      * MUST be run late to resolve tags. Add a whole tier of items to a wandering trader's trades.
      */
-    public void wandererTradeTier(String id, List<VillagerTrades.ItemListing> trades, int count) {
-        if (REGISTERED_WANDERING_TRADER_TIERS.contains(id)) {
+    public void wandererTradeTier(String id, List<VillagerTrades.ItemListing> trades) {
+        if (WANDERING_TRADER_TIERS.containsKey(id)) {
             feature.log().info("Wandering trader tier " + id + " has already been added, not adding again.");
             return;
         }
-        REGISTERED_WANDERING_TRADER_TIERS.add(id);
 
-        WANDERING_TRADER_TRADES = new ArrayList<>(WANDERING_TRADER_TRADES);
-        var tier = Pair.of(trades.toArray(new VillagerTrades.ItemListing[0]), count);
-
-        WANDERING_TRADER_TRADES.add(tier);
-        feature.log().debug("Added " + id + " tier to wandering trader. Count: " + count);
+        WANDERING_TRADER_TIERS.put(id, trades);
     }
 
     public Registerable<WoodType> woodType(String id, Supplier<BlockSetType> blockSetType) {

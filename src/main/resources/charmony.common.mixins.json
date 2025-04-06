@@ -12,6 +12,7 @@
     "anvil.AnvilMenuRepairMixin",
     "anvil.AnvilMenuUpdateMixin",
     "apply_beacon_effects_callback.BeaconBlockEntityMixin",
+    "conditional_recipes.RecipeManagerMixin",
     "data_component.ItemStackMixin",
     "dispenser_behavior.DispenserBlockMixin",
     "entity_jump_callback.LivingEntityMixin",
@@ -23,7 +24,7 @@
     "item_drag_drop_callback.ItemMixin",
     "player_killed_drop_callback.PlayerMixin",
     "player_tick_callback.ServerPlayerMixin",
-    "conditional_recipes.RecipeManagerMixin",
-    "smithing_table.SmithingMenuMixin"
+    "smithing_table.SmithingMenuMixin",
+    "wandering_trader_tiers.WanderingTraderMixin"
   ]
 }
