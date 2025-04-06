@@ -40,10 +40,10 @@ public enum CustomWood {
     );
 
     public static final List<CustomWood> NATURAL_BLOCKS = List.of(
-        LEAVES, SAPLING
+        LOG, STRIPPED_LOG, LEAVES, SAPLING
     );
 
     public static final List<CustomWood> TOOLS_AND_UTILITIES = List.of(
-        BOAT, CHEST_BOAT
+        CHEST_BOAT, BOAT
     );
 }
