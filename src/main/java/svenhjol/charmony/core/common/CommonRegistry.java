@@ -382,11 +382,37 @@ public final class CommonRegistry {
      */
     public Registerable<Void> wandererTrade(Supplier<VillagerTrades.ItemListing> trade, boolean isRare) {
         return new Registerable<>(feature, () -> {
-            VillagerTrades.ItemListing[] trades = Arrays.asList(trade.get()).toArray(new VillagerTrades.ItemListing[0]);
-            int index = isRare ? 2 : 5;
-
             WANDERING_TRADER_TRADES = new ArrayList<>(WANDERING_TRADER_TRADES);
-            WANDERING_TRADER_TRADES.add(Pair.of(trades, index));
+
+            var size = WANDERING_TRADER_TRADES.size();
+            var index = isRare ? 2 : 1;
+            Pair<VillagerTrades.ItemListing[], Integer> tradeList;
+
+            try {
+                tradeList = WANDERING_TRADER_TRADES.get(index);
+            } catch (IndexOutOfBoundsException e) {
+                index = size - 1;
+                tradeList = WANDERING_TRADER_TRADES.get(index);
+            }
+
+            var trades = new ArrayList<>(Arrays.asList(tradeList.getLeft()));
+            var count = tradeList.getRight();
+            trades.add(trade.get());
+
+            // Rebuild the trades at this index.
+            WANDERING_TRADER_TRADES.add(index, Pair.of(trades.toArray(new VillagerTrades.ItemListing[0]), count));
+            return null;
+        });
+    }
+
+    /**
+     * May be run late. Add a whole tier of items to a wandering trader's trades.
+     */
+    public Registerable<Void> wandererTradeTier(Supplier<List<VillagerTrades.ItemListing>> trades, int count) {
+        return new Registerable<>(feature, () -> {
+            WANDERING_TRADER_TRADES = new ArrayList<>(WANDERING_TRADER_TRADES);
+            var tier = Pair.of(trades.get().toArray(new VillagerTrades.ItemListing[0]), count);
+            WANDERING_TRADER_TRADES.add(tier);
             return null;
         });
     }
