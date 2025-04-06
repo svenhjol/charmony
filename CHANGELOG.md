@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.27.1
+
+- Update icon.
+
 ## 1.27.0
 
 - Add custom wood registration.
