@@ -23,6 +23,7 @@
     "item_drag_drop_callback.ItemMixin",
     "player_killed_drop_callback.PlayerMixin",
     "player_tick_callback.ServerPlayerMixin",
+    "conditional_recipes.RecipeManagerMixin",
     "smithing_table.SmithingMenuMixin"
   ]
 }

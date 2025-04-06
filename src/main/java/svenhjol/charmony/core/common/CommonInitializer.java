@@ -5,7 +5,8 @@ import svenhjol.charmony.core.Charmony;
 import svenhjol.charmony.core.base.Environment;
 import svenhjol.charmony.core.common.features.advancements.Advancements;
 import svenhjol.charmony.core.common.features.core.Core;
-import svenhjol.charmony.core.common.features.test.TestFeature;
+import svenhjol.charmony.core.common.features.conditional_recipes.ConditionalRecipes;
+import svenhjol.charmony.core.common.features.test_feature.TestFeature;
 import svenhjol.charmony.core.common.features.wood.Wood;
 import svenhjol.charmony.core.enums.Side;
 
@@ -26,6 +27,7 @@ public class CommonInitializer implements ModInitializer {
         var charmony = Charmony.instance();
         charmony.addSidedFeature(Core.class);
         charmony.addSidedFeature(Advancements.class);
+        charmony.addSidedFeature(ConditionalRecipes.class);
         charmony.addSidedFeature(Wood.class);
 
         if (Environment.isDevEnvironment()) {

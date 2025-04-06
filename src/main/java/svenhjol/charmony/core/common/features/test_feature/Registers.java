@@ -1,4 +1,4 @@
-package svenhjol.charmony.core.common.features.test;
+package svenhjol.charmony.core.common.features.test_feature;
 
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.item.Items;

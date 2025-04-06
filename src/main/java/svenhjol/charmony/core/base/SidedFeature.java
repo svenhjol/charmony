@@ -33,6 +33,7 @@ public abstract class SidedFeature {
      * Returns a pretty-format version of the feature name.
      * For example, "CharmonySettings" becomes "Charmony settings".
      * Use className() for the pascal-case feature name.
+     *
      * @return Pretty-format feature name.
      */
     public String name() {
@@ -43,6 +44,7 @@ public abstract class SidedFeature {
 
     /**
      * Pascal-case feature name.
+     *
      * @return Pascal-case feature name.
      */
     public String className() {
@@ -81,6 +83,9 @@ public abstract class SidedFeature {
         return annotation().canBeDisabledInConfig();
     }
 
+    /**
+     * Runs when the feature is enabled.
+     */
     public void run() {
         // no op
     }

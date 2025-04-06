@@ -58,6 +58,7 @@ import svenhjol.charmony.core.base.Mod;
 import svenhjol.charmony.core.base.Registerable;
 import svenhjol.charmony.core.base.SidedFeature;
 import svenhjol.charmony.core.common.dispenser.ConditionalDispenseItemBehavior;
+import svenhjol.charmony.core.common.features.conditional_recipes.ConditionalRecipe;
 import svenhjol.charmony.core.common.features.wood.WoodMaterial;
 import svenhjol.charmony.core.common.material.FuelProvider;
 import svenhjol.charmony.core.common.material.IgniteProvider;
@@ -74,6 +75,7 @@ public final class CommonRegistry {
     private final SidedFeature feature;
 
     public static final Map<Mod, List<PotionRecipe>> POTION_RECIPES = new HashMap<>();
+    public static final List<ConditionalRecipe> CONDITIONAL_RECIPES = new ArrayList<>();
     public static final Map<ItemLike, List<ConditionalDispenseItemBehavior>> CONDITIONAL_DISPENSER_BEHAVIORS = new HashMap<>();
     public static final List<DataComponentType<? extends TooltipProvider>> DATA_COMPONENT_TOOLTIP_PROVIDERS = new ArrayList<>();
 
@@ -164,6 +166,15 @@ public final class CommonRegistry {
             CONDITIONAL_DISPENSER_BEHAVIORS.computeIfAbsent(item, a -> new ArrayList<>()).add(behavior);
             return null;
         });
+    }
+
+    /**
+     * May be run late. Use this to add a recipe that varies according to mod state.
+     *
+     * @param recipe Conditional recipe to add.
+     */
+    public void conditionalRecipe(ConditionalRecipe recipe) {
+        CONDITIONAL_RECIPES.add(recipe);
     }
 
     public <D> Registerable<DataComponentType<D>> dataComponent(String id, Supplier<UnaryOperator<DataComponentType.Builder<D>>> dataComponent) {
@@ -272,6 +283,7 @@ public final class CommonRegistry {
 
     /**
      * Register a callback when the server receives a packet from the client.
+     *
      * @param type Packet type.
      * @param handler Callback.
      * @return Empty registerable.
@@ -288,6 +300,7 @@ public final class CommonRegistry {
 
     /**
      * Register packet to send from the specified side.
+     *
      * @param side Side to send the packet from.
      * @param type Packet type.
      * @param codec Packet codec.
