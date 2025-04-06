@@ -65,8 +65,8 @@ public final class ClientRegistry {
         });
     }
 
-    public void blockColor(BlockColor blockColor, List<Supplier<? extends Block>> blocks) {
-        ColorProviderRegistry.BLOCK.register(blockColor, blocks.stream().map(Supplier::get).toList().toArray(Block[]::new));
+    public void blockColor(BlockColor blockColor, List<? extends Block> blocks) {
+        ColorProviderRegistry.BLOCK.register(blockColor, blocks.stream().toList().toArray(Block[]::new));
     }
 
     public <E extends Entity> Registerable<Void> entityRenderer(EntityType<? extends E> entity, EntityRendererProvider<E> provider) {
