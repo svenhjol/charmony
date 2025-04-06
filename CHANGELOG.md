@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.27.0
+
+- Add custom wood registration.
+- Add conditional recipe registration.
+
 ## 1.24.0
 
 - Fix issue with embedded API version.
