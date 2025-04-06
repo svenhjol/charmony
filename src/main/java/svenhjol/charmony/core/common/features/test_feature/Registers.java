@@ -3,7 +3,7 @@ package svenhjol.charmony.core.common.features.test_feature;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.item.Items;
 import svenhjol.charmony.core.base.Setup;
@@ -30,11 +30,11 @@ public class Registers extends Setup<TestFeature> {
     private void handleServerStarting(MinecraftServer server) {
         var registry = CommonRegistry.forFeature(feature());
 
-        List<VillagerTrades.ItemListing> concretes = new ArrayList<>();
-        for (var concrete : TagHelper.getValues(BuiltInRegistries.BLOCK, BlockTags.CONCRETE_POWDER)) {
-            concretes.add(new GenericTrades.ItemsForEmeralds(concrete, 5, 8, 0, 1));
+        List<VillagerTrades.ItemListing> bundles = new ArrayList<>();
+        for (var bundle : TagHelper.getValues(BuiltInRegistries.ITEM, ItemTags.BUNDLES)) {
+            bundles.add(new GenericTrades.ItemsForEmeralds(bundle, 64, 1, 0, 1));
         }
 
-        registry.wandererTradeTier("concretes", concretes, concretes.size());
+        registry.wandererTradeTier("bundles", bundles, bundles.size());
     }
 }

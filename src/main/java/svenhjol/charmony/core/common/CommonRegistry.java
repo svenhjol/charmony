@@ -73,8 +73,8 @@ import static net.minecraft.world.entity.npc.VillagerTrades.WANDERING_TRADER_TRA
 @SuppressWarnings({"unused", "UnusedReturnValue"})
 public final class CommonRegistry {
     private final SidedFeature feature;
-    private final List<String> registeredWanderingTraderTiers = new ArrayList<>();
 
+    private static final List<String> REGISTERED_WANDERING_TRADER_TIERS = new ArrayList<>();
     public static final Map<Mod, List<PotionRecipe>> POTION_RECIPES = new HashMap<>();
     public static final List<ConditionalRecipe> CONDITIONAL_RECIPES = new ArrayList<>();
     public static final Map<ItemLike, List<ConditionalDispenseItemBehavior>> CONDITIONAL_DISPENSER_BEHAVIORS = new HashMap<>();
@@ -410,11 +410,11 @@ public final class CommonRegistry {
      * MUST be run late to resolve tags. Add a whole tier of items to a wandering trader's trades.
      */
     public void wandererTradeTier(String id, List<VillagerTrades.ItemListing> trades, int count) {
-        if (registeredWanderingTraderTiers.contains(id)) {
+        if (REGISTERED_WANDERING_TRADER_TIERS.contains(id)) {
             feature.log().info("Wandering trader tier " + id + " has already been added, not adding again.");
             return;
         }
-        registeredWanderingTraderTiers.add(id);
+        REGISTERED_WANDERING_TRADER_TIERS.add(id);
 
         WANDERING_TRADER_TRADES = new ArrayList<>(WANDERING_TRADER_TRADES);
         var tier = Pair.of(trades.toArray(new VillagerTrades.ItemListing[0]), count);
