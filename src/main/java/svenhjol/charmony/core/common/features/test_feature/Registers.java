@@ -35,6 +35,6 @@ public class Registers extends Setup<TestFeature> {
             bundles.add(new GenericTrades.ItemsForEmeralds(bundle, 64, 1, 0, 1));
         }
 
-        registry.wandererTradeTier("bundles", bundles);
+        registry.wandererTradeTier("testing_bundles", bundles);
     }
 }
