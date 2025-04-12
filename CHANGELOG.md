@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.29.0
+
+- Bump for latest API version.
+
 ## 1.27.1
 
 - Update icon.
