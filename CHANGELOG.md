@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.29.2
+
+- Add registry access to the API.
+
 ## 1.29.1
 
 - Handle resourcelocations for the API.
