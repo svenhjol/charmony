@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.29.1
+
+- Handle resourcelocations for the API.
+
 ## 1.29.0
 
 - Bump for latest API version.
