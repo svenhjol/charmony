@@ -29,3 +29,8 @@ accessible field net/minecraft/world/level/block/Block item Lnet/minecraft/world
 accessible method net/minecraft/world/level/block/state/properties/BlockSetType register (Lnet/minecraft/world/level/block/state/properties/BlockSetType;)Lnet/minecraft/world/level/block/state/properties/BlockSetType;
 accessible method net/minecraft/world/level/block/state/properties/WoodType register (Lnet/minecraft/world/level/block/state/properties/WoodType;)Lnet/minecraft/world/level/block/state/properties/WoodType;
 accessible method net/minecraft/world/entity/npc/AbstractVillager addOffersFromItemListings (Lnet/minecraft/world/item/trading/MerchantOffers;[Lnet/minecraft/world/entity/npc/VillagerTrades$ItemListing;I)V
+accessible field net/minecraft/server/level/ServerPlayer isChangingDimension Z
+accessible field net/minecraft/server/level/ServerPlayer lastSentExp I
+accessible field net/minecraft/server/level/ServerPlayer lastSentHealth F
+accessible field net/minecraft/server/level/ServerPlayer lastSentFood I
+accessible method net/minecraft/world/entity/Entity unsetRemoved ()V

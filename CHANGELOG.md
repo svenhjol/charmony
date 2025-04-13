@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.30.0
+
+- Port teleporter and promoted to feature.
+
 ## 1.29.2
 
 - Add registry access to the API.
