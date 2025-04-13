@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.31.0
+
+- API: Rename plurals for consistency: StoneCircleDefinitionProvider, RunestoneDefinitionProvider
+
 ## 1.30.6
 
 - Bump for latest API version.
