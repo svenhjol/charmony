@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.30.5
+## 1.30.6
 
 - Bump for latest API version.
 
