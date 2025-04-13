@@ -22,6 +22,7 @@ import svenhjol.charmony.core.helpers.TeleportHelper;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+@SuppressWarnings("unused")
 public abstract class Teleporter {
     private static final Log LOGGER = new Log(Charmony.ID, "Teleport");
 
@@ -39,10 +40,6 @@ public abstract class Teleporter {
         this.player = player;
         this.level = (ServerLevel)player.level();
         this.valid = true;
-    }
-
-    public boolean isValid() {
-        return valid;
     }
 
     public void tick() {
@@ -76,6 +73,18 @@ public abstract class Teleporter {
     protected abstract ResourceKey<Level> getTargetDimension();
 
     protected abstract Vec3 getTargetPos();
+
+    protected ServerLevel getLevel() {
+        return level;
+    }
+
+    protected ServerPlayer getPlayer() {
+        return player;
+    }
+
+    protected boolean isValid() {
+        return valid;
+    }
 
     protected boolean isSameDimension() {
         return getTargetDimension() == level.dimension();

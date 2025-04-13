@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.30.1
+
+- Expose some private properties to classes that extend the Teleporter.
+
 ## 1.30.0
 
 - Port teleporter and promoted to feature.
