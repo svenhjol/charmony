@@ -24,7 +24,7 @@ import java.util.Arrays;
 
 @SuppressWarnings("unused")
 public abstract class Teleporter {
-    private static final Log LOGGER = new Log(Charmony.ID, "Teleport");
+    protected static final Log LOGGER = new Log(Charmony.ID, "Teleport");
 
     public static final int PLAY_SOUND_TICKS = 5;
     public static final int TELEPORT_TICKS = 10;
