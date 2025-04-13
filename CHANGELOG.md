@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.30.3
+
+- Bump for latest API version.
+
 ## 1.30.2
 
 - Expose the LOGGER for the base Teleporter.
