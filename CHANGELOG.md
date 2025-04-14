@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.32.0
+
+- Bump for latest API version.
+
 ## 1.31.3
 
 - Add randomCardinal() to world helper.
