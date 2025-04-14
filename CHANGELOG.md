@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.31.2
+
+- Add seedFromBlockPos() to world helper.
+
 ## 1.31.1
 
 - Apply changes for teleportation tick timing.

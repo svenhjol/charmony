@@ -95,4 +95,19 @@ public final class WorldHelper {
         double d3 = d1 - pos2.getZ();
         return d2 * d2 + d3 * d3;
     }
+
+    /**
+     * Generates a unique seed from block position coordinates.
+     *
+     * @return A unique long seed value.
+     */
+    public static long seedFromBlockPos(BlockPos pos) {
+        var x = pos.getX();
+        var y = pos.getY();
+        var z = pos.getZ();
+
+        return ((long)x & 0x3FFFFFFL) << 38
+            | ((long)(y + 64) & 0x3FFL) << 28
+            | ((long)z & 0x3FFFFFFL);
+    }
 }
