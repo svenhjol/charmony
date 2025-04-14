@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.31.1
+
+- Apply changes for teleportation tick timing.
+
 ## 1.31.0
 
 - API: Rename plurals for consistency: StoneCircleDefinitionProvider, RunestoneDefinitionProvider

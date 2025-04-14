@@ -25,21 +25,20 @@ import java.util.Arrays;
 @SuppressWarnings("unused")
 public abstract class Teleporter {
     protected static final Log LOGGER = new Log(Charmony.ID, "Teleport");
-
-    public static final int PLAY_SOUND_TICKS = 5;
-    public static final int TELEPORT_TICKS = 10;
-    public static final int REPOSITION_TICKS = 20;
+    protected static final int MAX_TICKS = 200;
 
     private final ServerPlayer player;
     private final ServerLevel level;
     private boolean hasDoneEffects = false;
     private boolean valid = false;
+    private boolean survivalMode;
     private int ticks = 0;
 
     public Teleporter(ServerPlayer player) {
         this.player = player;
         this.level = (ServerLevel)player.level();
         this.valid = true;
+        this.survivalMode = !player.getAbilities().instabuild && !player.isSpectator();
     }
 
     public void tick() {
@@ -49,20 +48,21 @@ public abstract class Teleporter {
 
         ticks++;
 
-        if (ticks == PLAY_SOUND_TICKS && isSameDimension()) {
+        if (ticks == playSoundAfterTicks() && isSameDimension()) {
             playTeleportSound();
         }
 
-        if (ticks < TELEPORT_TICKS) return;
+        if (ticks < teleportAfterTicks()) return;
 
-        if (ticks == TELEPORT_TICKS) {
+        if (ticks == teleportAfterTicks()) {
             teleport();
             return;
         }
 
-        if (ticks < REPOSITION_TICKS) return;
+        if (ticks < repositionAfterTicks()) return;
 
-        if (player.isRemoved()) {
+        if (player.isRemoved() || ticks >= MAX_TICKS) {
+            removePlayerSafety();
             valid = false;
             return;
         }
@@ -95,7 +95,7 @@ public abstract class Teleporter {
     }
 
     protected void applyProtection() {
-        var protectionTicks = protectionTicks();
+        var protectionTicks = protectionDurationTicks();
         var effects = new ArrayList<>(Arrays.asList(
             new MobEffectInstance(MobEffects.FIRE_RESISTANCE, protectionTicks, 1),
             new MobEffectInstance(MobEffects.RESISTANCE, protectionTicks, 1),
@@ -104,8 +104,20 @@ public abstract class Teleporter {
         effects.forEach(player::addEffect);
     }
 
-    protected int protectionTicks() {
-        return 0;
+    protected int teleportAfterTicks() {
+        return Teleport.feature().teleportAfterTicks();
+    }
+
+    protected int repositionAfterTicks() {
+        return Teleport.feature().repositionAfterTicks();
+    }
+
+    protected int playSoundAfterTicks() {
+        return Teleport.feature().playSoundAfterTicks();
+    }
+
+    protected int protectionDurationTicks() {
+        return Teleport.feature().protectionDurationTicks();
     }
 
     protected void doEffects() {
@@ -141,15 +153,14 @@ public abstract class Teleporter {
         var target = getTargetPos();
 
         // Add protection effects to the teleporting player.
-        if (protectionTicks() > 0) {
+        if (protectionDurationTicks() > 0) {
             applyProtection();
         }
 
-        // Do the teleport to the location - repositioning comes later.
-        if (!player.getAbilities().instabuild) {
-            player.setInvulnerable(true);
-        }
+        // If survival mode then temporarily make the player invulnerable and fix their position in space.
+        applyPlayerSafety();
 
+        // Do the teleport to the location - repositioning comes later.
         if (!isSameDimension()) {
             var server = level.getServer();
             var newDimension = server.getLevel(dimension);
@@ -270,15 +281,12 @@ public abstract class Teleporter {
         player.snapTo(pos.getX() + 0.5d, pos.getY() + 0.5d, pos.getZ() + 0.5d);
         player.teleportTo(pos.getX() + 0.5d, pos.getY() + 0.5d, pos.getZ() + 0.5d);
 
-        if (!player.getAbilities().instabuild) {
-            player.setInvulnerable(false);
-        }
-
         if (!hasDoneEffects) {
             doEffects();
             hasDoneEffects = true;
         }
 
+        removePlayerSafety();
         valid = false;
     }
 
@@ -298,5 +306,21 @@ public abstract class Teleporter {
         BlockPos.betweenClosed(x - 1, y, z - 1, x + 1, y, z + 1).forEach(
             p -> level.setBlockAndUpdate(p, solid));
         LOGGER.debug("Made platform at " + pos);
+    }
+
+    private void applyPlayerSafety() {
+        if (survivalMode) {
+            player.setInvulnerable(true);
+            player.setNoGravity(true);
+            LOGGER.debug("Applied player safety");
+        }
+    }
+
+    private void removePlayerSafety() {
+        if (survivalMode) {
+            player.setInvulnerable(false);
+            player.setNoGravity(false);
+            LOGGER.debug("Removed player safety");
+        }
     }
 }
