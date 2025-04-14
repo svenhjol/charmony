@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.31.3
+
+- Add randomCardinal() to world helper.
+
 ## 1.31.2
 
 - Add seedFromBlockPos() to world helper.

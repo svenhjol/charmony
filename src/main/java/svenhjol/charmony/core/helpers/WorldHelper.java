@@ -1,7 +1,9 @@
 package svenhjol.charmony.core.helpers;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.levelgen.Heightmap;
@@ -109,5 +111,16 @@ public final class WorldHelper {
         return ((long)x & 0x3FFFFFFL) << 38
             | ((long)(y + 64) & 0x3FFL) << 28
             | ((long)z & 0x3FFFFFFL);
+    }
+
+    /**
+     * Get a random cardinal direction.
+     *
+     * @param random Random source to use.
+     * @return A random cardinal direction.
+     */
+    public static Direction randomCardinal(RandomSource random) {
+        var cardinals = List.of(Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST);
+        return cardinals.get(random.nextInt(cardinals.size() - 1));
     }
 }
