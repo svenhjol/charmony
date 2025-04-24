@@ -24,7 +24,6 @@
     "item_drag_drop_callback.ItemMixin",
     "player_killed_drop_callback.PlayerMixin",
     "player_tick_callback.ServerPlayerMixin",
-    "smithing_table.SmithingMenuMixin",
-    "wandering_trader_tiers.WanderingTraderMixin"
+    "smithing_table.SmithingMenuMixin"
   ]
 }

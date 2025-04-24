@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.34.0
+
+- Remove WanderingTraderTiers. It is part of tweaks now.
+
 ## 1.33.7
 
 - Fix bugs in tintTexture.
