@@ -64,23 +64,23 @@ public final class ColorHelper {
     public static void tintTexture(GuiGraphics guiGraphics, ResourceLocation texture, ColorHelper.Color color, int x, int y, float u, float v, int width, int height, float alpha) {
         RenderType renderType = RenderType.guiTextured(texture);
 
-        var x2 = x + width;
-        var y2 = y + height;
+        var xw = x + width;
+        var yh = y + height;
 
         var uu = (u + 0.0f) / 256;
-        var uu2 = (u + y) / 256;
+        var uw = (u + xw) / 256;
         var vv = (v + 0.0f) / 256;
-        var vv2 = (v + y2) / 256;
+        var vh = (v + yh) / 256;
 
         var pose = guiGraphics.pose();
         var bufferSource = guiGraphics.bufferSource;
         var matrix4f = pose.last().pose();
 
         VertexConsumer vertexConsumer = bufferSource.getBuffer(renderType);
-        vertexConsumer.addVertex(matrix4f, (float)x, (float)y, 0.0f).setUv(uu, vv).setColor(color.getRed(), color.getGreen(), color.getBlue(), alpha);
-        vertexConsumer.addVertex(matrix4f, (float)x, (float)y2, 0.0f).setUv(uu, vv2).setColor(color.getRed(), color.getGreen(), color.getBlue(), alpha);
-        vertexConsumer.addVertex(matrix4f, (float)x2, (float)y2, 0.0f).setUv(uu2, vv2).setColor(color.getRed(), color.getGreen(), color.getBlue(), alpha);
-        vertexConsumer.addVertex(matrix4f, (float)x2, (float)y, 0.0f).setUv(uu2, vv).setColor(color.getRed(), color.getGreen(), color.getBlue(), alpha);
+        vertexConsumer.addVertex(matrix4f, (float)x, (float)y, 0.0F).setUv(u, v).setColor(color.getRed(), color.getGreen(), color.getBlue(), 1.0f);
+        vertexConsumer.addVertex(matrix4f, (float)x, (float)yh, 0.0F).setUv(u, vh).setColor(color.getRed(), color.getGreen(), color.getBlue(), 1.0f);
+        vertexConsumer.addVertex(matrix4f, (float)xw, (float)yh, 0.0F).setUv(uw, vh).setColor(color.getRed(), color.getGreen(), color.getBlue(), 1.0f);
+        vertexConsumer.addVertex(matrix4f, (float)xw, (float)y, 0.0F).setUv(uw, v).setColor(color.getRed(), color.getGreen(), color.getBlue(), 1.0f);
     }
 
     public static ColorHelper.Color tintBackgroundColor(DyeColor color) {

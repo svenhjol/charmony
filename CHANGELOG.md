@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.33.6
+
+- Fix bugs in tintTexture.
+
 ## 1.33.5
 
 - Make tint helper methods static.
