@@ -83,7 +83,7 @@ public final class ColorHelper {
         vertexConsumer.addVertex(matrix4f, (float)x2, (float)y, 0.0f).setUv(uu2, vv).setColor(color.getRed(), color.getGreen(), color.getBlue(), alpha);
     }
 
-    public ColorHelper.Color tintBackgroundColor(DyeColor color) {
+    public static ColorHelper.Color tintBackgroundColor(DyeColor color) {
         var col = switch (color) {
             case BLACK -> 0x505050;
             case GRAY -> 0x7a7a7a;
@@ -105,7 +105,7 @@ public final class ColorHelper {
         return new ColorHelper.Color(col);
     }
 
-    public int tintForegroundColor(DyeColor color) {
+    public static int tintForegroundColor(DyeColor color) {
         return switch(color) {
             case BLACK -> 0xd0d0d0;
             case GRAY -> 0xd4d4d4;

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.33.5
+
+- Make tint helper methods static.
+
 ## 1.33.4
 
 - Add default "dark mode" dye colors. 
