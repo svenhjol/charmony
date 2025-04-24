@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.33.4
+
+- Add default "dark mode" dye colors. 
+
 ## 1.33.3
 
 - Bump for latest API version.

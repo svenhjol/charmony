@@ -12,8 +12,18 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
 
+import java.util.List;
+
 @SuppressWarnings("unused")
 public final class ColorHelper {
+    public static final List<DyeColor> DARK_MODE_COLORS = List.of(
+        DyeColor.BLACK,
+        DyeColor.GRAY,
+        DyeColor.PURPLE,
+        DyeColor.BROWN,
+        DyeColor.BLUE
+    );
+
     public static class Color {
         private final int color;
 
