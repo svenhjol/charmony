@@ -1,8 +1,9 @@
 # Changelog
 
-## 1.33.2
+## 1.33.3
 
 - Bump for latest API version.
+- Add helpers for tinting texture, background and text colors.
 
 ## 1.32.2
 
