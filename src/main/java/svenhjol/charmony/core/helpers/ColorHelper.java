@@ -68,9 +68,9 @@ public final class ColorHelper {
         var yh = y + height;
 
         var uu = (u + 0.0f) / 256;
-        var uw = (u + xw) / 256;
+        var uw = (u + width) / 256;
         var vv = (v + 0.0f) / 256;
-        var vh = (v + yh) / 256;
+        var vh = (v + height) / 256;
 
         var pose = guiGraphics.pose();
         var bufferSource = guiGraphics.bufferSource;

@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.33.6
+## 1.33.7
 
 - Fix bugs in tintTexture.
 
