@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.34.4
+
+- More subtle highlighted slot.
+
 ## 1.34.0
 
 - Remove WanderingTraderTiers. It is part of tweaks now.
