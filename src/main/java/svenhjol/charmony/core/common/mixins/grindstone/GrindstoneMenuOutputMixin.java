@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import svenhjol.charmony.core.events.GrindstoneEvents;
+import svenhjol.charmony.api.events.GrindstoneEvents;
 
 @Mixin(targets = {"net/minecraft/world/inventory/GrindstoneMenu$4"})
 public class GrindstoneMenuOutputMixin extends Slot {

@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import svenhjol.charmony.core.events.HoverOverItemTooltipCallback;
+import svenhjol.charmony.api.events.HoverOverItemTooltipCallback;
 
 import java.util.List;
 

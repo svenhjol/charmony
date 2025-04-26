@@ -7,7 +7,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import svenhjol.charmony.core.events.GrindstoneEvents;
+import svenhjol.charmony.api.events.GrindstoneEvents;
 
 @Mixin(targets = {
     "net/minecraft/world/inventory/GrindstoneMenu$2",

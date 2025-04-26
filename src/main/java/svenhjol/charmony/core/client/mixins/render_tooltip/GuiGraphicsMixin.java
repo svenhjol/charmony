@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import svenhjol.charmony.core.events.RenderTooltipCallback;
+import svenhjol.charmony.api.events.RenderTooltipCallback;
 import svenhjol.charmony.core.helpers.TooltipHelper;
 
 import java.util.List;
@@ -18,7 +18,7 @@ import java.util.List;
 @Mixin(GuiGraphics.class)
 public class GuiGraphicsMixin {
     /**
-     * Fires the {@link svenhjol.charmony.core.events.RenderTooltipCallback} event.
+     * Fires the {@link svenhjol.charmony.api.events.RenderTooltipCallback} event.
      * Modules can hook into the tooltip before it is rendered.
      */
     @Inject(

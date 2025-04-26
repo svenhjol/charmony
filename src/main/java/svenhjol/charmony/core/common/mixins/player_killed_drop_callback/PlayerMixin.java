@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import svenhjol.charmony.core.events.PlayerKilledDropCallback;
+import svenhjol.charmony.api.events.PlayerKilledDropCallback;
 
 @SuppressWarnings("UnreachableCode")
 @Mixin(Player.class)
@@ -18,7 +18,7 @@ public abstract class PlayerMixin {
     Inventory inventory;
 
     /**
-     * Fires the {@link svenhjol.charmony.core.events.PlayerKilledDropCallback} event.
+     * Fires the {@link svenhjol.charmony.api.events.PlayerKilledDropCallback} event.
      * Cancellable with ActionResult == SUCCESS.
      */
     @Inject(

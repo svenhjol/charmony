@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import svenhjol.charmony.core.events.AnvilEvents;
+import svenhjol.charmony.api.events.AnvilEvents;
 
 @Mixin(AnvilMenu.class)
 public abstract class AnvilMenuUpdateMixin extends ItemCombinerMenu {

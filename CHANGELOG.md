@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.35.0
+
+- Update to latest API version.
+- Move all custom events into the API.
+
 ## 1.34.4
 
 - More subtle highlighted slot.

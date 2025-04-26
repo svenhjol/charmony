@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import svenhjol.charmony.core.events.GrindstoneEvents;
+import svenhjol.charmony.api.events.GrindstoneEvents;
 
 import javax.annotation.Nullable;
 

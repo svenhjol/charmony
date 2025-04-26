@@ -7,7 +7,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import svenhjol.charmony.core.events.RenderTooltipComponentCallback;
+import svenhjol.charmony.api.events.RenderTooltipComponentCallback;
 
 import java.util.Optional;
 

@@ -8,7 +8,7 @@ import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import svenhjol.charmony.core.events.AnvilEvents;
+import svenhjol.charmony.api.events.AnvilEvents;
 
 @SuppressWarnings("UnreachableCode")
 @Mixin(AnvilMenu.class)
@@ -19,7 +19,7 @@ public abstract class AnvilMenuRepairMixin extends ItemCombinerMenu {
     }
 
     /**
-     * Fires the {@link svenhjol.charmony.core.events.AnvilEvents.RepairEvent} event.
+     * Fires the {@link svenhjol.charmony.api.events.AnvilEvents.RepairEvent} event.
      * Allows intervention when checking if the anvil item can be repaired with another item via the CheckAnvilRepairEvent event.
      * For example, elytra cannot normally be repaired with leather, but using the player.world we can check if insomnia is disabled
      * and therefore allow this repair check.  The reason we don't hook into ElytraItem's canRepair method directly is because

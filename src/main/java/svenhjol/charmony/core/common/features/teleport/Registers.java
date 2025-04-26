@@ -1,7 +1,7 @@
 package svenhjol.charmony.core.common.features.teleport;
 
 import svenhjol.charmony.core.base.Setup;
-import svenhjol.charmony.core.events.PlayerTickCallback;
+import svenhjol.charmony.api.events.PlayerTickCallback;
 
 public class Registers extends Setup<Teleport> {
     public Registers(Teleport feature) {
