@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.36.0
+
+- Update to latest API version.
+
 ## 1.35.0
 
 - Update to latest API version.
