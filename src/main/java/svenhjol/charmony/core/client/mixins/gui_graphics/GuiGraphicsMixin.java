@@ -65,14 +65,14 @@ public class GuiGraphicsMixin implements TintedGuiGraphics {
         )
     )
     private int hook3(int defaultColor) {
-        return alterColor(defaultColor);
+        var result = alterColor(defaultColor);
+        tint = null; // Last instruction - set tint to null
+        return result;
     }
 
     @Unique
     private int alterColor(int defaultColor) {
         if (tint == null) return defaultColor;
-        var result = tint.getColor();
-        tint = null;
-        return result;
+        return tint.getColor();
     }
 }
