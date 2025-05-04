@@ -70,6 +70,6 @@ public interface ItemContainerTooltip extends TooltipComponent {
     }
 
     default void renderSlot(GuiGraphics guiGraphics, Sprite texture, int x, int y) {
-        ((TintedGuiGraphics)guiGraphics).tint(texture.tint()).blitSprite(RenderType::guiTextured, texture.sprite(), x, y, texture.width(), texture.height());
+        guiGraphics.blitSprite(RenderType::guiTextured, texture.sprite(), x, y, texture.width(), texture.height());
     }
 }

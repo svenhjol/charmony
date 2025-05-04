@@ -1,11 +1,7 @@
 package svenhjol.charmony.core.helpers;
 
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.BiomeColors;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ARGB;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.BlockAndTintGetter;
@@ -58,36 +54,6 @@ public final class ColorHelper {
     public static int leavesColorFromBiome(BlockState state, BlockAndTintGetter level, BlockPos pos, int tintIndex) {
         var defaultColor = -12012264; // See BlockColors.java
         return level != null && pos != null ? BiomeColors.getAverageFoliageColor(level, pos) : defaultColor;
-    }
-
-    public static void tintTexture(GuiGraphics guiGraphics, ResourceLocation texture, ColorHelper.Color color, int x, int y, float u, float v, int width, int height) {
-        tintTexture(guiGraphics, texture, color, x, y, u, v, width, height, 256, 256);
-    }
-
-    public static void tintTexture(GuiGraphics guiGraphics, ResourceLocation texture, ColorHelper.Color color, int x, int y, float u, float v, int width, int height, int textureWidth, int textureHeight) {
-        tintTexture(guiGraphics, texture, color, x, y, u, v, width, height, textureWidth, textureHeight, 1.0f);
-    }
-
-    public static void tintTexture(GuiGraphics guiGraphics, ResourceLocation texture, ColorHelper.Color color, int x, int y, float u, float v, int width, int height, int textureWidth, int textureHeight, float alpha) {
-        RenderType renderType = RenderType.guiTextured(texture);
-
-        var xw = x + width;
-        var yh = y + height;
-
-        var uu = (u + 0.0f) / 256;
-        var uw = (u + width) / 256;
-        var vv = (v + 0.0f) / 256;
-        var vh = (v + height) / 256;
-
-        var pose = guiGraphics.pose();
-        var bufferSource = guiGraphics.bufferSource;
-        var matrix4f = pose.last().pose();
-
-        VertexConsumer vertexConsumer = bufferSource.getBuffer(renderType);
-        vertexConsumer.addVertex(matrix4f, (float)x, (float)y, 0.0F).setUv(u, v).setColor(color.getRed(), color.getGreen(), color.getBlue(), 1.0f);
-        vertexConsumer.addVertex(matrix4f, (float)x, (float)yh, 0.0F).setUv(u, vh).setColor(color.getRed(), color.getGreen(), color.getBlue(), 1.0f);
-        vertexConsumer.addVertex(matrix4f, (float)xw, (float)yh, 0.0F).setUv(uw, vh).setColor(color.getRed(), color.getGreen(), color.getBlue(), 1.0f);
-        vertexConsumer.addVertex(matrix4f, (float)xw, (float)y, 0.0F).setUv(uw, v).setColor(color.getRed(), color.getGreen(), color.getBlue(), 1.0f);
     }
 
     public static ColorHelper.Color tintBackgroundColor(DyeColor color) {

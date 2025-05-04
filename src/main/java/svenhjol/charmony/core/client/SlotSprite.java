@@ -3,6 +3,7 @@ package svenhjol.charmony.core.client;
 import net.minecraft.resources.ResourceLocation;
 import svenhjol.charmony.core.Charmony;
 
+@SuppressWarnings("unused")
 public enum SlotSprite implements Sprite {
     Slot(ResourceLocation.fromNamespaceAndPath(Charmony.ID, "item_container/slot"), 18, 18),
     SelectedSlot(ResourceLocation.fromNamespaceAndPath(Charmony.ID, "item_container/selected_slot"), 18, 18);
