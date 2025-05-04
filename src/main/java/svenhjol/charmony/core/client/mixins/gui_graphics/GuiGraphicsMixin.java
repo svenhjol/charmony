@@ -74,6 +74,6 @@ public class GuiGraphicsMixin implements TintedGuiGraphics {
     @Unique
     private VertexConsumer alterColor(VertexConsumer instance, int defaultColor) {
         if (tint == null) return instance.setColor(defaultColor);
-        return instance.setColor(tint.getColor());
+        return instance.setColor(tint.getRed(), tint.getGreen(), tint.getBlue(), 1.0f);
     }
 }
