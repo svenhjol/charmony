@@ -1,10 +1,11 @@
 package svenhjol.charmony.core.client.mixins.gui_graphics;
 
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.gui.GuiGraphics;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import svenhjol.charmony.core.client.TintedGuiGraphics;
 import svenhjol.charmony.core.helpers.ColorHelper;
 
@@ -20,7 +21,7 @@ public class GuiGraphicsMixin implements TintedGuiGraphics {
         return (GuiGraphics)(Object)this;
     }
 
-    @ModifyArg(
+    @Redirect(
         method = "innerBlit",
         at = @At(
             value = "INVOKE",
@@ -28,11 +29,11 @@ public class GuiGraphicsMixin implements TintedGuiGraphics {
             ordinal = 0
         )
     )
-    private int hook0(int defaultColor) {
-        return alterColor(defaultColor);
+    private VertexConsumer hook0(VertexConsumer instance, int defaultColor) {
+        return alterColor(instance, defaultColor);
     }
 
-    @ModifyArg(
+    @Redirect(
         method = "innerBlit",
         at = @At(
             value = "INVOKE",
@@ -40,11 +41,11 @@ public class GuiGraphicsMixin implements TintedGuiGraphics {
             ordinal = 1
         )
     )
-    private int hook1(int defaultColor) {
-        return alterColor(defaultColor);
+    private VertexConsumer hook1(VertexConsumer instance, int defaultColor) {
+        return alterColor(instance, defaultColor);
     }
 
-    @ModifyArg(
+    @Redirect(
         method = "innerBlit",
         at = @At(
             value = "INVOKE",
@@ -52,11 +53,11 @@ public class GuiGraphicsMixin implements TintedGuiGraphics {
             ordinal = 2
         )
     )
-    private int hook2(int defaultColor) {
-        return alterColor(defaultColor);
+    private VertexConsumer hook2(VertexConsumer instance, int defaultColor) {
+        return alterColor(instance, defaultColor);
     }
 
-    @ModifyArg(
+    @Redirect(
         method = "innerBlit",
         at = @At(
             value = "INVOKE",
@@ -64,15 +65,15 @@ public class GuiGraphicsMixin implements TintedGuiGraphics {
             ordinal = 3
         )
     )
-    private int hook3(int defaultColor) {
-        var result = alterColor(defaultColor);
+    private VertexConsumer hook3(VertexConsumer instance, int defaultColor) {
+        var result = alterColor(instance, defaultColor);
         tint = null; // Last instruction - set tint to null
         return result;
     }
 
     @Unique
-    private int alterColor(int defaultColor) {
-        if (tint == null) return defaultColor;
-        return tint.getColor();
+    private VertexConsumer alterColor(VertexConsumer instance, int defaultColor) {
+        if (tint == null) return instance.setColor(defaultColor);
+        return instance.setColor(defaultColor);
     }
 }
