@@ -89,10 +89,10 @@ public final class ClientRegistry {
         }
     }
 
-    public <M extends ContainerMenu, S extends Screen & MenuAccess<M>> Registerable<?> menuScreen(Supplier<MenuType<M>> menu,
-                                                                                                  Supplier<MenuScreens.ScreenConstructor<M, S>> screen) {
+    public <M extends ContainerMenu, S extends Screen & MenuAccess<M>> Registerable<?> menuScreen(MenuType<M> menu,
+                                                                                                  MenuScreens.ScreenConstructor<M, S> screen) {
         return new Registerable<>(feature, () -> {
-            MenuScreens.register(menu.get(), screen.get());
+            MenuScreens.register(menu, screen);
             return null;
         });
     }

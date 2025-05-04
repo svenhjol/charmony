@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.37.0
+
+- MenuScreen registration no longer accepts suppliers.
+
 ## 1.36.1
 
 - Update to latest API version.
