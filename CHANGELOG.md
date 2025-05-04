@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.37.1
+
+- Revert to suppliers.
+
 ## 1.37.0
 
 - MenuScreen registration no longer accepts suppliers.
