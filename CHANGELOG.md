@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.36.0
+## 1.36.1
 
 - Update to latest API version.
 
