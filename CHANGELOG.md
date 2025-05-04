@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.37.3
+## 1.37.4
 
 - Refactor slot sprite to make more generic.
 - Change slot dimensions.
