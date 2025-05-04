@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.37.3
+
+- Refactor slot sprite to make more generic.
+- Change slot dimensions.
+- WIP new method to tint guiGraphics.
+
 ## 1.37.2
 
 - Re-revert suppliers.

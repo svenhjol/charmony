@@ -15,7 +15,7 @@ public interface ItemContainerTooltip extends TooltipComponent {
     ResourceLocation BACKGROUND_SPRITE = ResourceLocation.fromNamespaceAndPath(Charmony.ID, "item_container/background");
     int MARGIN_Y = 6;
     int SLOT_SIZE_X = 18;
-    int SLOT_SIZE_Y = 20;
+    int SLOT_SIZE_Y = 18;
 
     int gridSizeX();
 
@@ -24,7 +24,7 @@ public interface ItemContainerTooltip extends TooltipComponent {
     List<ItemStack> getItems();
 
     default int backgroundWidth() {
-        return this.gridSizeX() * SLOT_SIZE_X + 2;
+        return this.gridSizeX() * SLOT_SIZE_X;
     }
 
     default int backgroundHeight() {
@@ -39,7 +39,11 @@ public interface ItemContainerTooltip extends TooltipComponent {
         return BACKGROUND_SPRITE;
     }
 
-    default void defaultRenderImage(GuiGraphics guiGraphics, Font font, Texture texture, int x, int y) {
+    default Sprite slotSprite() {
+        return SlotSprite.Slot;
+    }
+
+    default void defaultRenderImage(GuiGraphics guiGraphics, Font font, Sprite texture, int x, int y) {
         var gx = this.gridSizeX();
         var gy = this.gridSizeY();
         guiGraphics.blitSprite(RenderType::guiTextured, backgroundSprite(), x, y, backgroundWidth(), backgroundHeight());
@@ -47,14 +51,14 @@ public interface ItemContainerTooltip extends TooltipComponent {
 
         for (int yy = 0; yy < gy; ++yy) {
             for (int xx = 0; xx < gx; ++xx) {
-                int slotX = x + xx * 18 + 1;
-                int slotY = y + yy * 20 + 1;
+                int slotX = x + xx * SLOT_SIZE_X + 1;
+                int slotY = y + yy * SLOT_SIZE_Y + 1;
                 renderSlotWithIndex(guiGraphics, font, texture, index++, slotX, slotY);
             }
         }
     }
 
-    default void renderSlotWithIndex(GuiGraphics guiGraphics, Font font, Texture texture, int index, int x, int y) {
+    default void renderSlotWithIndex(GuiGraphics guiGraphics, Font font, Sprite texture, int index, int x, int y) {
         if (index >= getItems().size()) {
             renderSlot(guiGraphics, texture, x, y);
         } else {
@@ -65,22 +69,7 @@ public interface ItemContainerTooltip extends TooltipComponent {
         }
     }
 
-    default void renderSlot(GuiGraphics guiGraphics, Texture texture, int x, int y) {
-        guiGraphics.blitSprite(RenderType::guiTextured, texture.sprite, x, y, texture.width, texture.height);
-    }
-
-    enum Texture {
-        Slot(ResourceLocation.fromNamespaceAndPath(Charmony.ID, "item_container/slot"), SLOT_SIZE_X, SLOT_SIZE_Y),
-        SelectedSlot(ResourceLocation.fromNamespaceAndPath(Charmony.ID, "item_container/selected_slot"), SLOT_SIZE_X, SLOT_SIZE_Y);
-
-        public final ResourceLocation sprite;
-        public final int width;
-        public final int height;
-
-        Texture(final ResourceLocation resourceLocation, final int width, final int height) {
-            this.sprite = resourceLocation;
-            this.width = width;
-            this.height = height;
-        }
+    default void renderSlot(GuiGraphics guiGraphics, Sprite texture, int x, int y) {
+        ((TintedGuiGraphics)guiGraphics).tint(texture.tint()).blitSprite(RenderType::guiTextured, texture.sprite(), x, y, texture.width(), texture.height());
     }
 }

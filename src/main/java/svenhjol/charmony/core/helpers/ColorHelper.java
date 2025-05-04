@@ -46,6 +46,10 @@ public final class ColorHelper {
             return (float) ARGB.blue(this.color) / 255.0f;
         }
 
+        public float getAlpha() {
+            return (float) ARGB.alpha(this.color) / 255.0f;
+        }
+
         public int getColor() {
             return color;
         }
