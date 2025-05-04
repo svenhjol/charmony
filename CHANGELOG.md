@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.37.2
+
+- Re-revert suppliers.
+- Add extra options to tint texture colors.
+
 ## 1.37.1
 
 - Revert to suppliers.

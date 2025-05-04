@@ -1,7 +1,6 @@
 package svenhjol.charmony.core.helpers;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.RenderType;
@@ -58,10 +57,14 @@ public final class ColorHelper {
     }
 
     public static void tintTexture(GuiGraphics guiGraphics, ResourceLocation texture, ColorHelper.Color color, int x, int y, float u, float v, int width, int height) {
-        tintTexture(guiGraphics, texture, color, x, y, u, v, width, height, 1.0f);
+        tintTexture(guiGraphics, texture, color, x, y, u, v, width, height, 256, 256);
     }
 
-    public static void tintTexture(GuiGraphics guiGraphics, ResourceLocation texture, ColorHelper.Color color, int x, int y, float u, float v, int width, int height, float alpha) {
+    public static void tintTexture(GuiGraphics guiGraphics, ResourceLocation texture, ColorHelper.Color color, int x, int y, float u, float v, int width, int height, int textureWidth, int textureHeight) {
+        tintTexture(guiGraphics, texture, color, x, y, u, v, width, height, textureWidth, textureHeight, 1.0f);
+    }
+
+    public static void tintTexture(GuiGraphics guiGraphics, ResourceLocation texture, ColorHelper.Color color, int x, int y, float u, float v, int width, int height, int textureWidth, int textureHeight, float alpha) {
         RenderType renderType = RenderType.guiTextured(texture);
 
         var xw = x + width;
