@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.37.10
+
+- Update to latest API version.
+
 ## 1.37.9
 
 - Refactor slot sprite to make more generic.
