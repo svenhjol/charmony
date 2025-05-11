@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.38.2
+
+- Add helper method for getting tag values from a holder getter.
+
 ## 1.38.1
 
 - Update to latest API version.
