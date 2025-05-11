@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.38.3
+
+- Add helper methods for getting resourcekeys from tag values.
+
 ## 1.38.2
 
 - Add helper method for getting tag values from a holder getter.
