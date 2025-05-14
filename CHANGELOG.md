@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.39.0
+
+- Update to latest API version.
+
 ## 1.38.3
 
 - Add helper methods for getting resourcekeys from tag values.
