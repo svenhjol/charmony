@@ -1,7 +1,12 @@
 package svenhjol.charmony.core.helpers;
 
+import net.minecraft.core.registries.Registries;
+import net.minecraft.tags.TagKey;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.Container;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.LevelAccessor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +29,7 @@ public final class ItemStackHelper {
 
     /**
      * Core merging code adapted from Quark's SortingHandler.
+     *
      * @param stacks Inventory stack to merge within
      */
     public static void mergeStacks(List<ItemStack> stacks) {
@@ -53,5 +59,16 @@ public final class ItemStackHelper {
         }
 
         stacks.removeIf((ItemStack stack) -> stack.isEmpty() || stack.getCount() == 0);
+    }
+
+    /**
+     * Get a random item from the given tag.
+     */
+    public static Item randomItem(LevelAccessor level, RandomSource random, TagKey<Item> tag, Item fallback) {
+        var values = TagHelper.getValues(level.registryAccess().lookupOrThrow(Registries.ITEM), tag);
+        if (!values.isEmpty()) {
+            return values.get(random.nextInt(values.size()));
+        }
+        return fallback;
     }
 }

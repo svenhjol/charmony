@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.39.1
+
+- Add helper to get a random item from a tag.
+
 ## 1.39.0
 
 - Update to latest API version.
