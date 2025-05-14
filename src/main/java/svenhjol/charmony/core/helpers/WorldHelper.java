@@ -5,6 +5,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.levelgen.Heightmap;
 
@@ -62,6 +63,37 @@ public final class WorldHelper {
         }
 
         return level.canSeeSky(playerPos.above(blocks));
+    }
+
+    public static BlockPos addRandomOffset(Level level, BlockPos pos, RandomSource random, int min, int max) {
+        var n = random.nextInt(max - min) + min;
+        var e = random.nextInt(max - min) + min;
+        var s = random.nextInt(max - min) + min;
+        var w = random.nextInt(max - min) + min;
+
+        pos = pos.north(random.nextBoolean() ? n : -n);
+        pos = pos.east(random.nextBoolean() ? e : -e);
+        pos = pos.south(random.nextBoolean() ? s : -s);
+        pos = pos.west(random.nextBoolean() ? w : -w);
+
+        // World border checking
+        var border = level.getWorldBorder();
+        var x = pos.getX();
+        var y = pos.getY();
+        var z = pos.getZ();
+
+        if (x < border.getMinX()) {
+            pos = new BlockPos((int)border.getMinX(), y, z);
+        } else if (x > border.getMaxX()) {
+            pos = new BlockPos((int)border.getMaxX(), y, z);
+        }
+        if (z < border.getMinZ()) {
+            pos = new BlockPos(x, y, (int)border.getMinZ());
+        } else if (z > border.getMaxZ()) {
+            pos = new BlockPos(x, y, (int)border.getMaxZ());
+        }
+
+        return pos;
     }
 
     public static float distanceFromGround(Player player, int check) {

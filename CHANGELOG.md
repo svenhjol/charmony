@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.39.2
+
+- Add helper to get a random offset from a pos.
+
 ## 1.39.1
 
 - Add helper to get a random item from a tag.
