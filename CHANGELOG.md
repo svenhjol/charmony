@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.40.0
+
+- Update to latest API version.
+
 ## 1.39.2
 
 - Add helper to get a random offset from a pos.
