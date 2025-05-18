@@ -380,7 +380,7 @@ public class FeatureConfigList extends AbstractSelectionList<FeatureConfigList.E
         protected final String label;
         protected final List<Component> tooltip;
 
-        protected Object defaultVal = null;
+        protected Object defaultVal;
         protected Object val;
         protected boolean isUpdating = false;
 
