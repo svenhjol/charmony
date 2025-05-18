@@ -31,7 +31,7 @@ public abstract class Teleporter {
     private final ServerPlayer player;
     private final ServerLevel level;
     private boolean hasDoneEffects = false;
-    private boolean valid = false;
+    private boolean valid;
     private int ticks = 0;
 
     public Teleporter(ServerPlayer player) {

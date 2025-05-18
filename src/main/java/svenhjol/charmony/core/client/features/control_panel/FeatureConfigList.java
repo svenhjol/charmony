@@ -66,19 +66,14 @@ public class FeatureConfigList extends AbstractSelectionList<FeatureConfigList.E
                     var description = annotation.description();
                     var fieldValue = field.get(null);
 
-                    if (fieldValue instanceof Boolean) {
-                        entry = new BooleanEntry(field, name, description);
-                    } else if (fieldValue instanceof Integer) {
-                        entry = new IntegerEntry(field, name, description);
-                    } else if (fieldValue instanceof Double) {
-                        entry = new DoubleEntry(field, name, description);
-                    } else if (fieldValue instanceof String) {
-                        entry = new StringEntry(field, name, description);
-                    } else if (fieldValue instanceof List<?>) {
-                        entry = new StringListEntry(field, name, description);
-                    } else {
-                        entry = null;
-                    }
+                    entry = switch (fieldValue) {
+                        case Boolean ignored -> new BooleanEntry(field, name, description);
+                        case Integer ignored -> new IntegerEntry(field, name, description);
+                        case Double ignored -> new DoubleEntry(field, name, description);
+                        case String ignored -> new StringEntry(field, name, description);
+                        case List<?> ignored -> new StringListEntry(field, name, description);
+                        case null, default -> null;
+                    };
 
                     if (entry != null) {
                         entries.put(field, entry);

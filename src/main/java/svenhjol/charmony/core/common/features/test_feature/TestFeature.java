@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @FeatureDefinition(side = Side.Common)
-@SuppressWarnings({"FieldMayBeFinal", "FieldCanBeLocal"})
+@SuppressWarnings({"FieldMayBeFinal", "FieldCanBeLocal", "unused"})
 public final class TestFeature extends SidedFeature {
     public final Registers registers;
 
