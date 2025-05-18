@@ -1,5 +1,7 @@
 package svenhjol.charmony.core.common.mixins.grindstone;
 
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -36,18 +38,17 @@ public class GrindstoneMenuMixin {
         }
     }
 
-    @Inject(
-        method = "createResult",
-        at = @At("HEAD"),
-        cancellable = true
+    @WrapMethod(
+        method = "createResult"
     )
-    private void hookCreateResult(CallbackInfo ci) {
+    private void hookCreateResult(Operation<Void> original) {
         var instance = GrindstoneEvents.instance(player);
         if (instance == null) return;
 
         if (GrindstoneEvents.CALCULATE_OUTPUT.invoke(instance)) {
-            ci.cancel();
+            return;
         }
+        original.call();
     }
 
     @Inject(

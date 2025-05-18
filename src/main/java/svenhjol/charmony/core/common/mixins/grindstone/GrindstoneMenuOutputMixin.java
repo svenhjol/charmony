@@ -1,14 +1,13 @@
 package svenhjol.charmony.core.common.mixins.grindstone;
 
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import net.minecraft.world.Container;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import svenhjol.charmony.api.events.GrindstoneEvents;
 
 @Mixin(targets = {"net/minecraft/world/inventory/GrindstoneMenu$4"})
@@ -35,15 +34,14 @@ public class GrindstoneMenuOutputMixin extends Slot {
         return super.mayPickup(player);
     }
 
-    @Inject(
-        method = "onTake(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/item/ItemStack;)V",
-        at = @At("HEAD"),
-        cancellable = true
+    @WrapMethod(
+        method = "onTake(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/item/ItemStack;)V"
     )
-    private void hookOnTake(Player player, ItemStack stack, CallbackInfo ci) {
+    private void hookOnTake(Player player, ItemStack stack, Operation<Void> original) {
         var instance = GrindstoneEvents.instance(player);
         if (instance != null && GrindstoneEvents.ON_TAKE.invoke(instance, player, stack)) {
-            ci.cancel();
+            return;
         }
+        original.call(player, stack);
     }
 }

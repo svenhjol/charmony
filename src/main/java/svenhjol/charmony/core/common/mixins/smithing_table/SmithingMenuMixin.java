@@ -1,6 +1,8 @@
 package svenhjol.charmony.core.common.mixins.smithing_table;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Inventory;
@@ -41,18 +43,17 @@ public abstract class SmithingMenuMixin extends ItemCombinerMenu {
         player = inventory.player;
     }
 
-    @Inject(
-        method = "createResult",
-        at = @At("HEAD"),
-        cancellable = true
+    @WrapMethod(
+        method = "createResult"
     )
-    private void hookCreateResult(CallbackInfo ci) {
+    private void hookCreateResult(Operation<Void> original) {
         var instance = SmithingTableEvents.instance(player);
         if (instance == null) return;
 
         if (SmithingTableEvents.CALCULATE_OUTPUT.invoke(instance)) {
-            ci.cancel();
+            return;
         }
+        original.call();
     }
 
     @ModifyReturnValue(
@@ -85,15 +86,14 @@ public abstract class SmithingMenuMixin extends ItemCombinerMenu {
         return super.mayPickup(player, bl);
     }
 
-    @Inject(
-        method = "onTake",
-        at = @At("HEAD"),
-        cancellable = true
+    @WrapMethod(
+        method = "onTake"
     )
-    private void hookOnTake(Player player, ItemStack stack, CallbackInfo ci) {
+    private void hookOnTake(Player player, ItemStack stack, Operation<Void> original) {
         var instance = SmithingTableEvents.instance(player);
         if (instance != null && SmithingTableEvents.ON_TAKE.invoke(instance, player, stack)) {
-            ci.cancel();
+            return;
         }
+        original.call(player, stack);
     }
 }

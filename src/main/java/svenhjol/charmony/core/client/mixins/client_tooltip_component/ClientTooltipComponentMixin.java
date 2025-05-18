@@ -1,11 +1,10 @@
 package svenhjol.charmony.core.client.mixins.client_tooltip_component;
 
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ClientTooltipComponent.class)
 public interface ClientTooltipComponentMixin {
@@ -14,14 +13,13 @@ public interface ClientTooltipComponentMixin {
      * Any other instance that implements ClientTooltipComponent will throw an Exception.
      * This mixin allows any valid ClientTooltipComponent to be returned.
      */
-    @Inject(
-        method = "create(Lnet/minecraft/world/inventory/tooltip/TooltipComponent;)Lnet/minecraft/client/gui/screens/inventory/tooltip/ClientTooltipComponent;",
-        at = @At("HEAD"),
-        cancellable = true
+    @WrapMethod(
+        method = "create(Lnet/minecraft/world/inventory/tooltip/TooltipComponent;)Lnet/minecraft/client/gui/screens/inventory/tooltip/ClientTooltipComponent;"
     )
-    private static void hookCreate(TooltipComponent tooltipComponent, CallbackInfoReturnable<ClientTooltipComponent> cir) {
+    private static ClientTooltipComponent hookCreate(TooltipComponent tooltipComponent, Operation<ClientTooltipComponent> original) {
         if (tooltipComponent instanceof ClientTooltipComponent) {
-            cir.setReturnValue((ClientTooltipComponent)tooltipComponent);
+            return (ClientTooltipComponent)tooltipComponent;
         }
+        return original.call(tooltipComponent);
     }
 }

@@ -1,5 +1,6 @@
 package svenhjol.charmony.core.common.mixins.anvil;
 
+import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.*;
@@ -9,8 +10,6 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import svenhjol.charmony.api.events.AnvilEvents;
 
 @Mixin(AnvilMenu.class)
@@ -24,27 +23,26 @@ public abstract class AnvilMenuUpdateMixin extends ItemCombinerMenu {
         super(menuType, i, inventory, access, definition);
     }
 
-    @Inject(
+    @WrapWithCondition(
         method = "createResult",
         at = @At(
             value = "INVOKE",
             target = "Lnet/minecraft/world/item/ItemStack;isEmpty()Z",
-            ordinal = 1,
-            shift = At.Shift.BEFORE
-        ),
-        cancellable = true
+            ordinal = 1
+        )
     )
-    private void hookCreateResult(CallbackInfo ci,
-                                  @Local(ordinal = 0) ItemStack input,
-                                  @Local long baseCost,
-                                  @Local(ordinal = 2) ItemStack material) {
+    private boolean hookCreateResultCheckItemStack(ItemStack instance,
+               @Local(ordinal = 0) ItemStack input,
+               @Local long baseCost,
+               @Local(ordinal = 2) ItemStack material) {
         var result = AnvilEvents.UPDATE.invoke(player, input, material, baseCost);
         if (result.isPresent()) {
             var recipe = result.get();
             resultSlots.setItem(0, recipe.output);
             cost.set(recipe.experienceCost);
             this.repairItemCountCost = recipe.materialCost;
-            ci.cancel();
+            return false;
         }
+        return true;
     }
 }
