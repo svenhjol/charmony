@@ -1,6 +1,7 @@
 package svenhjol.charmony.core.common.mixins.anvil;
 
-import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.*;
@@ -23,7 +24,7 @@ public abstract class AnvilMenuUpdateMixin extends ItemCombinerMenu {
         super(menuType, i, inventory, access, definition);
     }
 
-    @WrapWithCondition(
+    @WrapOperation(
         method = "createResult",
         at = @At(
             value = "INVOKE",
@@ -31,10 +32,10 @@ public abstract class AnvilMenuUpdateMixin extends ItemCombinerMenu {
             ordinal = 1
         )
     )
-    private boolean hookCreateResultCheckItemStack(ItemStack instance,
-               @Local(ordinal = 0) ItemStack input,
-               @Local long baseCost,
-               @Local(ordinal = 2) ItemStack material) {
+    private boolean hookCreateResultCheckItemStack(ItemStack instance, Operation<Boolean> original,
+                                                   @Local(ordinal = 0) ItemStack input,
+                                                   @Local long baseCost,
+                                                   @Local(ordinal = 2) ItemStack material) {
         var result = AnvilEvents.UPDATE.invoke(player, input, material, baseCost);
         if (result.isPresent()) {
             var recipe = result.get();
@@ -43,6 +44,6 @@ public abstract class AnvilMenuUpdateMixin extends ItemCombinerMenu {
             this.repairItemCountCost = recipe.materialCost;
             return false;
         }
-        return true;
+        return original.call(instance);
     }
 }

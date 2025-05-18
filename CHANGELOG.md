@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.41.1
+## 1.41.2
 
 - Rewrite all cancellable mixins.
 
