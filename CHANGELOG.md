@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.40.1
+
+- Replace mixin redirect with WrapOperation to reduce clashes.
+
 ## 1.40.0
 
 - Update to latest API version.
