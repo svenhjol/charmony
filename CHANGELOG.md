@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.41.1
+
+- Rewrite all cancellable mixins.
+
 ## 1.41.0
 
 - Update to latest API version.
