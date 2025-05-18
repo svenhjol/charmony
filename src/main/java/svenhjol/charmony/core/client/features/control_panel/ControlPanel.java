@@ -8,6 +8,7 @@ import svenhjol.charmony.api.core.Side;
 
 @FeatureDefinition(side = Side.Client, description = """
     In-game control panel for Charmony mods.""")
+@SuppressWarnings({"FieldMayBeFinal", "FieldCanBeLocal"})
 public final class ControlPanel extends SidedFeature {
     public final Registers registers;
     public final Handlers handlers;

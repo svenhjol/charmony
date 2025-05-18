@@ -27,11 +27,11 @@ public abstract class Teleporter {
     protected static final Log LOGGER = new Log(Charmony.ID, "Teleport");
     protected static final int MAX_TICKS = 200;
 
+    private final boolean survivalMode;
     private final ServerPlayer player;
     private final ServerLevel level;
     private boolean hasDoneEffects = false;
     private boolean valid = false;
-    private boolean survivalMode;
     private int ticks = 0;
 
     public Teleporter(ServerPlayer player) {

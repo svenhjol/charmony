@@ -6,9 +6,9 @@ import svenhjol.charmony.api.core.Side;
 import svenhjol.charmony.core.base.Mod;
 import svenhjol.charmony.core.base.SidedFeature;
 
-@SuppressWarnings({"FieldMayBeFinal", "FieldCanBeLocal"})
 @FeatureDefinition(side = Side.Common, canBeDisabled = false, description = """
     Core functionality and settings.""")
+@SuppressWarnings({"FieldMayBeFinal", "FieldCanBeLocal"})
 public final class Core extends SidedFeature {
     public final Registers registers;
     public final Handlers handlers;

@@ -8,6 +8,7 @@ import svenhjol.charmony.api.core.Side;
 
 @FeatureDefinition(side = Side.Common, canBeDisabled = false, description = """
     Handles extended teleportation functions.""")
+@SuppressWarnings({"FieldMayBeFinal", "FieldCanBeLocal"})
 public final class Teleport extends SidedFeature {
     public final Handlers handlers;
     public final Registers registers;
