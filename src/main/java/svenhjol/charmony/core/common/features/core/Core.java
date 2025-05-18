@@ -1,12 +1,12 @@
 package svenhjol.charmony.core.common.features.core;
 
-import svenhjol.charmony.core.Charmony;
-import svenhjol.charmony.core.annotations.Configurable;
-import svenhjol.charmony.core.annotations.FeatureDefinition;
+import svenhjol.charmony.api.core.Configurable;
+import svenhjol.charmony.api.core.FeatureDefinition;
+import svenhjol.charmony.api.core.Side;
 import svenhjol.charmony.core.base.Mod;
 import svenhjol.charmony.core.base.SidedFeature;
-import svenhjol.charmony.core.enums.Side;
 
+@SuppressWarnings({"FieldMayBeFinal", "FieldCanBeLocal"})
 @FeatureDefinition(side = Side.Common, canBeDisabled = false, description = """
     Core functionality and settings.""")
 public final class Core extends SidedFeature {

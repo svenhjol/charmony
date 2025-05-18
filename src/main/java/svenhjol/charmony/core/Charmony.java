@@ -1,9 +1,9 @@
 package svenhjol.charmony.core;
 
 import net.minecraft.resources.ResourceLocation;
-import svenhjol.charmony.core.annotations.ModDefinition;
+import svenhjol.charmony.api.core.ModDefinition;
 import svenhjol.charmony.core.base.Mod;
-import svenhjol.charmony.core.enums.Side;
+import svenhjol.charmony.api.core.Side;
 
 @SuppressWarnings("unused")
 @ModDefinition(id = Charmony.ID, sides = {Side.Client, Side.Common},

@@ -2,7 +2,7 @@ package svenhjol.charmony.core.common.mixins;
 
 import svenhjol.charmony.core.Charmony;
 import svenhjol.charmony.core.base.MixinConfig;
-import svenhjol.charmony.core.enums.Side;
+import svenhjol.charmony.api.core.Side;
 
 public final class CommonMixinConfig extends MixinConfig {
     @Override

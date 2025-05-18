@@ -6,7 +6,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import svenhjol.charmony.core.common.material.IgniteProvider;
+import svenhjol.charmony.api.core.IgniteProvider;
 import svenhjol.charmony.core.common.features.wood.WoodMaterial;
 
 import java.util.function.Supplier;

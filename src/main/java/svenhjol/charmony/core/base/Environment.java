@@ -2,7 +2,6 @@ package svenhjol.charmony.core.base;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
-import svenhjol.charmony.core.Charmony;
 import svenhjol.charmony.core.common.features.core.Core;
 
 @SuppressWarnings("unused")

@@ -3,10 +3,10 @@ package svenhjol.charmony.core.common.features.advancements;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import svenhjol.charmony.core.Charmony;
-import svenhjol.charmony.core.annotations.FeatureDefinition;
+import svenhjol.charmony.api.core.FeatureDefinition;
 import svenhjol.charmony.core.base.Mod;
 import svenhjol.charmony.core.base.SidedFeature;
-import svenhjol.charmony.core.enums.Side;
+import svenhjol.charmony.api.core.Side;
 
 @SuppressWarnings("unused")
 @FeatureDefinition(side = Side.Common, description = """

@@ -60,9 +60,9 @@ import svenhjol.charmony.core.base.SidedFeature;
 import svenhjol.charmony.core.common.dispenser.ConditionalDispenseItemBehavior;
 import svenhjol.charmony.core.common.features.conditional_recipes.ConditionalRecipe;
 import svenhjol.charmony.core.common.features.wood.WoodMaterial;
-import svenhjol.charmony.core.common.material.FuelProvider;
-import svenhjol.charmony.core.common.material.IgniteProvider;
-import svenhjol.charmony.core.enums.Side;
+import svenhjol.charmony.api.core.FuelProvider;
+import svenhjol.charmony.api.core.IgniteProvider;
+import svenhjol.charmony.api.core.Side;
 import svenhjol.charmony.core.helpers.VillagerHelper;
 
 import java.util.*;

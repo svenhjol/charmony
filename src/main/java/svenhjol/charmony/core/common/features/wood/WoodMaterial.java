@@ -6,7 +6,7 @@ import net.minecraft.world.level.block.grower.TreeGrower;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.block.state.properties.WoodType;
-import svenhjol.charmony.core.common.material.Material;
+import svenhjol.charmony.api.core.Material;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

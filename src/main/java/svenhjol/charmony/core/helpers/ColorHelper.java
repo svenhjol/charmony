@@ -2,10 +2,10 @@ package svenhjol.charmony.core.helpers;
 
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.core.BlockPos;
-import net.minecraft.util.ARGB;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
+import svenhjol.charmony.api.core.Color;
 
 import java.util.List;
 
@@ -19,44 +19,12 @@ public final class ColorHelper {
         DyeColor.BLUE
     );
 
-    public static class Color {
-        private final int color;
-
-        public Color(int color) {
-            this.color = color;
-        }
-
-        public Color(DyeColor color) {
-            this.color = color.getTextureDiffuseColor();
-        }
-
-        public float getRed() {
-            return (float) ARGB.red(this.color) / 255.0f;
-        }
-
-        public float getGreen() {
-            return (float) ARGB.green(this.color) / 255.0f;
-        }
-
-        public float getBlue() {
-            return (float) ARGB.blue(this.color) / 255.0f;
-        }
-
-        public float getAlpha() {
-            return (float) ARGB.alpha(this.color) / 255.0f;
-        }
-
-        public int getColor() {
-            return color;
-        }
-    }
-
     public static int leavesColorFromBiome(BlockState state, BlockAndTintGetter level, BlockPos pos, int tintIndex) {
         var defaultColor = -12012264; // See BlockColors.java
         return level != null && pos != null ? BiomeColors.getAverageFoliageColor(level, pos) : defaultColor;
     }
 
-    public static ColorHelper.Color tintBackgroundColor(DyeColor color) {
+    public static Color tintBackgroundColor(DyeColor color) {
         var col = switch (color) {
             case BLACK -> 0x505050;
             case GRAY -> 0x7a7a7a;
@@ -75,7 +43,7 @@ public final class ColorHelper {
             case MAGENTA -> 0xcf66c0;
             case PINK -> 0xffa2d5;
         };
-        return new ColorHelper.Color(col);
+        return new Color(col);
     }
 
     public static int tintForegroundColor(DyeColor color) {

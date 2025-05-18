@@ -5,8 +5,8 @@ import com.electronwill.nightconfig.toml.TomlFormat;
 import com.electronwill.nightconfig.toml.TomlWriter;
 import com.moandjiezana.toml.Toml;
 import net.fabricmc.loader.api.FabricLoader;
-import svenhjol.charmony.core.annotations.Configurable;
-import svenhjol.charmony.core.enums.Side;
+import svenhjol.charmony.api.core.Configurable;
+import svenhjol.charmony.api.core.Side;
 import svenhjol.charmony.core.helpers.ConfigHelper;
 
 import java.lang.reflect.Field;
@@ -15,7 +15,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
-@SuppressWarnings("deprecation")
 public final class Config {
     private final Mod mod;
     private final Log log;
@@ -65,7 +64,7 @@ public final class Config {
                             fieldName = field.getName();
                         }
 
-                        Object fieldValue = field.get(null);
+                        Object fieldValue = ConfigHelper.getField(field);
                         Object configValue;
 
                         if (!populatedFeatures.contains(sided.getClass())) {
@@ -145,7 +144,7 @@ public final class Config {
                         var fieldName = annotation.name();
                         var fieldDescription = annotation.description();
                         field.setAccessible(true);
-                        Object fieldValue = field.get(null);
+                        Object fieldValue = ConfigHelper.getField(field, sided);
 
                         // Set the key/value pair. The "." specifies that it is nested
                         var featureConfigName = sided.className() + "." + fieldName;

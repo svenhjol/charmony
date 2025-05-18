@@ -2,8 +2,8 @@ package svenhjol.charmony.core.base;
 
 import com.google.common.base.CaseFormat;
 import net.minecraft.resources.ResourceLocation;
-import svenhjol.charmony.core.annotations.FeatureDefinition;
-import svenhjol.charmony.core.enums.Side;
+import svenhjol.charmony.api.core.FeatureDefinition;
+import svenhjol.charmony.api.core.Side;
 
 import java.util.function.BooleanSupplier;
 

@@ -6,6 +6,7 @@ import net.minecraft.network.chat.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("unused")
 public final class TextHelper {
     public static String capitalize(String string) {
         if (string == null || string.isEmpty()) {

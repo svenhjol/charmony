@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
+import svenhjol.charmony.api.core.Sprite;
 import svenhjol.charmony.core.Charmony;
 
 import java.util.List;

@@ -6,7 +6,7 @@ import net.minecraft.network.protocol.game.ClientboundLoginPacket;
 import svenhjol.charmony.core.base.Setup;
 import svenhjol.charmony.core.common.features.core.Networking.S2CUsingCharmonyServer;
 
-public final class Handlers extends Setup<Core> {
+public class Handlers extends Setup<Core> {
     private boolean usesCharmonyServer = false;
     private boolean hasCheckedCharmonyServer = false;
     private int ticksSinceLogin = 0;

@@ -9,8 +9,8 @@ import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 import svenhjol.charmony.core.Charmony;
-import svenhjol.charmony.core.annotations.FeatureDefinition;
-import svenhjol.charmony.core.enums.Side;
+import svenhjol.charmony.api.core.FeatureDefinition;
+import svenhjol.charmony.api.core.Side;
 
 import java.io.File;
 import java.nio.file.Paths;

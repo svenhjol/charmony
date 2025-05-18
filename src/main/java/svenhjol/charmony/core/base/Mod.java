@@ -2,16 +2,16 @@ package svenhjol.charmony.core.base;
 
 import com.google.common.base.CaseFormat;
 import net.minecraft.resources.ResourceLocation;
-import svenhjol.charmony.core.annotations.FeatureDefinition;
-import svenhjol.charmony.core.annotations.ModDefinition;
+import svenhjol.charmony.api.core.FeatureDefinition;
+import svenhjol.charmony.api.core.ModDefinition;
 import svenhjol.charmony.core.common.CommonRegistry;
-import svenhjol.charmony.core.enums.Side;
+import svenhjol.charmony.api.core.Side;
 
 import java.util.*;
 import java.util.function.BooleanSupplier;
 import java.util.stream.Collectors;
 
-@SuppressWarnings({"unused", "SwitchStatementWithTooFewBranches"})
+@SuppressWarnings("unused")
 public abstract class Mod {
     private static final Map<String, Mod> REGISTERED = new HashMap<>();
     private static final Map<Class<? extends SidedFeature>, SidedFeature> CLASS_SIDED_FEATURES = new HashMap<>();
@@ -124,6 +124,7 @@ public abstract class Mod {
         registers.forEach((feature, register)
             -> register.forEach(Runnable::run));
 
+        //noinspection SwitchStatementWithTooFewBranches
         switch (side) {
             case Common -> CommonRegistry.finishModRegistration(this);
         }

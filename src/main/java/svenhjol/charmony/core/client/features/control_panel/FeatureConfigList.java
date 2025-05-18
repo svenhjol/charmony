@@ -7,7 +7,7 @@ import net.minecraft.client.gui.components.*;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
-import svenhjol.charmony.core.annotations.Configurable;
+import svenhjol.charmony.api.core.Configurable;
 import svenhjol.charmony.core.base.Feature;
 import svenhjol.charmony.core.base.Log;
 import svenhjol.charmony.core.helpers.ConfigHelper;
@@ -397,7 +397,7 @@ public class FeatureConfigList extends AbstractSelectionList<FeatureConfigList.E
 
             // Try and get the default value for this config item.
             defaultVal = FeatureConfigList.this.feature.mod().config().defaultValue(field).orElse(null);
-            val = ConfigHelper.getField(field);
+            val = ConfigHelper.getField(field, null);
 
             tooltip.addFirst(Component.literal(label).withStyle(ChatFormatting.BOLD).withStyle(ChatFormatting.GOLD));
 
@@ -408,7 +408,7 @@ public class FeatureConfigList extends AbstractSelectionList<FeatureConfigList.E
                     .withStyle(ChatFormatting.AQUA));
             }
 
-            if (annotation.requireRestart()) {
+            if (annotation != null && annotation.requireRestart()) {
                 tooltip.add(Component.empty());
                 tooltip.add(Component.translatable("gui.charmony.settings.requires_restart")
                     .withStyle(ChatFormatting.RED));

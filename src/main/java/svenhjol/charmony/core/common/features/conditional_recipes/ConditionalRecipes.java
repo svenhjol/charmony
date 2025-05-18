@@ -1,10 +1,10 @@
 package svenhjol.charmony.core.common.features.conditional_recipes;
 
 import net.minecraft.world.item.crafting.RecipeMap;
-import svenhjol.charmony.core.annotations.FeatureDefinition;
+import svenhjol.charmony.api.core.FeatureDefinition;
 import svenhjol.charmony.core.base.Mod;
 import svenhjol.charmony.core.base.SidedFeature;
-import svenhjol.charmony.core.enums.Side;
+import svenhjol.charmony.api.core.Side;
 
 import java.util.Optional;
 

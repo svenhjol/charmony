@@ -7,6 +7,7 @@ import net.minecraft.world.item.Item;
 import svenhjol.charmony.core.Charmony;
 import svenhjol.charmony.core.base.Log;
 
+@SuppressWarnings("unused")
 public final class ItemOverrideHelper {
     public static final Log LOGGER = new Log(Charmony.ID, "ItemOverrideHelper");
 

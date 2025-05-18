@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.41.0
+
+- Update to latest API version.
+- Move tint handling to its own client feature.
+- Replace mixin redirects with WrapOperations to reduce clashes.
+
 ## 1.40.1
 
 - Replace mixin redirect with WrapOperation to reduce clashes.

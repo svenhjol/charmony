@@ -11,7 +11,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BarrelBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import svenhjol.charmony.core.common.material.FuelProvider;
+import svenhjol.charmony.api.core.FuelProvider;
 import svenhjol.charmony.core.common.features.wood.WoodMaterial;
 
 import javax.annotation.Nullable;

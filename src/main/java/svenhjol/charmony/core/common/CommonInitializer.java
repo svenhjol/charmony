@@ -9,7 +9,7 @@ import svenhjol.charmony.core.common.features.core.Core;
 import svenhjol.charmony.core.common.features.teleport.Teleport;
 import svenhjol.charmony.core.common.features.test_feature.TestFeature;
 import svenhjol.charmony.core.common.features.wood.Wood;
-import svenhjol.charmony.core.enums.Side;
+import svenhjol.charmony.api.core.Side;
 
 public class CommonInitializer implements ModInitializer {
     private static boolean initialized = false;

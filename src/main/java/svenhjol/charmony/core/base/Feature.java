@@ -1,7 +1,7 @@
 package svenhjol.charmony.core.base;
 
 import net.minecraft.resources.ResourceLocation;
-import svenhjol.charmony.core.enums.Side;
+import svenhjol.charmony.api.core.Side;
 
 import java.util.*;
 

@@ -1,12 +1,12 @@
 package svenhjol.charmony.core.common.features.test_feature;
 
-import svenhjol.charmony.core.annotations.Configurable;
-import svenhjol.charmony.core.annotations.FeatureDefinition;
+import svenhjol.charmony.api.core.Configurable;
+import svenhjol.charmony.api.core.FeatureDefinition;
 import svenhjol.charmony.core.base.Mod;
 import svenhjol.charmony.core.base.SidedFeature;
 import svenhjol.charmony.core.common.CommonRegistry;
 import svenhjol.charmony.core.common.features.conditional_recipes.ConditionalRecipe;
-import svenhjol.charmony.core.enums.Side;
+import svenhjol.charmony.api.core.Side;
 
 import java.util.ArrayList;
 import java.util.List;

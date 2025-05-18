@@ -1,6 +1,7 @@
 package svenhjol.charmony.core.client;
 
 import net.minecraft.resources.ResourceLocation;
+import svenhjol.charmony.api.core.Sprite;
 import svenhjol.charmony.core.Charmony;
 
 @SuppressWarnings("unused")
