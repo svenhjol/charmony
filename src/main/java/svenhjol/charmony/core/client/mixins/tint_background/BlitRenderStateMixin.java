@@ -3,7 +3,7 @@ package svenhjol.charmony.core.client.mixins.tint_background;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.render.state.BlitRenderState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -13,18 +13,19 @@ import svenhjol.charmony.core.client.features.tint_background.TintBackground;
 
 import javax.annotation.Nullable;
 
-@Mixin(GuiGraphics.class)
-public class GuiGraphicsMixin implements TintedGuiGraphics {
+@Mixin(BlitRenderState.class)
+public class BlitRenderStateMixin implements TintedGuiGraphics {
     @Unique @Nullable private Color tint = null;
 
     @Override
-    public GuiGraphics tint(Color color) {
+    public BlitRenderState tint(Color color) {
         this.tint = color;
-        return (GuiGraphics)(Object)this;
+        return (BlitRenderState)(Object)this;
     }
 
+
     @WrapOperation(
-        method = "innerBlit",
+        method = "buildVertices",
         at = @At(
             value = "INVOKE",
             target = "Lcom/mojang/blaze3d/vertex/VertexConsumer;setColor(I)Lcom/mojang/blaze3d/vertex/VertexConsumer;",
@@ -39,7 +40,7 @@ public class GuiGraphicsMixin implements TintedGuiGraphics {
     }
 
     @WrapOperation(
-        method = "innerBlit",
+        method = "buildVertices",
         at = @At(
             value = "INVOKE",
             target = "Lcom/mojang/blaze3d/vertex/VertexConsumer;setColor(I)Lcom/mojang/blaze3d/vertex/VertexConsumer;",
@@ -54,7 +55,7 @@ public class GuiGraphicsMixin implements TintedGuiGraphics {
     }
 
     @WrapOperation(
-        method = "innerBlit",
+        method = "buildVertices",
         at = @At(
             value = "INVOKE",
             target = "Lcom/mojang/blaze3d/vertex/VertexConsumer;setColor(I)Lcom/mojang/blaze3d/vertex/VertexConsumer;",
@@ -69,7 +70,7 @@ public class GuiGraphicsMixin implements TintedGuiGraphics {
     }
 
     @WrapOperation(
-        method = "innerBlit",
+        method = "buildVertices",
         at = @At(
             value = "INVOKE",
             target = "Lcom/mojang/blaze3d/vertex/VertexConsumer;setColor(I)Lcom/mojang/blaze3d/vertex/VertexConsumer;",

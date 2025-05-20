@@ -22,7 +22,7 @@ public class GuiGraphicsMixin {
      * Modules can hook into the tooltip before it is rendered.
      */
     @Inject(
-        method = "renderTooltipInternal",
+        method = "renderTooltip",
         at = @At("HEAD")
     )
     private void hookRenderOrderedTooltip(Font font, List<ClientTooltipComponent> lines, int x, int y, ClientTooltipPositioner clientTooltipPositioner, ResourceLocation resourceLocation, CallbackInfo ci) {

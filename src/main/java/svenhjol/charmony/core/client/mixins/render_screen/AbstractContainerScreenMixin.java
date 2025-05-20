@@ -15,13 +15,10 @@ public class AbstractContainerScreenMixin {
      * This is called on every vanilla drawForeground tick and allows custom gui rendering.
      */
     @Inject(
-        method = "render",
-        at = @At(
-            value = "INVOKE",
-            target = "Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;renderLabels(Lnet/minecraft/client/gui/GuiGraphics;II)V"
-        )
+        method = "renderLabels",
+        at = @At("HEAD")
     )
-    private void hookRender(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+    private void hookRender(GuiGraphics guiGraphics, int mouseX, int mouseY, CallbackInfo ci) {
         RenderScreenCallback.EVENT.invoker().interact((AbstractContainerScreen<?>)(Object)this, guiGraphics, mouseX, mouseY);
     }
 }

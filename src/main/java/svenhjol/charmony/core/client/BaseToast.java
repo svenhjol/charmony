@@ -4,7 +4,7 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.toasts.Toast;
 import net.minecraft.client.gui.components.toasts.ToastManager;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -78,7 +78,7 @@ public abstract class BaseToast implements Toast {
         var title = title();
         var description = description();
         var icon = icon();
-        guiGraphics.blitSprite(RenderType::guiTextured, background(), 0, 0, this.width(), this.height());
+        guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, background(), 0, 0, this.width(), this.height());
 
         List<FormattedCharSequence> list = font.split(description, 125);
         if (list.size() == 1) {

@@ -54,15 +54,15 @@ import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceType;
 import org.apache.commons.lang3.tuple.Pair;
+import svenhjol.charmony.api.core.FuelProvider;
+import svenhjol.charmony.api.core.IgniteProvider;
+import svenhjol.charmony.api.core.Side;
 import svenhjol.charmony.core.base.Mod;
 import svenhjol.charmony.core.base.Registerable;
 import svenhjol.charmony.core.base.SidedFeature;
 import svenhjol.charmony.core.common.dispenser.ConditionalDispenseItemBehavior;
 import svenhjol.charmony.core.common.features.conditional_recipes.ConditionalRecipe;
 import svenhjol.charmony.core.common.features.wood.WoodMaterial;
-import svenhjol.charmony.api.core.FuelProvider;
-import svenhjol.charmony.api.core.IgniteProvider;
-import svenhjol.charmony.api.core.Side;
 import svenhjol.charmony.core.helpers.VillagerHelper;
 
 import java.util.*;
@@ -292,8 +292,13 @@ public final class CommonRegistry {
     public <P extends CustomPacketPayload> Registerable<Void> packetReceiver(CustomPacketPayload.Type<P> type, Supplier<BiConsumer<Player, P>> handler) {
         return new Registerable<>(feature, () -> {
             ServerPlayNetworking.registerGlobalReceiver(type,
-                (payload, context) -> context.player().server.execute(
-                    () -> handler.get().accept(context.player(), payload)));
+                (payload, context) -> {
+                var player = context.player();
+                var server = player.getServer();
+                if (server != null) {
+                    server.execute(() -> handler.get().accept(player, payload));
+                }
+            });
             return null;
         });
     }

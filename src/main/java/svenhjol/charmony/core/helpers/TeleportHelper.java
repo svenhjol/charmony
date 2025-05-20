@@ -24,7 +24,7 @@ public final class TeleportHelper {
     public static void changeDimension(ServerPlayer serverPlayer, ServerLevel newDimension, Vec3 pos) {
         serverPlayer.isChangingDimension = true;
         var connection = serverPlayer.connection;
-        var currentDimension = serverPlayer.serverLevel();
+        var currentDimension = serverPlayer.level();
         var levelData = newDimension.getLevelData();
 
         connection.send(new ClientboundRespawnPacket(serverPlayer.createCommonSpawnInfo(newDimension), (byte)3));

@@ -2,7 +2,7 @@ package svenhjol.charmony.core.client;
 
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
@@ -47,7 +47,7 @@ public interface ItemContainerTooltip extends TooltipComponent {
     default void defaultRenderImage(GuiGraphics guiGraphics, Font font, Sprite texture, int x, int y) {
         var gx = this.gridSizeX();
         var gy = this.gridSizeY();
-        guiGraphics.blitSprite(RenderType::guiTextured, backgroundSprite(), x, y, backgroundWidth(), backgroundHeight());
+        guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, backgroundSprite(), x, y, backgroundWidth(), backgroundHeight());
         int index = 0;
 
         for (int yy = 0; yy < gy; ++yy) {
@@ -71,6 +71,6 @@ public interface ItemContainerTooltip extends TooltipComponent {
     }
 
     default void renderSlot(GuiGraphics guiGraphics, Sprite texture, int x, int y) {
-        guiGraphics.blitSprite(RenderType::guiTextured, texture.sprite(), x, y, texture.width(), texture.height());
+        guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, texture.sprite(), x, y, texture.width(), texture.height());
     }
 }

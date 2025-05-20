@@ -1,10 +1,10 @@
 package svenhjol.charmony.core.client;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import org.joml.Matrix3x2fStack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,7 +74,7 @@ public abstract class BaseHudRenderer {
         guiGraphics.renderFakeItem(stack, x, y);
     }
 
-    public void scaleItem(ItemStack stack, PoseStack pose) {
+    public void scaleItem(ItemStack stack, Matrix3x2fStack pose) {
         // override to implement item scaling
     }
 
@@ -82,7 +82,7 @@ public abstract class BaseHudRenderer {
      * Call all registered hud renderers with the currently rendering stack and layer.
      * @see svenhjol.charmony.core.client.mixins.hud_item_scaling.GuiGraphicsMixin
      */
-    public static void scaleItemsCallback(ItemStack stack, PoseStack pose) {
+    public static void scaleItemsCallback(ItemStack stack, Matrix3x2fStack pose) {
         REGISTERED.forEach(hud -> hud.scaleItem(stack, pose));
     }
 }

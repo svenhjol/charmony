@@ -34,4 +34,5 @@ accessible field net/minecraft/server/level/ServerPlayer lastSentExp I
 accessible field net/minecraft/server/level/ServerPlayer lastSentHealth F
 accessible field net/minecraft/server/level/ServerPlayer lastSentFood I
 accessible method net/minecraft/world/entity/Entity unsetRemoved ()V
-accessible field net/minecraft/client/gui/GuiGraphics bufferSource Lnet/minecraft/client/renderer/MultiBufferSource$BufferSource;
+accessible class net/minecraft/client/gui/components/MultiLineEditBox
+accessible method net/minecraft/client/gui/components/MultiLineEditBox <init> (Lnet/minecraft/client/gui/Font;IIIILnet/minecraft/network/chat/Component;Lnet/minecraft/network/chat/Component;IZIZZ)V

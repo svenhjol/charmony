@@ -5,6 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.*;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
+import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import svenhjol.charmony.api.core.Configurable;
@@ -325,7 +326,7 @@ public class FeatureConfigList extends AbstractSelectionList<FeatureConfigList.E
         public MultiLineTextBoxEntry(Field field, String label, String description) {
             super(field, label, description);
             var font = FeatureConfigList.this.minecraft.font;
-            inputBox = new MultiLineEditBox(font, 0, 0, width() - 1, height(), Component.empty(), Component.empty());
+            inputBox = new MultiLineEditBox(font, 0, 0, width() - 1, height(), CommonComponents.EMPTY, CommonComponents.EMPTY, 0xffffff, false, 0xffff00, true, true);
             inputBox.setValueListener(this::onChange);
             inputBox.setCharacterLimit(maxLength());
             inputBox.visible = false;
@@ -452,23 +453,20 @@ public class FeatureConfigList extends AbstractSelectionList<FeatureConfigList.E
             y += SettingsScreen.CONTENT_TOP_MARGIN;
 
             var font = FeatureConfigList.this.minecraft.font;
-            var color = 0xefefef;
             var isDefaultVal = defaultVal.equals(val);
             var label = Component.literal(this.label);
             var labelWidth = font.width(label);
             var textLeft = offsetX + 5;
             var textTop = y + 2;
 
-            if (!isDefaultVal) {
-                label = label.withStyle(ChatFormatting.YELLOW);
-            }
+            label = label.withColor(isDefaultVal ? 0xefefef : 0xffff00);
+            guiGraphics.drawString(font, label, offsetX + 5, y + 2, -1);
 
             if (mouseX >= textLeft && mouseX <= textLeft + labelWidth
                 && mouseY >= textTop && mouseY <= textTop + 6) {
-                guiGraphics.renderTooltip(font, tooltip, Optional.empty(), mouseX, mouseY);
+                guiGraphics.setComponentTooltipForNextFrame(font, tooltip, mouseX, mouseY);
             }
 
-            guiGraphics.drawString(font, label, offsetX + 5, y + 2, color);
             renderChild(guiGraphics, y, offsetX, l, m, mouseX, mouseY, tickDelta);
         }
     }

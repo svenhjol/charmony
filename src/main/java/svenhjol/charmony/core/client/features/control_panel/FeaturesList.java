@@ -15,7 +15,6 @@ import svenhjol.charmony.core.helpers.TextHelper;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class FeaturesList extends AbstractSelectionList<FeaturesList.Entry> {
     private static final MutableComponent FEATURE_IS_DISABLED = Component.translatable("gui.charmony.settings.feature.disabled");
@@ -176,8 +175,8 @@ public class FeaturesList extends AbstractSelectionList<FeaturesList.Entry> {
             int buttonY = y - 2;
 
             var font = FeaturesList.this.minecraft.font;
-            var color = feature.enabled() ? 0xffffff : 0x808080; // Mute feature name color if disabled
-            var name = Component.literal(feature.name());
+            var name = Component.literal(feature.name())
+                .withColor(feature.enabled() ? 0xffffff : 0x808080); // Mute feature name color if disabled
             var descriptionLines = TextHelper.toComponents(feature.description(), 48);
             var nameWidth = font.width(name);
             var textLeft = offsetX + 5;
@@ -185,12 +184,12 @@ public class FeaturesList extends AbstractSelectionList<FeaturesList.Entry> {
 
             // Show that the feature is not using default values.
             if (feature.enabled() && !hasDefaultValues) {
-                name = name.withStyle(ChatFormatting.YELLOW);
+                name = name.withColor(0xffff00);
                 descriptionLines.add(NOT_USING_DEFAULTS.withStyle(ChatFormatting.YELLOW));
             }
 
             if (feature.enabled() && !feature.enabledByDefault()) {
-                name = name.withStyle(ChatFormatting.YELLOW);
+                name = name.withColor(0xffff00);
                 descriptionLines.add(FEATURE_NORMALLY_DISABLED.withStyle(ChatFormatting.YELLOW));
             }
 
@@ -204,11 +203,11 @@ public class FeaturesList extends AbstractSelectionList<FeaturesList.Entry> {
                 .withStyle(ChatFormatting.BOLD)
                 .withStyle(feature.enabled() ? ChatFormatting.GOLD : ChatFormatting.GRAY));
 
-            guiGraphics.drawString(font, name, offsetX + 5, y + 2, color);
+            guiGraphics.drawString(font, name, offsetX + 5, y + 2, -1);
 
             if (mouseX >= textLeft && mouseX <= textLeft + nameWidth
                 && mouseY >= textTop && mouseY <= textTop + 6) {
-                guiGraphics.renderTooltip(font, descriptionLines, Optional.empty(), mouseX, mouseY);
+                guiGraphics.setComponentTooltipForNextFrame(font, descriptionLines, mouseX, mouseY);
             }
 
             disableButton.setPosition(enableX, buttonY);

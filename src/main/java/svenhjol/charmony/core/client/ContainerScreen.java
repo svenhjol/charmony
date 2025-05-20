@@ -2,7 +2,7 @@ package svenhjol.charmony.core.client;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -29,7 +29,7 @@ public abstract class ContainerScreen<T extends AbstractContainerMenu> extends A
         if (minecraft != null) {
             var x = (width - imageWidth) / 2;
             var y = (height - imageHeight) / 2;
-            guiGraphics.blit(RenderType::guiTextured, texture, x, y, 0, 0, imageWidth, imageHeight, 256, 256);
+            guiGraphics.blit(RenderPipelines.GUI_TEXTURED, texture, x, y, 0, 0, imageWidth, imageHeight, 256, 256);
         }
     }
 }
