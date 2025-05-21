@@ -11,7 +11,6 @@
     "client_login_player.ClientPacketListenerMixin",
     "client_respawn_player.login_client.ClientPacketListenerMixin",
     "client_tooltip_component.ClientTooltipComponentMixin",
-    "tint_background.BlitRenderStateMixin",
     "hover_over_item_tooltip.ItemStackMixin",
     "hud_item_scaling.GuiGraphicsMixin",
     "play_sound.SoundEngineMixin",
@@ -21,6 +20,8 @@
     "render_tooltip.ScreenMixin",
     "render_tooltip_component.ItemMixin",
     "setup_screen.ScreenMixin",
+    "tint_background.BlitRenderStateMixin",
+    "tint_background.GuiGraphicsMixin",
     "wood.HangingSignEditScreenMixin"
   ]
 }

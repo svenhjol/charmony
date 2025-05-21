@@ -8,8 +8,11 @@ import svenhjol.charmony.api.core.Side;
 @FeatureDefinition(side = Side.Client, description = """
     Allows Charmony mods to modify the background color tint of game screens.""")
 public final class TintBackground extends SidedFeature {
+    public final Handlers handlers;
+
     public TintBackground(Mod mod) {
         super(mod);
+        handlers = new Handlers(this);
     }
 
     public static TintBackground feature() {

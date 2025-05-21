@@ -8,22 +8,12 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import svenhjol.charmony.api.core.Color;
-import svenhjol.charmony.api.tint_background.Tinted;
 import svenhjol.charmony.core.client.features.tint_background.TintBackground;
 
 import javax.annotation.Nullable;
 
 @Mixin(BlitRenderState.class)
-public class BlitRenderStateMixin implements Tinted {
-    @Unique @Nullable private Color tint = null;
-
-    @Override
-    public BlitRenderState tint(Color color) {
-        this.tint = color;
-        return (BlitRenderState)(Object)this;
-    }
-
-
+public class BlitRenderStateMixin {
     @WrapOperation(
         method = "buildVertices",
         at = @At(
@@ -80,14 +70,25 @@ public class BlitRenderStateMixin implements Tinted {
     private VertexConsumer hook3(VertexConsumer instance, int color, Operation<VertexConsumer> original) {
         if (TintBackground.feature().enabled()) {
             var result = alterColor(instance, color);
-            tint = null; // Last instruction - set tint to null
+            unsetTint(); // Last instruction - set tint to null
             return result;
         }
         return original.call(instance, color);
     }
 
     @Unique
+    private @Nullable Color getTint() {
+        return TintBackground.feature().handlers.tint;
+    }
+
+    @Unique
+    private void unsetTint() {
+        TintBackground.feature().handlers.tint = null;
+    }
+
+    @Unique
     private VertexConsumer alterColor(VertexConsumer instance, int defaultColor) {
+        var tint = getTint();
         if (tint == null) return instance.setColor(defaultColor);
         return instance.setColor(tint.getRed(), tint.getGreen(), tint.getBlue(), 1.0f);
     }
