@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.41.3
+
+- Update to 25w21a 
+
 ## 1.41.2
 
 - Rewrite all cancellable mixins.

@@ -8,13 +8,13 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import svenhjol.charmony.api.core.Color;
-import svenhjol.charmony.api.tint_background.TintedGuiGraphics;
+import svenhjol.charmony.api.tint_background.Tinted;
 import svenhjol.charmony.core.client.features.tint_background.TintBackground;
 
 import javax.annotation.Nullable;
 
 @Mixin(BlitRenderState.class)
-public class BlitRenderStateMixin implements TintedGuiGraphics {
+public class BlitRenderStateMixin implements Tinted {
     @Unique @Nullable private Color tint = null;
 
     @Override

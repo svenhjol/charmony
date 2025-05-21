@@ -13,9 +13,9 @@ import net.minecraft.client.gui.screens.inventory.MenuAccess;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.particle.ParticleEngine;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
+import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -38,7 +38,7 @@ import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "UnusedReturnValue"})
 public final class ClientRegistry {
     public static final List<DeferredParticle> PARTICLES = new ArrayList<>();
     private final SidedFeature feature;
@@ -58,7 +58,7 @@ public final class ClientRegistry {
         });
     }
 
-    public <B extends Block> Registerable<Void> blockRenderType(Supplier<B> block, Supplier<RenderType> renderType) {
+    public <B extends Block> Registerable<Void> blockRenderType(Supplier<B> block, Supplier<ChunkSectionLayer> renderType) {
         return new Registerable<>(feature, () -> {
             BlockRenderLayerMap.INSTANCE.putBlock(block.get(), renderType.get());
             return null;

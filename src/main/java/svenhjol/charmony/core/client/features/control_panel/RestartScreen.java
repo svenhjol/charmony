@@ -44,8 +44,8 @@ public class RestartScreen extends Screen {
         int midX = width / 2;
         var font = minecraft.font;
 
-        guiGraphics.drawCenteredString(font, title, midX, 30, 0xffffff);
-        guiGraphics.drawCenteredString(font, DESC, midX, 60, 0xa0a0a0);
+        guiGraphics.drawCenteredString(font, title, midX, 30, -1);
+        guiGraphics.drawCenteredString(font, DESC.copy().withColor(0xa0a0a0), midX, 60, -1);
 
         restartLater.setPosition(midX + 5, 150);
         restartNow.setPosition(midX - 185, 150);
