@@ -22,6 +22,10 @@ public final class Log {
         this(id, object.getClass().getSimpleName());
     }
 
+    public Logger getLogger() {
+        return log;
+    }
+
     public void info(String message, Object... args) {
         log.info(message, args);
     }

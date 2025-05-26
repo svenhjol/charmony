@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.41.6
+
+- Expose the raw logger interface for things that need it.
+
 ## 1.41.5
 
 - Add custom HudDisplayCallback mixin.
