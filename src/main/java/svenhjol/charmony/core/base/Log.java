@@ -1,21 +1,22 @@
 package svenhjol.charmony.core.base;
 
 import com.google.common.base.CaseFormat;
+import com.mojang.logging.LogUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @SuppressWarnings("unused")
 public final class Log {
     private final Logger log;
 
     public Log(String id) {
-        log = LogManager.getFormatterLogger(snakeToUpperCamel(id));
+        log = LogUtils.getLogger();
     }
 
     public Log(String id, String suffix) {
         var name = snakeToUpperCamel(id) + "/" + suffix;
-        log = LogManager.getFormatterLogger(name);
+        log = LoggerFactory.getLogger(name);
     }
 
     public Log(String id, Object object) {

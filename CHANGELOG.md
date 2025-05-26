@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.41.6
+## 1.41.7
 
 - Expose the raw logger interface for things that need it.
 
