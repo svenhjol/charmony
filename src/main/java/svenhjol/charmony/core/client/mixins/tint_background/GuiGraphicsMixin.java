@@ -11,7 +11,7 @@ import svenhjol.charmony.core.client.features.tint_background.TintedGuiGraphics;
 public class GuiGraphicsMixin implements TintedGuiGraphics {
     @Override
     public GuiGraphics tint(Color color) {
-        TintBackground.feature().handlers.tint = color;
+        TintBackground.feature().handlers.setTintHolder(color);
         return (GuiGraphics)(Object)this;
     }
 }

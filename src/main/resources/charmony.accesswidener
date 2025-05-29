@@ -36,3 +36,4 @@ accessible field net/minecraft/server/level/ServerPlayer lastSentFood I
 accessible method net/minecraft/world/entity/Entity unsetRemoved ()V
 accessible class net/minecraft/client/gui/components/MultiLineEditBox
 accessible method net/minecraft/client/gui/components/MultiLineEditBox <init> (Lnet/minecraft/client/gui/Font;IIIILnet/minecraft/network/chat/Component;Lnet/minecraft/network/chat/Component;IZIZZ)V
+accessible field net/minecraft/client/gui/screens/inventory/ShulkerBoxScreen CONTAINER_TEXTURE Lnet/minecraft/resources/ResourceLocation;

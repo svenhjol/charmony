@@ -2,27 +2,18 @@ package svenhjol.charmony.core.common.features.test_feature;
 
 import svenhjol.charmony.api.core.Configurable;
 import svenhjol.charmony.api.core.FeatureDefinition;
+import svenhjol.charmony.api.core.Side;
 import svenhjol.charmony.core.base.Mod;
 import svenhjol.charmony.core.base.SidedFeature;
 import svenhjol.charmony.core.common.CommonRegistry;
 import svenhjol.charmony.core.common.features.conditional_recipes.ConditionalRecipe;
-import svenhjol.charmony.api.core.Side;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 @FeatureDefinition(side = Side.Common)
 @SuppressWarnings({"FieldMayBeFinal", "FieldCanBeLocal", "unused"})
 public final class TestFeature extends SidedFeature {
     public final Registers registers;
-
-    @Configurable(
-        name = "Common-side string list",
-        description = "Testing the size of the string list widget.",
-        requireRestart = false
-    )
-    private static List<String> strings = new ArrayList<>();
 
     @Configurable(
         name = "Allow creeper spawn egg recipe",
