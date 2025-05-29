@@ -24,7 +24,7 @@ public final class ColorHelper {
         return level != null && pos != null ? BiomeColors.getAverageFoliageColor(level, pos) : defaultColor;
     }
 
-    public static Color tintBackgroundColor(DyeColor color) {
+    public static Color getBackgroundColor(DyeColor color) {
         var col = switch (color) {
             case BLACK -> 0x505050;
             case GRAY -> 0x7a7a7a;
@@ -46,8 +46,8 @@ public final class ColorHelper {
         return new Color(col);
     }
 
-    public static int tintForegroundColor(DyeColor color) {
-        return switch(color) {
+    public static Color getForegroundColor(DyeColor color) {
+        var col = switch(color) {
             case BLACK -> 0xd0d0d0;
             case GRAY -> 0xd4d4d4;
             case LIGHT_GRAY -> 0x333333;
@@ -65,5 +65,6 @@ public final class ColorHelper {
             case MAGENTA -> 0x300030;
             case PINK -> 0x300020;
         };
+        return new Color(col);
     }
 }

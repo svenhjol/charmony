@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.42.0
+
+- Update to API 1.24.0
+- ColorHelper now uses `getBackgroundColor()` and `getForegroundColor()` both returning a `Color` object.
+
 ## 1.41.8
 
 - Add TintedGuiGraphics interface.
