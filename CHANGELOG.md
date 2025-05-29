@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.42.1
+
+- Update tint background for latest snapshot.
+
 ## 1.42.0
 
 - Update to API 1.24.0
