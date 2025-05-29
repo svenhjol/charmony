@@ -24,7 +24,6 @@
     "test_feature.ShulkerBoxScreenMixin",
     "tint_background.BlitRenderStateMixin",
     "tint_background.GuiGraphicsMixin",
-    "tint_background.GuiRendererMixin",
     "tint_background.GuiRenderStateMixin",
     "wood.HangingSignEditScreenMixin"
   ]
