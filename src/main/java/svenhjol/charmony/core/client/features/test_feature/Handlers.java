@@ -17,7 +17,7 @@ public class Handlers extends Setup<TestFeature> {
      * Use the reference to the last clicked block color to render a tinted background.
      */
     public boolean tryRenderBackground(GuiGraphics guiGraphics, int width, int height, int imageWidth, int imageHeight) {
-        if (feature().pinkShulkerBoxes()) {
+        if (feature().purpleShulkerBoxes()) {
             var x = (width - imageWidth) / 2;
             var y = (height - imageHeight) / 2;
             var bgColor = ColorHelper.getBackgroundColor(DyeColor.PURPLE);

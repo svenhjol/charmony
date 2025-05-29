@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.42.2
+## 1.42.3
 
 - Update tint background for latest snapshot.
 

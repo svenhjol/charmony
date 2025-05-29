@@ -12,10 +12,10 @@ public final class TestFeature extends SidedFeature {
     public final Handlers handlers;
 
     @Configurable(
-        name = "Pink shulker box dialogs",
+        name = "Purple shulker box dialogs",
         description = "If true, enable the testing gui graphics mixin"
     )
-    private static boolean pinkShulkerBoxes = true;
+    private static boolean purpleShulkerBoxes = false;
 
     public TestFeature(Mod mod) {
         super(mod);
@@ -26,7 +26,7 @@ public final class TestFeature extends SidedFeature {
         return Mod.getSidedFeature(TestFeature.class);
     }
 
-    public boolean pinkShulkerBoxes() {
-        return pinkShulkerBoxes;
+    public boolean purpleShulkerBoxes() {
+        return purpleShulkerBoxes;
     }
 }
