@@ -1,7 +1,7 @@
 package svenhjol.charmony.core.client;
 
-import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
@@ -60,7 +60,7 @@ public final class ClientRegistry {
 
     public <B extends Block> Registerable<Void> blockRenderType(Supplier<B> block, Supplier<ChunkSectionLayer> renderType) {
         return new Registerable<>(feature, () -> {
-            BlockRenderLayerMap.INSTANCE.putBlock(block.get(), renderType.get());
+            BlockRenderLayerMap.putBlock(block.get(), renderType.get());
             return null;
         });
     }

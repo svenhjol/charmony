@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.41.8
+
+- Add TintedGuiGraphics interface.
+
 ## 1.41.7
 
 - Expose the raw logger interface for things that need it.
