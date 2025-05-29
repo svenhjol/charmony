@@ -90,6 +90,6 @@ public class BlitRenderStateMixin {
     private VertexConsumer alterColor(VertexConsumer instance, int defaultColor) {
         var tint = getTint();
         if (tint == null) return instance.setColor(defaultColor);
-        return instance.setColor(tint.getColor());
+        return instance.setColor(tint.getIntColor());
     }
 }
