@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.42.5
+## 1.42.6
 
 - Update hud item scaling for latest snapshot.
 

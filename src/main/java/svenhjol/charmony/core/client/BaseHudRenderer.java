@@ -25,6 +25,14 @@ public abstract class BaseHudRenderer {
     public BaseHudRenderer() {
         this.fadeInSpeed = 3;
         this.fadeOutSpeed = 10;
+        init();
+    }
+
+    protected void init() {
+        // hook so we don't have to overwrite the constructor.
+    }
+
+    protected void withScaling() {
         HudItemScaling.feature().registers.add(this);
     }
 
