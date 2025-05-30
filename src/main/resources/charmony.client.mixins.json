@@ -14,6 +14,8 @@
     "hover_over_item_tooltip.ItemStackMixin",
     "hud_display.GuiMixin",
     "hud_item_scaling.GuiGraphicsMixin",
+    "hud_item_scaling.ItemStackRenderStateMixin",
+    "hud_item_scaling.LayerRenderStateMixin",
     "play_sound.SoundEngineMixin",
     "player_tick_callback.LocalPlayerMixin",
     "render_screen.AbstractContainerScreenMixin",

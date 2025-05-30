@@ -5,6 +5,7 @@ import svenhjol.charmony.core.Charmony;
 import svenhjol.charmony.core.base.Environment;
 import svenhjol.charmony.core.client.features.control_panel.ControlPanel;
 import svenhjol.charmony.core.client.features.core.Core;
+import svenhjol.charmony.core.client.features.hud_item_scaling.HudItemScaling;
 import svenhjol.charmony.core.client.features.test_feature.TestFeature;
 import svenhjol.charmony.core.client.features.tint_background.TintBackground;
 import svenhjol.charmony.core.client.features.wood.Wood;
@@ -28,6 +29,7 @@ public final class ClientInitializer implements ClientModInitializer {
         var charmony = Charmony.instance();
         charmony.addSidedFeature(Core.class);
         charmony.addSidedFeature(ControlPanel.class);
+        charmony.addSidedFeature(HudItemScaling.class);
         charmony.addSidedFeature(TintBackground.class);
         charmony.addSidedFeature(Wood.class);
 

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.42.4
+
+- Update hud item scaling for latest snapshot.
+
 ## 1.42.3
 
 - Update tint background for latest snapshot.

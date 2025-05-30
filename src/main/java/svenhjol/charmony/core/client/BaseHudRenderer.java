@@ -1,17 +1,14 @@
 package svenhjol.charmony.core.client;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import org.joml.Matrix3x2fStack;
-
-import java.util.ArrayList;
-import java.util.List;
+import svenhjol.charmony.core.client.features.hud_item_scaling.HudItemScaling;
 
 @SuppressWarnings("unused")
 public abstract class BaseHudRenderer {
-    private static final List<BaseHudRenderer> REGISTERED = new ArrayList<>();
     protected static final int MAX_FADE_TICKS = 200;
     protected static final int MIN_BACKOFF_TICKS = 5;
     protected static final int MAX_BACKOFF_TICKS = 10;
@@ -28,7 +25,7 @@ public abstract class BaseHudRenderer {
     public BaseHudRenderer() {
         this.fadeInSpeed = 3;
         this.fadeOutSpeed = 10;
-        REGISTERED.add(this);
+        HudItemScaling.feature().registers.add(this);
     }
 
     public void tick(Player player) {
@@ -74,15 +71,7 @@ public abstract class BaseHudRenderer {
         guiGraphics.renderFakeItem(stack, x, y);
     }
 
-    public void scaleItem(ItemStack stack, Matrix3x2fStack pose) {
+    public void scaleItem(ItemStack stack, PoseStack pose) {
         // override to implement item scaling
-    }
-
-    /**
-     * Call all registered hud renderers with the currently rendering stack and layer.
-     * @see svenhjol.charmony.core.client.mixins.hud_item_scaling.GuiGraphicsMixin
-     */
-    public static void scaleItemsCallback(ItemStack stack, Matrix3x2fStack pose) {
-        REGISTERED.forEach(hud -> hud.scaleItem(stack, pose));
     }
 }
