@@ -1,8 +1,9 @@
 package svenhjol.charmony.core.client;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.render.state.GuiItemRenderState;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import svenhjol.charmony.core.client.features.hud_item_scaling.HudItemScaling;
@@ -74,12 +75,13 @@ public abstract class BaseHudRenderer {
     }
 
     protected void renderScaledGuiItem(GuiGraphics guiGraphics, ItemStack stack, int x, int y, float scaleX, float scaleY) {
+        HudItemScaling.feature().handlers.setRendering(stack);
         this.scaleX = scaleX;
         this.scaleY = scaleY;
         guiGraphics.renderFakeItem(stack, x, y);
     }
 
-    public void scaleItem(ItemStack stack, PoseStack pose) {
+    public void scaleItem(ItemStack stack, GuiItemRenderState state, Minecraft minecraft, int width, int height) {
         // override to implement item scaling
     }
 }

@@ -1,6 +1,7 @@
 package svenhjol.charmony.core.client;
 
 import net.fabricmc.api.ClientModInitializer;
+import svenhjol.charmony.api.core.Side;
 import svenhjol.charmony.core.Charmony;
 import svenhjol.charmony.core.base.Environment;
 import svenhjol.charmony.core.client.features.control_panel.ControlPanel;
@@ -9,7 +10,6 @@ import svenhjol.charmony.core.client.features.hud_item_scaling.HudItemScaling;
 import svenhjol.charmony.core.client.features.test_feature.TestFeature;
 import svenhjol.charmony.core.client.features.tint_background.TintBackground;
 import svenhjol.charmony.core.client.features.wood.Wood;
-import svenhjol.charmony.api.core.Side;
 
 public final class ClientInitializer implements ClientModInitializer {
     private static boolean initialized = false;

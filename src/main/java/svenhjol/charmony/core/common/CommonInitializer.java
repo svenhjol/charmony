@@ -1,6 +1,7 @@
 package svenhjol.charmony.core.common;
 
 import net.fabricmc.api.ModInitializer;
+import svenhjol.charmony.api.core.Side;
 import svenhjol.charmony.core.Charmony;
 import svenhjol.charmony.core.base.Environment;
 import svenhjol.charmony.core.common.features.advancements.Advancements;
@@ -9,7 +10,6 @@ import svenhjol.charmony.core.common.features.core.Core;
 import svenhjol.charmony.core.common.features.teleport.Teleport;
 import svenhjol.charmony.core.common.features.test_feature.TestFeature;
 import svenhjol.charmony.core.common.features.wood.Wood;
-import svenhjol.charmony.api.core.Side;
 
 public class CommonInitializer implements ModInitializer {
     private static boolean initialized = false;

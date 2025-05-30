@@ -1,39 +1,30 @@
 package svenhjol.charmony.core.client.features.hud_item_scaling;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.renderer.item.ItemStackRenderState;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.render.state.GuiItemRenderState;
 import net.minecraft.world.item.ItemStack;
 import svenhjol.charmony.core.base.Setup;
 
-import java.util.Map;
-import java.util.WeakHashMap;
-
 public class Handlers extends Setup<HudItemScaling> {
-    private ItemStackRenderState stateHolder = null;
-    private final Map<ItemStackRenderState, ItemStack> targets = new WeakHashMap<>();
+    private ItemStack stack = null;
 
     public Handlers(HudItemScaling feature) {
         super(feature);
     }
 
-    public void setStateHolder(ItemStackRenderState state) {
-        this.stateHolder = state;
+    public void setRendering(ItemStack stack) {
+        this.stack = stack;
     }
 
-    public void setTarget(ItemStackRenderState state, ItemStack stack) {
-        targets.put(state, stack);
-    }
+    public void setGuiItemRenderState(GuiItemRenderState state) {
+        if (stack != null) {
+            var minecraft = Minecraft.getInstance();
+            var width = minecraft.getWindow().getGuiScaledWidth();
+            var height = minecraft.getWindow().getGuiScaledHeight();
 
-    public void tryScaleItem(PoseStack poseStack) {
-        if (stateHolder != null && targets.containsKey(stateHolder)) {
-            var stack = targets.get(stateHolder);
             HudItemScaling.feature().registers.getHudRenderers().forEach(
-                hud -> hud.scaleItem(stack, poseStack));
+                hud -> hud.scaleItem(stack, state, minecraft, width, height));
+            stack = null;
         }
-    }
-
-    public void unsetStateHolder(ItemStackRenderState state) {
-        targets.remove(state);
-        stateHolder = null;
     }
 }
