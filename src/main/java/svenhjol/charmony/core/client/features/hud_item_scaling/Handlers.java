@@ -29,9 +29,11 @@ public class Handlers extends Setup<HudItemScaling> {
             var stack = targets.get(stateHolder);
             HudItemScaling.feature().registers.getHudRenderers().forEach(
                 hud -> hud.scaleItem(stack, poseStack));
-
-            targets.remove(stateHolder);
-            stateHolder = null;
         }
+    }
+
+    public void unsetStateHolder(ItemStackRenderState state) {
+        targets.remove(state);
+        stateHolder = null;
     }
 }

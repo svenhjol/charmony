@@ -18,7 +18,15 @@ public class ItemStackRenderStateMixin {
         method = "render",
         at = @At("HEAD")
     )
-    private void hookRender(PoseStack poseStack, MultiBufferSource multiBufferSource, int i, int j, CallbackInfo ci) {
+    private void hookStartRender(PoseStack poseStack, MultiBufferSource multiBufferSource, int i, int j, CallbackInfo ci) {
         HudItemScaling.feature().handlers.setStateHolder((ItemStackRenderState)(Object)this);
+    }
+
+    @Inject(
+        method = "render",
+        at = @At("TAIL")
+    )
+    private void hookEndRender(PoseStack poseStack, MultiBufferSource multiBufferSource, int i, int j, CallbackInfo ci) {
+        HudItemScaling.feature().handlers.unsetStateHolder((ItemStackRenderState)(Object)this);
     }
 }

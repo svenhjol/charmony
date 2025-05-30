@@ -8,17 +8,12 @@ import net.minecraft.client.gui.render.state.GuiItemRenderState;
 import net.minecraft.client.gui.render.state.GuiRenderState;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.world.item.ItemStack;
-import org.joml.Matrix3x2fStack;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import svenhjol.charmony.core.client.features.hud_item_scaling.HudItemScaling;
 
 @Mixin(GuiGraphics.class)
 public class GuiGraphicsMixin {
-    @Shadow @Final private Matrix3x2fStack pose;
-
     /**
      * Capture the current itemStackRenderState so we can compare it later in the rendering pipeline.
      */
