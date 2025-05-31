@@ -26,6 +26,11 @@ public abstract class BaseHudRenderer {
     public BaseHudRenderer() {
         this.fadeInSpeed = 3;
         this.fadeOutSpeed = 10;
+
+        if (withScaling()) {
+            HudItemScaling.feature().registers.add(this);
+        }
+
         init();
     }
 
@@ -33,8 +38,8 @@ public abstract class BaseHudRenderer {
         // hook so we don't have to overwrite the constructor.
     }
 
-    protected void withScaling() {
-        HudItemScaling.feature().registers.add(this);
+    protected boolean withScaling() {
+        return false;
     }
 
     public void tick(Player player) {

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.43.1
+
+- Formal `withScaling()` method for BaseHudRenderer.
+
 ## 1.43.0
 
 - Remove all suppliers from client registry.
