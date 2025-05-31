@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.43.2
+## 1.43.3
 
 - Change icon name to be the name of the mod ID.
 
