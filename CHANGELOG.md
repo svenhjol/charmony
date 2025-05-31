@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.43.2
+
+- Change icon name to be the name of the mod ID.
+
 ## 1.43.1
 
 - Formal `withScaling()` method for BaseHudRenderer.

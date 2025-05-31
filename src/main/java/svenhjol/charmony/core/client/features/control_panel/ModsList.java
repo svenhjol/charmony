@@ -5,7 +5,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.*;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import svenhjol.charmony.core.Charmony;
 import svenhjol.charmony.core.base.Mod;
 
 import java.util.*;
@@ -112,8 +112,8 @@ public class ModsList extends AbstractSelectionList<ModsList.Entry> {
 
     protected static WidgetSprites makeIconButton(Mod mod) {
         return new WidgetSprites(
-            ResourceLocation.fromNamespaceAndPath(mod.id(), "icon"),
-            ResourceLocation.fromNamespaceAndPath(mod.id(), "icon")
+            Charmony.id(mod.id()),
+            Charmony.id(mod.id())
         );
     }
 }
