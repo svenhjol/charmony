@@ -34,11 +34,11 @@ public class Registers extends Setup<Wood> {
                 var boatEntity = boat.get().boat.get();
                 var chestBoatEntity = boat.get().chestBoat.get();
 
-                var boatLayer = new ModelLayerLocation(feature.id("boat/" + materialName), "main");
-                var chestBoatLayer = new ModelLayerLocation(feature.id("chest_boat/" + materialName), "main");
+                var boatLayer = new ModelLayerLocation(feature.registryId("boat/" + materialName), "main");
+                var chestBoatLayer = new ModelLayerLocation(feature.registryId("chest_boat/" + materialName), "main");
 
-                clientRegistry.modelLayer(() -> boatLayer, BoatModel::createBoatModel);
-                clientRegistry.modelLayer(() -> chestBoatLayer, BoatModel::createChestBoatModel);
+                clientRegistry.modelLayer(boatLayer, BoatModel::createBoatModel);
+                clientRegistry.modelLayer(chestBoatLayer, BoatModel::createChestBoatModel);
 
                 clientRegistry.entityRenderer(boatEntity, context -> new BoatRenderer(context, boatLayer));
                 clientRegistry.entityRenderer(chestBoatEntity, context -> new BoatRenderer(context, chestBoatLayer));
@@ -49,8 +49,8 @@ public class Registers extends Setup<Wood> {
                 var feature = sign.get().feature();
                 var woodType = sign.get().material().woodType();
 
-                Sheets.SIGN_MATERIALS.put(woodType, new Material(Sheets.SIGN_SHEET, feature.id("entity/signs/" + woodType.name())));
-                Sheets.HANGING_SIGN_MATERIALS.put(woodType, new Material(Sheets.SIGN_SHEET, feature.id("entity/signs/hanging/" + woodType.name())));
+                Sheets.SIGN_MATERIALS.put(woodType, new Material(Sheets.SIGN_SHEET, feature.registryId("entity/signs/" + woodType.name())));
+                Sheets.HANGING_SIGN_MATERIALS.put(woodType, new Material(Sheets.SIGN_SHEET, feature.registryId("entity/signs/hanging/" + woodType.name())));
             }
 
             // Add all custom items to creative tabs.

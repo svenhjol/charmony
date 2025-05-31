@@ -4,6 +4,7 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry.TexturedModelDataProvider;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.client.color.block.BlockColor;
@@ -11,7 +12,6 @@ import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.MenuAccess;
 import net.minecraft.client.model.geom.ModelLayerLocation;
-import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
@@ -36,7 +36,6 @@ import svenhjol.charmony.core.common.ContainerMenu;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
-import java.util.function.Supplier;
 
 @SuppressWarnings({"unused", "UnusedReturnValue"})
 public final class ClientRegistry {
@@ -51,16 +50,16 @@ public final class ClientRegistry {
         return new ClientRegistry(feature);
     }
 
-    public <BE extends BlockEntity> Registerable<Void> blockEntityRenderer(Supplier<BlockEntityType<BE>> supplier, Supplier<BlockEntityRendererProvider<BE>> provider) {
+    public <BE extends BlockEntity> Registerable<Void> blockEntityRenderer(BlockEntityType<BE> blockEntityType, BlockEntityRendererProvider<BE> provider) {
         return new Registerable<>(feature, () -> {
-            BlockEntityRenderers.register(supplier.get(), provider.get());
+            BlockEntityRenderers.register(blockEntityType, provider);
             return null;
         });
     }
 
-    public <B extends Block> Registerable<Void> blockRenderType(Supplier<B> block, Supplier<ChunkSectionLayer> renderType) {
+    public <B extends Block> Registerable<Void> blockRenderType(B block, ChunkSectionLayer chunkSectionLayer) {
         return new Registerable<>(feature, () -> {
-            BlockRenderLayerMap.putBlock(block.get(), renderType.get());
+            BlockRenderLayerMap.putBlock(block, chunkSectionLayer);
             return null;
         });
     }
@@ -97,10 +96,10 @@ public final class ClientRegistry {
         });
     }
 
-    public Registerable<ModelLayerLocation> modelLayer(Supplier<ModelLayerLocation> location, Supplier<LayerDefinition> definition) {
+    public Registerable<ModelLayerLocation> modelLayer(ModelLayerLocation location, TexturedModelDataProvider dataProvider) {
         return new Registerable<>(feature, () -> {
-            EntityModelLayerRegistry.registerModelLayer(location.get(), definition::get);
-            return location.get();
+            EntityModelLayerRegistry.registerModelLayer(location, dataProvider);
+            return location;
         });
     }
 
@@ -111,11 +110,11 @@ public final class ClientRegistry {
      * @return Empty registerable.
      * @param <P> Payload class.
      */
-    public <P extends CustomPacketPayload> Registerable<Void> packetReceiver(CustomPacketPayload.Type<P> type, Supplier<BiConsumer<Player, P>> handler) {
+    public <P extends CustomPacketPayload> Registerable<Void> packetReceiver(CustomPacketPayload.Type<P> type, BiConsumer<Player, P> handler) {
         return new Registerable<>(feature, () -> {
             ClientPlayNetworking.registerGlobalReceiver(type,
                 (payload, context) -> context.client().execute(
-                    () -> handler.get().accept(context.player(), payload)));
+                    () -> handler.accept(context.player(), payload)));
             return null;
         });
     }

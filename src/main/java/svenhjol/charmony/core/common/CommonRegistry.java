@@ -100,7 +100,7 @@ public final class CommonRegistry {
 
     public Registerable<Holder<Attribute>> attribute(String id, Supplier<Attribute> supplier) {
         return new Registerable<>(feature,
-            () -> Registry.registerForHolder(BuiltInRegistries.ATTRIBUTE, feature.id(id), supplier.get()));
+            () -> Registry.registerForHolder(BuiltInRegistries.ATTRIBUTE, feature.registryId(id), supplier.get()));
     }
 
     public <E extends Entity> Registerable<Void> biomeSpawn(Predicate<Holder<Biome>> predicate, MobCategory category,
@@ -114,7 +114,7 @@ public final class CommonRegistry {
 
     public <B extends Block> Registerable<B> block(String id, Function<ResourceKey<Block>, B> funcSupplier) {
         return new Registerable<>(feature, () -> {
-            var res = feature.id(id);
+            var res = feature.registryId(id);
             var key = ResourceKey.create(Registries.BLOCK, res);
             return Registry.register(BuiltInRegistries.BLOCK, res, funcSupplier.apply(key));
         });
@@ -125,7 +125,7 @@ public final class CommonRegistry {
                                                                                                List<Supplier<B>> blocks) {
         return new Registerable<>(feature, () -> {
             var blocksToAdd = blocks.stream().map(Supplier::get).toArray(Block[]::new);
-            return Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, feature.id(id),
+            return Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, feature.registryId(id),
                 FabricBlockEntityTypeBuilder.create(builder.get(), blocksToAdd).build());
         });
     }
@@ -178,7 +178,7 @@ public final class CommonRegistry {
     }
 
     public <D> Registerable<DataComponentType<D>> dataComponent(String id, Supplier<UnaryOperator<DataComponentType.Builder<D>>> dataComponent) {
-        return new Registerable<>(feature, () -> DataComponents.register(feature.id(id).toString(), dataComponent.get()));
+        return new Registerable<>(feature, () -> DataComponents.register(feature.registryId(id).toString(), dataComponent.get()));
     }
 
     public <T extends TooltipProvider> Registerable<Void> dataComponentTooltipProvider(Supplier<DataComponentType<T>> dataComponentType) {
@@ -197,14 +197,14 @@ public final class CommonRegistry {
     }
 
     public ResourceKey<Enchantment> enchantment(String name) {
-        return ResourceKey.create(Registries.ENCHANTMENT, feature.id(name));
+        return ResourceKey.create(Registries.ENCHANTMENT, feature.registryId(name));
     }
 
     public <E extends Entity> Registerable<EntityType<E>> entity(String id, Supplier<EntityType.Builder<E>> supplier) {
         return new Registerable<>(feature, () -> {
-            var res = feature.id(id);
+            var res = feature.registryId(id);
             var key = ResourceKey.create(Registries.ENTITY_TYPE, res);
-            return Registry.register(BuiltInRegistries.ENTITY_TYPE, feature.id(id), supplier.get().build(key));
+            return Registry.register(BuiltInRegistries.ENTITY_TYPE, feature.registryId(id), supplier.get().build(key));
         });
     }
 
@@ -251,15 +251,15 @@ public final class CommonRegistry {
 
     public <I extends Item> Registerable<I> item(String id, Function<ResourceKey<Item>, I> funcSupplier) {
         return new Registerable<>(feature, () -> {
-            var res = feature.id(id);
+            var res = feature.registryId(id);
             var key = ResourceKey.create(Registries.ITEM, res);
-            return Registry.register(BuiltInRegistries.ITEM, feature.id(id), funcSupplier.apply(key));
+            return Registry.register(BuiltInRegistries.ITEM, feature.registryId(id), funcSupplier.apply(key));
         });
     }
 
     public <T extends MenuType<M>, M extends AbstractContainerMenu> Registerable<T> menuType(String id, Supplier<T> menuSupplier) {
         return new Registerable<>(feature,
-            () -> Registry.register(BuiltInRegistries.MENU, feature.id(id), menuSupplier.get()));
+            () -> Registry.register(BuiltInRegistries.MENU, feature.registryId(id), menuSupplier.get()));
     }
 
     /**
@@ -336,7 +336,7 @@ public final class CommonRegistry {
 
     public Registerable<Holder<Potion>> potion(String id, Supplier<Potion> supplier) {
         return new Registerable<>(feature,
-            () -> Registry.registerForHolder(BuiltInRegistries.POTION, feature.id(id), supplier.get()));
+            () -> Registry.registerForHolder(BuiltInRegistries.POTION, feature.registryId(id), supplier.get()));
     }
 
     public void potionRecipe(Holder<Potion> input, Supplier<Item> reagent, Holder<Potion> output) {
@@ -344,7 +344,7 @@ public final class CommonRegistry {
     }
 
     public Registerable<SoundEvent> sound(String id) {
-        var res = feature.id(id);
+        var res = feature.registryId(id);
         return new Registerable<>(feature, () -> Registry.register(BuiltInRegistries.SOUND_EVENT, res, SoundEvent.createVariableRangeEvent(res)));
     }
 
@@ -358,14 +358,14 @@ public final class CommonRegistry {
 
     public <S extends Structure> Supplier<StructureType<S>> structure(String id, Supplier<MapCodec<S>> codec) {
         return new Registerable<>(feature, () -> {
-            var res = feature.id(id);
+            var res = feature.registryId(id);
             return Registry.register(BuiltInRegistries.STRUCTURE_TYPE, res.toString(), codec::get);
         });
     }
 
     public Supplier<StructurePieceType> structurePiece(String id, Supplier<StructurePieceType> piece) {
         return new Registerable<>(feature, () -> {
-            var res = feature.id(id);
+            var res = feature.registryId(id);
             return Registry.register(BuiltInRegistries.STRUCTURE_PIECE, res, piece.get());
         });
     }

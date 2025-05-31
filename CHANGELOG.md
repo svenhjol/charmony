@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.43.0
+
+- Remove all suppliers from client registry.
+- Add `charmonyId()` to feature class to register everything against the charmony namespace.
+- Some log info has been changed to debug to prevent spam on non-debug client start.
+
 ## 1.42.9
 
 - Update hud item scaling for latest snapshot.

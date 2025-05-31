@@ -4,6 +4,7 @@ import com.google.common.base.CaseFormat;
 import net.minecraft.resources.ResourceLocation;
 import svenhjol.charmony.api.core.FeatureDefinition;
 import svenhjol.charmony.api.core.Side;
+import svenhjol.charmony.core.Charmony;
 
 import java.util.function.BooleanSupplier;
 
@@ -27,6 +28,10 @@ public abstract class SidedFeature {
 
     public ResourceLocation id(String path) {
         return ResourceLocation.fromNamespaceAndPath(mod.id(), path);
+    }
+
+    public ResourceLocation registryId(String path) {
+        return Charmony.id(path);
     }
 
     /**

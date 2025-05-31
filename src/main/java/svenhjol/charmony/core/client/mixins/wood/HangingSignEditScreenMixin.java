@@ -51,7 +51,7 @@ public abstract class HangingSignEditScreenMixin extends AbstractSignEditScreen 
                 return;
             }
 
-            this.texture = feature.id("textures/gui/hanging_signs/" + this.woodType.name() + ".png");
+            this.texture = feature.registryId("textures/gui/hanging_signs/" + this.woodType.name() + ".png");
         }
     }
 }

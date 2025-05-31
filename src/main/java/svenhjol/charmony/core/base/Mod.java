@@ -105,22 +105,22 @@ public abstract class Mod {
         var registers = this.registers.computeIfAbsent(side, m -> new HashMap<>());
         var boots = this.boots.computeIfAbsent(side, m -> new HashMap<>());
 
-        log().info("Configuring " + name() + " " + sideName);
+        log().debug("Configuring " + name() + " " + sideName);
         config.populate();
         config.write();
 
-        log().info("Checking " + name() + " " + sideName);
+        log().debug("Checking " + name() + " " + sideName);
         checks.forEach((feature, check) ->
             feature.enabled(feature.enabled() && check.stream().allMatch(BooleanSupplier::getAsBoolean)));
 
-        log().info("Booting up " + name() + " " + sideName);
+        log().debug("Booting up " + name() + " " + sideName);
         boots.forEach((feature, boot) -> {
             if (feature.enabled()) {
                 boot.forEach(Runnable::run);
             }
         });
 
-        log().info("Registering " + name() + " " + sideName);
+        log().debug("Registering " + name() + " " + sideName);
         registers.forEach((feature, register)
             -> register.forEach(Runnable::run));
 
