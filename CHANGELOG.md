@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.43.4
+
+- Update for latest API.
+
 ## 1.43.3
 
 - Change icon name to be the name of the mod ID.
