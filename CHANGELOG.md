@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.43.6
+
+- Move config into a subfolder.
+
 ## 1.43.4
 
 - Update for latest API.

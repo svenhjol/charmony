@@ -9,6 +9,7 @@ import svenhjol.charmony.api.core.Configurable;
 import svenhjol.charmony.api.core.Side;
 import svenhjol.charmony.core.helpers.ConfigHelper;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -219,6 +220,13 @@ public final class Config {
     }
 
     private Path configPath(Side side) {
-        return Paths.get(FabricLoader.getInstance().getConfigDir() + "/" + mod.id() + "-" + side.getSerializedName() + ".toml");
+        var id = mod.id();
+        var name = id.startsWith("charmony-") ? id.replace("charmony-", "") : id;
+
+        var root = new File(FabricLoader.getInstance().getConfigDir() + "/charmony");
+        if (!root.exists() && !root.mkdir()) {
+            throw new RuntimeException("Could not create charmony config dir");
+        }
+        return Paths.get(root + "/" + name + "-" + side.getSerializedName() + ".toml");
     }
 }
