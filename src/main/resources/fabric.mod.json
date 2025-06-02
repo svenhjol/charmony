@@ -15,10 +15,13 @@
   "accessWidener": "charmony.accesswidener",
   "entrypoints": {
     "main": [
-        "svenhjol.charmony.core.common.CommonInitializer"
+      "svenhjol.charmony.core.common.CommonInitializer"
     ],
     "client": [
-        "svenhjol.charmony.core.client.ClientInitializer"
+      "svenhjol.charmony.core.client.ClientInitializer"
+    ],
+    "modmenu": [
+      "svenhjol.charmony.core.integration.ModMenuPlugin"
     ]
   },
 
