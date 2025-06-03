@@ -12,6 +12,7 @@ import svenhjol.charmony.api.core.Configurable;
 import svenhjol.charmony.core.base.Feature;
 import svenhjol.charmony.core.base.Log;
 import svenhjol.charmony.core.helpers.ConfigHelper;
+import svenhjol.charmony.core.helpers.TextComponentHelper;
 import svenhjol.charmony.core.helpers.TextHelper;
 
 import java.lang.reflect.Field;
@@ -388,7 +389,7 @@ public class FeatureConfigList extends AbstractSelectionList<FeatureConfigList.E
         public Entry(Field field, String label, String description) {
             this.field = field;
             this.label = label;
-            this.tooltip = TextHelper.toComponents(description, 48);
+            this.tooltip = TextComponentHelper.toComponents(description, 48);
             this.annotation = field.getDeclaredAnnotation(Configurable.class);
 
             // Try and get the default value for this config item.

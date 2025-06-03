@@ -11,7 +11,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import svenhjol.charmony.core.base.Feature;
 import svenhjol.charmony.core.base.Mod;
-import svenhjol.charmony.core.helpers.TextHelper;
+import svenhjol.charmony.core.helpers.TextComponentHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -177,7 +177,7 @@ public class FeaturesList extends AbstractSelectionList<FeaturesList.Entry> {
             var font = FeaturesList.this.minecraft.font;
             var name = Component.literal(feature.name())
                 .withColor(feature.enabled() ? 0xffffff : 0x808080); // Mute feature name color if disabled
-            var descriptionLines = TextHelper.toComponents(feature.description(), 48);
+            var descriptionLines = TextComponentHelper.toComponents(feature.description(), 48);
             var nameWidth = font.width(name);
             var textLeft = offsetX + 5;
             var textTop = y + 2;

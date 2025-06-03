@@ -1,6 +1,10 @@
 {
   "advancements.charmony.root.title": "Charmony",
   "advancements.charmony.root.description": "A suite of small Minecraft mods that add features without changing core gameplay",
+  "dimension.minecraft.overworld": "Overworld",
+  "dimension.minecraft.the_nether": "The Nether",
+  "dimension.minecraft.the_end": "The End",
+  "gui.charmony.labels.xyz": "%s %s %s",
   "gui.charmony.labels.back": "Back",
   "gui.charmony.labels.cancel": "Cancel",
   "gui.charmony.labels.close": "Close",
