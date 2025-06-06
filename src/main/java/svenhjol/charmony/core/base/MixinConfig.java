@@ -2,19 +2,16 @@ package svenhjol.charmony.core.base;
 
 import com.google.common.base.CaseFormat;
 import com.moandjiezana.toml.Toml;
-import net.fabricmc.loader.api.FabricLoader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
-import svenhjol.charmony.core.Charmony;
 import svenhjol.charmony.api.core.FeatureDefinition;
 import svenhjol.charmony.api.core.Side;
+import svenhjol.charmony.core.Charmony;
 import svenhjol.charmony.core.helpers.ConfigHelper;
 
-import java.io.File;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.function.Predicate;
 
@@ -220,7 +217,7 @@ public abstract class MixinConfig implements IMixinConfigPlugin {
         Optional<Boolean> configured = Optional.empty();
 
         for (Side side : Side.values()) {
-            var configFile = getConfigFile(modId(), side);
+            var configFile = ConfigHelper.configPath(modId(), side).toFile();
 
             if (configFile.exists()) {
                 // Read the value from the config file.
@@ -257,18 +254,6 @@ public abstract class MixinConfig implements IMixinConfigPlugin {
         }
 
         return Optional.empty();
-    }
-
-    /**
-     * Helper method to read the mod's sided config file.
-     * @param modId Mod to load for file, e.g. "charmony"
-     * @param side Side to load for file, e.g. Common, Client
-     * @return File reference of the mod's sided config file.
-     */
-    private File getConfigFile(String modId, Side side) {
-        var sideName = side.getSerializedName();
-        var configDir = FabricLoader.getInstance().getConfigDir();
-        return Paths.get(configDir + File.separator + "charmony" + File.separator + modId + "-" + sideName + ".toml").toFile();
     }
 
     @Override
