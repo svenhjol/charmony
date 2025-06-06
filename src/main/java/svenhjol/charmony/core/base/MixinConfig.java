@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 import svenhjol.charmony.core.Charmony;
 import svenhjol.charmony.api.core.FeatureDefinition;
 import svenhjol.charmony.api.core.Side;
+import svenhjol.charmony.core.helpers.ConfigHelper;
 
 import java.io.File;
 import java.nio.file.Paths;
@@ -244,7 +245,7 @@ public abstract class MixinConfig implements IMixinConfigPlugin {
      * @return Optional null if the key value is not set, or the boolean value of the key.
      */
     private Optional<Boolean> tryReadFromCoreConfig(String key) {
-        var configFile = getConfigFile(Charmony.ID, Side.Common);
+        var configFile = ConfigHelper.configPath(Charmony.ID, Side.Common).toFile();
 
         if (configFile.exists()) {
             var handle = new Toml();

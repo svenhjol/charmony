@@ -1,10 +1,15 @@
 package svenhjol.charmony.core.helpers;
 
+import net.fabricmc.loader.api.FabricLoader;
+import svenhjol.charmony.api.core.Side;
 import svenhjol.charmony.core.Charmony;
 import svenhjol.charmony.core.base.Log;
 
 import javax.annotation.Nullable;
+import java.io.File;
 import java.lang.reflect.Field;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +45,16 @@ public final class ConfigHelper {
             LOGGER.error("Could not get field value for " + field + ": " + e.getMessage());
             return null;
         }
+    }
+
+    public static Path configPath(String modId, Side side) {
+        var name = modId.startsWith("charmony-") ? modId.replace("charmony-", "") : modId;
+
+        var root = new File(FabricLoader.getInstance().getConfigDir() + "/charmony");
+        if (!root.exists() && !root.mkdir()) {
+            throw new RuntimeException("Could not create charmony config dir");
+        }
+        return Paths.get(root + "/" + name + "-" + side.getSerializedName() + ".toml");
     }
 
     private static Object filterEmptyStrings(Object val) {

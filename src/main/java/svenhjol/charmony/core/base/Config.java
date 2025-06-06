@@ -4,16 +4,12 @@ import com.electronwill.nightconfig.core.CommentedConfig;
 import com.electronwill.nightconfig.toml.TomlFormat;
 import com.electronwill.nightconfig.toml.TomlWriter;
 import com.moandjiezana.toml.Toml;
-import net.fabricmc.loader.api.FabricLoader;
 import svenhjol.charmony.api.core.Configurable;
 import svenhjol.charmony.api.core.Side;
 import svenhjol.charmony.core.helpers.ConfigHelper;
 
-import java.io.File;
 import java.lang.reflect.Field;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 
 public final class Config {
@@ -34,7 +30,7 @@ public final class Config {
         Map<Side, Toml> configs = new HashMap<>();
         for (var side : Side.values()) {
             var toml = new Toml();
-            var file = configPath(side).toFile();
+            var file = ConfigHelper.configPath(mod.id(), side).toFile();
             if (file.exists()) {
                 toml = toml.read(file);
             }
@@ -161,7 +157,7 @@ public final class Config {
 
         configs.forEach((side, config) -> {
             if (!config.isEmpty()) {
-                var path = configPath(side);
+                var path = ConfigHelper.configPath(mod.id(), side);
 
                 try {
                     // Write out and close the file.
@@ -217,16 +213,5 @@ public final class Config {
 
     public Optional<Object> defaultValue(Field field) {
         return Optional.ofNullable(defaultFieldValues.get(field));
-    }
-
-    private Path configPath(Side side) {
-        var id = mod.id();
-        var name = id.startsWith("charmony-") ? id.replace("charmony-", "") : id;
-
-        var root = new File(FabricLoader.getInstance().getConfigDir() + "/charmony");
-        if (!root.exists() && !root.mkdir()) {
-            throw new RuntimeException("Could not create charmony config dir");
-        }
-        return Paths.get(root + "/" + name + "-" + side.getSerializedName() + ".toml");
     }
 }
