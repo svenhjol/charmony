@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.43.8
+
+- Fix config path bug that caused mixins to not obey config.
+
 ## 1.43.7
 
 - Port helpers and common items from travel journal mod.

@@ -267,7 +267,7 @@ public abstract class MixinConfig implements IMixinConfigPlugin {
     private File getConfigFile(String modId, Side side) {
         var sideName = side.getSerializedName();
         var configDir = FabricLoader.getInstance().getConfigDir();
-        return Paths.get(configDir + File.separator + modId + "-" + sideName + ".toml").toFile();
+        return Paths.get(configDir + File.separator + "charmony" + File.separator + "/" + modId + "-" + sideName + ".toml").toFile();
     }
 
     @Override
