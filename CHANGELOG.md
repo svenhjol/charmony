@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.43.8
+## 1.43.9
 
 - Fix config path bug that caused mixins to not obey config.
 
