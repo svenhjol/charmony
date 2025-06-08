@@ -9,9 +9,11 @@ import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.util.ARGB;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
+import svenhjol.charmony.api.core.Color;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +24,7 @@ public abstract class BaseToast implements Toast {
     private static final ItemStack DEFAULT_ICON = ItemStack.EMPTY;
     private static final ResourceLocation DEFAULT_BACKGROUND = 
         ResourceLocation.withDefaultNamespace("toast/advancement");
-    private static final int DEFAULT_COLOR = 0xffffff;
+    private static final Color DEFAULT_COLOR = new Color(0xffffff);
     
     private boolean hasPlayedSound = false;
     private Toast.Visibility wantedVisibility = Visibility.HIDE;
@@ -49,7 +51,7 @@ public abstract class BaseToast implements Toast {
         return DEFAULT_BACKGROUND;
     }
 
-    protected int color() {
+    protected Color color() {
         return DEFAULT_COLOR;
     }
     
@@ -82,17 +84,17 @@ public abstract class BaseToast implements Toast {
 
         List<FormattedCharSequence> list = font.split(description, 125);
         if (list.size() == 1) {
-            guiGraphics.drawString(font, title, 30, 7, color, false);
+            guiGraphics.drawString(font, title, 30, 7, color.getArgbColor(), false);
             guiGraphics.drawString(font, description, 30, 18, -1, false);
         } else {
             if (ticks < 1500L) {
                 int k = Mth.floor(Mth.clamp((float)(1500L - ticks) / 300.0f, 0.0f, 1.0f) * 255.0f) << 24 | 0x4000000;
-                guiGraphics.drawString(font, title, 30, 11, color | k);
+                guiGraphics.drawString(font, title, 30, 11, ARGB.color(k, color.getArgbColor()));
             } else {
                 int k = Mth.floor(Mth.clamp((float)(ticks - 1500L) / 300.0f, 0.0f, 1.0f) * 252.0f) << 24 | 0x4000000;
                 int m = this.height() / 2 - list.size() * font.lineHeight / 2;
                 for (FormattedCharSequence formattedCharSequence : list) {
-                    guiGraphics.drawString(font, formattedCharSequence, 30, m, 0xffffff | k, false);
+                    guiGraphics.drawString(font, formattedCharSequence, 30, m, ARGB.color(k, color.getArgbColor()), false);
                     m += font.lineHeight;
                 }
             }

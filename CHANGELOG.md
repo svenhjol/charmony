@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.43.15
+
+- Fix colors in base toast.
+
 ## 1.43.14
 
 - Wrap multiline editor text color.
