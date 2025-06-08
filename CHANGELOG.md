@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.43.13
+
+- Update for latest API.
+
 ## 1.43.12
 
 - Add lootFunctionType to common registry helper.
