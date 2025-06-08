@@ -8,6 +8,7 @@ import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
+import svenhjol.charmony.api.core.Color;
 import svenhjol.charmony.api.core.Configurable;
 import svenhjol.charmony.core.base.Feature;
 import svenhjol.charmony.core.base.Log;
@@ -327,7 +328,8 @@ public class FeatureConfigList extends AbstractSelectionList<FeatureConfigList.E
         public MultiLineTextBoxEntry(Field field, String label, String description) {
             super(field, label, description);
             var font = FeatureConfigList.this.minecraft.font;
-            inputBox = new MultiLineEditBox(font, 0, 0, width() - 1, height(), CommonComponents.EMPTY, CommonComponents.EMPTY, 0xffffff, false, 0xffff00, true, true);
+            var textColor = new Color(0xffffff);
+            inputBox = new MultiLineEditBox(font, 0, 0, width() - 1, height(), CommonComponents.EMPTY, CommonComponents.EMPTY, textColor.getArgbColor(), false, 0xffff00, true, true);
             inputBox.setValueListener(this::onChange);
             inputBox.setCharacterLimit(maxLength());
             inputBox.visible = false;

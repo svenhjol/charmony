@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.43.14
+
+- Wrap multiline editor text color.
+
 ## 1.43.13
 
 - Update for latest API.
