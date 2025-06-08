@@ -53,6 +53,8 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceType;
+import net.minecraft.world.level.storage.loot.functions.LootItemConditionalFunction;
+import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import org.apache.commons.lang3.tuple.Pair;
 import svenhjol.charmony.api.core.FuelProvider;
 import svenhjol.charmony.api.core.IgniteProvider;
@@ -255,6 +257,11 @@ public final class CommonRegistry {
             var key = ResourceKey.create(Registries.ITEM, res);
             return Registry.register(BuiltInRegistries.ITEM, feature.registryId(id), funcSupplier.apply(key));
         });
+    }
+
+    public <T extends LootItemFunctionType<? extends LootItemConditionalFunction>> Registerable<T> lootFunctionType(String id, Supplier<T> supplier) {
+        return new Registerable<>(feature, () -> Registry.register(BuiltInRegistries.LOOT_FUNCTION_TYPE,
+            feature.registryId(id), supplier.get()));
     }
 
     public <T extends MenuType<M>, M extends AbstractContainerMenu> Registerable<T> menuType(String id, Supplier<T> menuSupplier) {

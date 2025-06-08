@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.43.12
+
+- Add lootFunctionType to common registry helper.
+
 ## 1.43.11
 
 - Fix config path bug that caused mixins to not obey config.
