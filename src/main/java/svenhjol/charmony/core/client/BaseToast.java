@@ -88,13 +88,13 @@ public abstract class BaseToast implements Toast {
             guiGraphics.drawString(font, description, 30, 18, -1, false);
         } else {
             if (ticks < 1500L) {
-                int k = Mth.floor(Mth.clamp((float)(1500L - ticks) / 300.0f, 0.0f, 1.0f) * 255.0f) << 24 | 0x4000000;
+                int k = Mth.floor(Mth.clamp((float)(1500L - ticks) / 300.0f, 0.0f, 1.0f) * 255.0f);
                 guiGraphics.drawString(font, title, 30, 11, ARGB.color(k, color.getArgbColor()));
             } else {
-                int k = Mth.floor(Mth.clamp((float)(ticks - 1500L) / 300.0f, 0.0f, 1.0f) * 252.0f) << 24 | 0x4000000;
+                int k = Mth.floor(Mth.clamp((float)(ticks - 1500L) / 300.0f, 0.0f, 1.0f) * 252.0f);
                 int m = this.height() / 2 - list.size() * font.lineHeight / 2;
                 for (FormattedCharSequence formattedCharSequence : list) {
-                    guiGraphics.drawString(font, formattedCharSequence, 30, m, ARGB.color(k, color.getArgbColor()), false);
+                    guiGraphics.drawString(font, formattedCharSequence, 30, m, ARGB.color(k, -1), false);
                     m += font.lineHeight;
                 }
             }
