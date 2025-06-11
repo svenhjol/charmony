@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.44.0
+
+- Update for latest API.
+
 ## 1.43.16
 
 - Fix colors in base toast.
