@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.44.1
+## 1.44.2
 
 - Update for latest API.
 
