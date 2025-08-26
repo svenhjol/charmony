@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.45.0
+
+- Update for 1.21.9 snapshot.
+
 ## 1.44.4
 
 - Update for latest API.
