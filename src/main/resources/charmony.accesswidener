@@ -10,7 +10,6 @@ accessible method net/minecraft/core/component/DataComponents register (Ljava/la
 accessible method net/minecraft/client/particle/ParticleEngine register (Lnet/minecraft/core/particles/ParticleType;Lnet/minecraft/client/particle/ParticleEngine$SpriteParticleRegistration;)V
 accessible field net/minecraft/world/item/Item components Lnet/minecraft/core/component/DataComponentMap;
 accessible field net/minecraft/world/level/block/entity/BlockEntityType validBlocks Ljava/util/Set;
-accessible field net/minecraft/client/gui/components/SpriteIconButton sprite Lnet/minecraft/resources/ResourceLocation;
 accessible field net/minecraft/world/entity/npc/VillagerTrades WANDERING_TRADER_TRADES Ljava/util/List;
 mutable    field net/minecraft/world/item/Item components Lnet/minecraft/core/component/DataComponentMap;
 mutable    field net/minecraft/world/level/block/entity/BlockEntityType validBlocks Ljava/util/Set;
@@ -37,3 +36,4 @@ accessible method net/minecraft/world/entity/Entity unsetRemoved ()V
 accessible class net/minecraft/client/gui/components/MultiLineEditBox
 accessible method net/minecraft/client/gui/components/MultiLineEditBox <init> (Lnet/minecraft/client/gui/Font;IIIILnet/minecraft/network/chat/Component;Lnet/minecraft/network/chat/Component;IZIZZ)V
 accessible field net/minecraft/client/gui/screens/inventory/ShulkerBoxScreen CONTAINER_TEXTURE Lnet/minecraft/resources/ResourceLocation;
+accessible field net/minecraft/client/gui/components/SpriteIconButton sprite Lnet/minecraft/client/gui/components/WidgetSprites;
