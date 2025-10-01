@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.*;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
 import svenhjol.charmony.core.Charmony;
 import svenhjol.charmony.core.base.Mod;
@@ -98,12 +99,16 @@ public class ModsList extends AbstractSelectionList<ModsList.Entry> {
          * We must implement our own behavior here or the scrolling causes erroneous button clicks.
          */
         @Override
-        public boolean mouseClicked(double mouseX, double mouseY, int button, boolean bl) {
+        public boolean mouseClicked(MouseButtonEvent event, boolean bl) {
+            var mouseX = event.x();
+            var mouseY = event.y();
+
             if (modNameButton.isMouseOver(mouseX, mouseY)) {
-                modNameButton.mouseClicked(mouseX, mouseY, button, bl);
+                modNameButton.mouseClicked(event, bl);
                 return false;
             }
-            return super.mouseClicked(mouseX, mouseY, button, bl);
+
+            return super.mouseClicked(event, bl);
         }
 
         private void configure() {

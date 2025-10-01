@@ -5,18 +5,19 @@ import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry.TexturedModelDataProvider;
-import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.MenuAccess;
 import net.minecraft.client.model.geom.ModelLayerLocation;
-import net.minecraft.client.particle.ParticleEngine;
+import net.minecraft.client.particle.ParticleResources;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
+import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceKey;
@@ -50,7 +51,7 @@ public final class ClientRegistry {
         return new ClientRegistry(feature);
     }
 
-    public <BE extends BlockEntity> Registerable<Void> blockEntityRenderer(BlockEntityType<BE> blockEntityType, BlockEntityRendererProvider<BE> provider) {
+    public <E extends BlockEntity, S extends BlockEntityRenderState> Registerable<Void> blockEntityRenderer(BlockEntityType<E> blockEntityType, BlockEntityRendererProvider<E, S> provider) {
         return new Registerable<>(feature, () -> {
             BlockEntityRenderers.register(blockEntityType, provider);
             return null;
@@ -70,7 +71,7 @@ public final class ClientRegistry {
 
     public <E extends Entity> Registerable<Void> entityRenderer(EntityType<? extends E> entity, EntityRendererProvider<E> provider) {
         return new Registerable<>(feature, () -> {
-            EntityRendererRegistry.register(entity, provider);
+            EntityRenderers.register(entity, provider);
             return null;
         });
     }
@@ -119,7 +120,7 @@ public final class ClientRegistry {
         });
     }
 
-    public DeferredParticle particle(SimpleParticleType type, ParticleEngine.SpriteParticleRegistration<SimpleParticleType> registration) {
+    public DeferredParticle particle(SimpleParticleType type, ParticleResources.SpriteParticleRegistration<SimpleParticleType> registration) {
         var deferred = new DeferredParticle(type, registration);
         PARTICLES.add(deferred);
         return deferred;

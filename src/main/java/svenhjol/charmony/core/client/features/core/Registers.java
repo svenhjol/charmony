@@ -18,7 +18,7 @@ public class Registers extends Setup<Core> {
         for (var particle : ClientRegistry.PARTICLES) {
             var type = particle.type();
             var registration = particle.registration();
-            minecraft.particleEngine.register(type, registration);
+            minecraft.particleResources.register(type, registration);
         }
     }
 

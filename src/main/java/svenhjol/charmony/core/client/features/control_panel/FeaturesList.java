@@ -7,6 +7,7 @@ import net.minecraft.client.gui.components.AbstractSelectionList;
 import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import svenhjol.charmony.core.base.Feature;
@@ -149,21 +150,25 @@ public class FeaturesList extends AbstractSelectionList<FeaturesList.Entry> {
          * We must implement our own behavior here or the scrolling causes erroneous button clicks.
          */
         @Override
-        public boolean mouseClicked(double mouseX, double mouseY, int button, boolean bl) {
+        public boolean mouseClicked(MouseButtonEvent event, boolean bl) {
+            var mouseX = event.x();
+            var mouseY = event.y();
+            var button = event.button();
+
             if (enableButton.isMouseOver(mouseX, mouseY)) {
-                enableButton.mouseClicked(mouseX, mouseY, button, bl);
+                enableButton.mouseClicked(event, bl);
                 return false;
             }
             if (disableButton.isMouseOver(mouseX, mouseY)) {
-                disableButton.mouseClicked(mouseX, mouseY, button, bl);
+                disableButton.mouseClicked(event, bl);
                 return false;
             }
             if (configureButton.isMouseOver(mouseX, mouseY)) {
-                configureButton.mouseClicked(mouseX, mouseY, button, bl);
+                configureButton.mouseClicked(event, bl);
                 return false;
             }
 
-            return super.mouseClicked(mouseX, mouseY, button, bl);
+            return super.mouseClicked(event, bl);
         }
 
         @Override
