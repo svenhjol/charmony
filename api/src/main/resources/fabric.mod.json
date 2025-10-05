@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "id": "charmony-api",
+  "version": "${mod_version}",
+
+  "name": "Charmony API",
+  "description": "API for Charmony mods.",
+
+  "authors": [
+    "svenhjol"
+  ],
+  "icon": "assets/charmony/textures/gui/sprites/charmony-api.png",
+  "license": "MIT",
+  "environment": "*",
+
+  "mixins": [],
+
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "minecraft": "*",
+    "java": ">=${java_version}",
+    "fabric-api": "*"
+  },
+
+  "contact": {
+    "homepage": "${homepage_link}",
+    "sources": "https://github.com/svenhjol/${mod_id}"
+  },
+
+  "custom": {
+    "modmenu": {
+      "links": {
+        "modmenu.discord": "${discord_link}"
+      },
+      "badges": ["library"]
+    }
+  }
+}

@@ -1,0 +1,11 @@
+.DS_Store
+.idea/
+.gradle/
+.vscode/
+/build/
+/libs/
+/run/
+/bin/
+/assets/
+/data/
+/out
