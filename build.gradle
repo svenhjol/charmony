@@ -43,13 +43,24 @@ subprojects {
         modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
         implementation 'com.google.code.findbugs:jsr305:3.0.2'
     }
-}
 
+
+    // Shared function to add TOML dependencies
+    ext.addTomlDependencies = { bundle ->
+        dependencies {
+            if (bundle) {
+                include "com.moandjiezana.toml:toml4j:${rootProject.toml4j_version}"
+                include "com.electronwill.night-config:core:${rootProject.tomlnc_version}"
+                include "com.electronwill.night-config:toml:${rootProject.tomlnc_version}"
+            }
+            implementation "com.moandjiezana.toml:toml4j:${rootProject.toml4j_version}"
+            implementation "com.electronwill.night-config:core:${rootProject.tomlnc_version}"
+            implementation "com.electronwill.night-config:toml:${rootProject.tomlnc_version}"
+        }
+    }
+}
 
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings loom.layered { officialMojangMappings() }
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-    implementation 'com.google.code.findbugs:jsr305:3.0.2'
 }

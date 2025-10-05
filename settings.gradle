@@ -14,4 +14,4 @@ pluginManagement {
 
 rootProject.name = 'rebase'
 
-include 'charmony', 'api'
+include 'core', 'api'

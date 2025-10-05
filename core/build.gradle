@@ -1,0 +1,12 @@
+plugins {
+	id 'java'
+}
+
+group = 'dev.charmony.charmony'
+
+dependencies {
+    implementation project(':api')
+}
+
+// Add TOML dependencies (bundled and referenced)
+addTomlDependencies(true)
