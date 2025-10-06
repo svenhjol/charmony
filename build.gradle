@@ -141,6 +141,22 @@ subprojects {
     }
 }
 
+// Task to collect all built jars from subprojects into a root 'jars' folder
+tasks.register('copyJars', Copy) {
+    description = 'Copies all built jar files from subprojects into the root jars directory.'
+    group = 'build'
+    def jarsDir = file("${rootProject.projectDir}/jars")
+    from(subprojects.collect { project ->
+        project.fileTree(dir: "${project.buildDir}/libs", include: '*.jar')
+    })
+    into jarsDir
+    doFirst {
+        if (!jarsDir.exists()) {
+            jarsDir.mkdirs()
+        }
+    }
+}
+
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings loom.layered { officialMojangMappings() }

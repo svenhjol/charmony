@@ -3,11 +3,13 @@
 .code/
 .vscode/
 .idea/
-/build/*
 /bin
+/build/*
 !/build/.gitkeep
 /src/*
 !/src/.gitkeep
+/jars/*
+!/jars/.gitkeep
 .env
 package-lock.json
 node_modules
