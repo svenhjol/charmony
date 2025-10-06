@@ -8,8 +8,6 @@ dependencies {
     implementation project(':api')
 }
 
-// Add TOML dependencies (bundled and referenced)
+// True to bundle.
 addTomlDependencies(true)
-
-// Add API dependency (bundled and referenced)
-addApiDependency(true)
+addSubprojectDependency('api', true)

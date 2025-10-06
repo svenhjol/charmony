@@ -62,13 +62,13 @@ subprojects {
         }
     }
 
-    // Shared function to add API dependency
-    ext.addApiDependency = { bundle ->
+    // Shared function to add a subproject dependency (bundled and referenced)
+    ext.addSubprojectDependency = { subprojectName, bundle ->
         dependencies {
             if (bundle) {
-                include project(":api")
+                include project(":${subprojectName}")
             }
-            implementation project(":api")
+            implementation project(":${subprojectName}")
         }
     }
 
@@ -84,6 +84,7 @@ subprojects {
             "homepage_link": rootProject.homepage_link,
             "pack_version": rootProject.pack_version,
             "java_version": rootProject.java_version,
+            "charmony_version": project(":core").mod_version,
             "api_version": project(":api").mod_version
         ]
 
@@ -130,9 +131,23 @@ subprojects {
             }
         }
     }
+
+    tasks.sourcesJar {
+        duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+    }
+
+    tasks.withType(JavaCompile).configureEach {
+        it.options.release = 21
+    }
 }
 
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings loom.layered { officialMojangMappings() }
+}
+
+repositories {
+    flatDir { dir 'libs' }
+    maven { url "https://maven.terraformersmc.com/" }
+    mavenCentral()
 }
