@@ -13,8 +13,6 @@ def assetUrls = [
     environment: 'https://charmony.dev/assets/ambient_sounds/environment.zip'
 ]
 
-
-
 tasks.register('downloadAmbientSounds') {
     description = 'Downloads and extracts required asset archives for ambient_sounds.'
     group = 'assets'
