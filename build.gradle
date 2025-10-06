@@ -10,6 +10,7 @@ subprojects {
     version = project.mod_version
     group = project.maven_group
     var modId = project.findProperty('mod_id')
+    var modVersion = project.modVersion
 
     base {
         archivesName = project.archives_base_name
@@ -37,10 +38,10 @@ subprojects {
     }
 
     dependencies {
-        minecraft "com.mojang:minecraft:${project.minecraft_version}"
+        minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
         mappings loom.layered { officialMojangMappings() }
-        modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-        modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+        modImplementation "net.fabricmc:fabric-loader:${rootProject.loader_version}"
+        modImplementation "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_version}"
         implementation 'com.google.code.findbugs:jsr305:3.0.2'
     }
 
@@ -56,6 +57,73 @@ subprojects {
             implementation "com.moandjiezana.toml:toml4j:${rootProject.toml4j_version}"
             implementation "com.electronwill.night-config:core:${rootProject.tomlnc_version}"
             implementation "com.electronwill.night-config:toml:${rootProject.tomlnc_version}"
+        }
+    }
+
+    // Shared function to add API dependency
+    ext.addApiDependency = { bundle ->
+        dependencies {
+            if (bundle) {
+                include project(":api")
+            }
+            implementation project(":api")
+        }
+    }
+
+    processResources {
+        inputs.property "mod_version", project.mod_version
+
+        filesMatching(["fabric.mod.json", "pack.mcmeta"]) {
+            expand(
+                "mod_id": modId,
+                "mod_version": modVersion,
+                "minecraft_version": rootProject.minecraft_version,
+                "loader_version": rootProject.loader_version,
+                "discord_link": rootProject.discord_link,
+                "homepage_link": rootProject.homepage_link,
+                "pack_version": rootProject.pack_version,
+                "java_version": rootProject.java_version
+            )
+        }
+
+        filesMatching(["**/*.mixins.json", "**/*.client.mixins.json", "**/*.common.mixins.json", "**/*.server.mixins.json"]) {
+            expand (
+                "refmap_file": modId + "-refmap.json"
+            )
+        }
+
+        duplicatesStrategy(DuplicatesStrategy.INCLUDE)
+
+
+        doLast {
+            fileTree(dir: "${buildDir}/resources/main", include: "**/*.template.json").each { file ->
+                JsonBuilder json = new JsonBuilder(new JsonSlurper().parseText(file.text))
+                String template = new JsonBuilder(json.content.template).toPrettyString()
+                def v = json.content.variants
+                Iterable<String> variants
+                if (v instanceof String) {
+                    def f = new File("${buildDir}/resources/main/META-INF/variants/${v}.variants");
+                    if (!f.exists()) {
+                        throw new Exception("Can't find ${f.name}")
+                    }
+                    variants = f.readLines().findAll { !it.isEmpty() }
+                } else {
+                    variants = v
+                }
+                File dir = file.parentFile
+                dir.mkdirs()
+                String name = file.name.replace(".template.json", ".json")
+                String[] replacements = variants.remove(0).split("\\|")
+                for (variant in variants) {
+                    Map<String, String> s = [replacements, variant.split("\\|", -1)].transpose().collectEntries()
+                    def outputFile = new File(dir, s.inject(name) { r, e -> r.replace(e.key, e.value) })
+                    if (!outputFile.exists()) {
+                        outputFile.createNewFile()
+                        outputFile.text = s.inject(template) { r, e -> r.replace(e.key, e.value) }
+                    }
+                }
+                file.delete() // Remove the template file after processing
+            }
         }
     }
 }

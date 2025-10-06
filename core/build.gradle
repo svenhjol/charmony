@@ -10,3 +10,6 @@ dependencies {
 
 // Add TOML dependencies (bundled and referenced)
 addTomlDependencies(true)
+
+// Add API dependency (bundled and referenced)
+addApiDependency(true)
