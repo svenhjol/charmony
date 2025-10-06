@@ -146,7 +146,7 @@ tasks.register('copyJars', Copy) {
     group = 'build'
     def jarsDir = file("${rootProject.projectDir}/jars")
     from(subprojects.collect { project ->
-        project.fileTree(dir: "${project.buildDir}/libs", include: '*.jar')
+        project.fileTree(dir: "${project.buildDir}/libs", include: ['*.jar'], exclude: ['*-sources.jar'])
     })
     into jarsDir
     doFirst {
