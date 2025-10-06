@@ -1,3 +1,6 @@
+import groovy.json.JsonBuilder
+import groovy.json.JsonSlurper
+
 plugins {
     id 'fabric-loom' version "${loom_version}"
     id 'maven-publish'
@@ -10,7 +13,7 @@ subprojects {
     version = project.mod_version
     group = project.maven_group
     var modId = project.findProperty('mod_id')
-    var modVersion = project.modVersion
+    var modVersion = project.mod_version
 
     base {
         archivesName = project.archives_base_name
@@ -45,7 +48,6 @@ subprojects {
         implementation 'com.google.code.findbugs:jsr305:3.0.2'
     }
 
-
     // Shared function to add TOML dependencies
     ext.addTomlDependencies = { bundle ->
         dependencies {
@@ -73,17 +75,20 @@ subprojects {
     processResources {
         inputs.property "mod_version", project.mod_version
 
+        def expandMap = [
+            "mod_id": modId,
+            "mod_version": modVersion,
+            "minecraft_version": rootProject.minecraft_version,
+            "loader_version": rootProject.loader_version,
+            "discord_link": rootProject.discord_link,
+            "homepage_link": rootProject.homepage_link,
+            "pack_version": rootProject.pack_version,
+            "java_version": rootProject.java_version,
+            "api_version": project(":api").mod_version
+        ]
+
         filesMatching(["fabric.mod.json", "pack.mcmeta"]) {
-            expand(
-                "mod_id": modId,
-                "mod_version": modVersion,
-                "minecraft_version": rootProject.minecraft_version,
-                "loader_version": rootProject.loader_version,
-                "discord_link": rootProject.discord_link,
-                "homepage_link": rootProject.homepage_link,
-                "pack_version": rootProject.pack_version,
-                "java_version": rootProject.java_version
-            )
+            expand(expandMap)
         }
 
         filesMatching(["**/*.mixins.json", "**/*.client.mixins.json", "**/*.common.mixins.json", "**/*.server.mixins.json"]) {
@@ -93,7 +98,6 @@ subprojects {
         }
 
         duplicatesStrategy(DuplicatesStrategy.INCLUDE)
-
 
         doLast {
             fileTree(dir: "${buildDir}/resources/main", include: "**/*.template.json").each { file ->
