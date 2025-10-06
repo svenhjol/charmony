@@ -3,7 +3,6 @@ import groovy.json.JsonSlurper
 
 plugins {
     id 'fabric-loom' version "${loom_version}"
-    id 'maven-publish'
 }
 
 subprojects {
@@ -160,10 +159,4 @@ tasks.register('copyJars', Copy) {
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings loom.layered { officialMojangMappings() }
-}
-
-repositories {
-    flatDir { dir 'libs' }
-    maven { url "https://maven.terraformersmc.com/" }
-    mavenCentral()
 }
