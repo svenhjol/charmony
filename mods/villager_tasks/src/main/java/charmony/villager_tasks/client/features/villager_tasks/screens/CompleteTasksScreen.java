@@ -8,22 +8,21 @@ import charmony.villager_tasks.common.features.villager_tasks.Resources;
 import charmony.villager_tasks.common.features.villager_tasks.Task;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.network.chat.Component;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ActiveTasksScreen extends BaseScreen {
+public class CompleteTasksScreen extends BaseScreen {
     private boolean hasRenderedTaskButtons = false;
 
     private final Map<Task, AvailableTaskTooltip> tooltips = new HashMap<>();
     private final Map<Task, TaskRenderer> renderers = new HashMap<>();
     private final List<Button> buttons = new ArrayList<>();
 
-    public ActiveTasksScreen() {
-        super(Resources.ACTIVE_TASKS_TITLE);
+    public CompleteTasksScreen() {
+        super(Resources.COMPLETE_TASKS_TITLE);
     }
 
     @Override
@@ -49,27 +48,26 @@ public class ActiveTasksScreen extends BaseScreen {
             for (var i = 0; i < activeTasks.tasks().size(); i++) {
                 var rh = i * rowHeight;
                 var task = activeTasks.tasks().get(i);
+                if (!task.isSatisfied()) continue;
 
                 var renderer = renderers.computeIfAbsent(task, TaskRenderer::new);
                 var tooltip = tooltips.computeIfAbsent(task, t -> new AvailableTaskTooltip(renderer));
 
                 renderer.simpleTaskRow(guiGraphics, midX, top + rh, mouseX, mouseY, tooltip);
 
-                // Task buttons
                 if (!hasRenderedTaskButtons) {
                     var buttonY = top + rh + 2;
-                    var idComponent = Component.literal(String.valueOf(task.id));
                     buttons.addAll(List.of(
-                        new Buttons.DetailsButton(right - 44, buttonY, idComponent,
+                        new Buttons.DetailsButton(right - 44, buttonY,
                             b -> minecraft.setScreen(new TaskDetailsScreen(task))),
-                        new Buttons.AbandonButton(right - 22, buttonY, idComponent,
-                            b -> minecraft.setScreen(new ConfirmAbandonScreen(task)))
+                        new Buttons.CompleteButton(right - 22, buttonY,
+                            b -> minecraft.setScreen(null))
                     ));
                     buttons.forEach(this::addRenderableWidget);
                 }
             }
         } else {
-            TextComponentHelper.drawCenteredString(guiGraphics, font, Resources.NO_ACTIVE_TASKS, midX, top + 20, textColor.getArgbColor());
+            TextComponentHelper.drawCenteredString(guiGraphics, font, Resources.NO_SATISFIED_TASKS, midX, top + 20, textColor.getArgbColor());
         }
 
         hasRenderedTaskButtons = true;
