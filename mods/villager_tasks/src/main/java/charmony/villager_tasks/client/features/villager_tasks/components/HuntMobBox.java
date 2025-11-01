@@ -2,50 +2,50 @@ package charmony.villager_tasks.client.features.villager_tasks.components;
 
 import charmony.api.core.Color;
 import charmony.villager_tasks.common.features.villager_tasks.Resources;
-import charmony.villager_tasks.common.features.villager_tasks.requirements.CollectItem;
+import charmony.villager_tasks.common.features.villager_tasks.requirements.HuntMob;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
 import java.util.Optional;
 
-public class CollectItemBox extends AspectBox {
-    private final CollectItem collectItem;
+public class HuntMobBox extends AspectBox {
+    private final HuntMob huntMob;
     private final boolean showProgress;
 
-    public CollectItemBox(CollectItem collectItem, boolean showProgress) {
-        this.collectItem = collectItem;
+    public HuntMobBox(HuntMob huntMob, boolean showProgress) {
+        this.huntMob = huntMob;
         this.showProgress = showProgress;
     }
 
     @Override
     protected void modifyItemStackTooltip(List<Component> tooltips) {
-        var name = tooltips.getFirst().getString();
+        var itemName = tooltips.getFirst().getString();
         tooltips.clear();
-        tooltips.add(collectItem.isSatisfied() ? Resources.YOU_COLLECTED : Resources.YOU_COLLECT);
-        tooltips.add(Component.literal(name + ": " + collectItem.total()));
+        tooltips.add(huntMob.isSatisfied() ? Resources.YOU_HUNT : Resources.YOU_HUNTED);
+        tooltips.add(Component.literal(itemName + ": " + huntMob.total()));
     }
 
     @Override
     public String text() {
         if (!showProgress) {
-            return "" + collectItem.total();
+            return "" + huntMob.total();
         }
 
-        var completed = collectItem.total() - collectItem.remaining();
-        return completed + "/" + collectItem.total();
+        var completed = huntMob.total() - huntMob.remaining();
+        return completed + "/" + huntMob.total();
     }
 
     @Override
-    public Optional<ItemStack> itemStack() {
-        return Optional.of(collectItem.stack());
+    public Optional<ResourceLocation> mob() {
+        return super.mob();
     }
 
     @Override
     public Color fillColor() {
-        var satisfied = collectItem.isSatisfied();
-        var none = collectItem.remaining() == collectItem.total();
-        var some = collectItem.remaining() < collectItem.total() && !satisfied;
+        var satisfied = huntMob.isSatisfied();
+        var none = huntMob.remaining() == huntMob.total();
+        var some = huntMob.remaining() < huntMob.total() && !satisfied;
 
         if (satisfied) {
             return getCompleteColor();
